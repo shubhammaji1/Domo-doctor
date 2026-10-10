@@ -1,0 +1,11 @@
+{
+  "name": "healthy custom app",
+  "project": "healthy-app",
+  "expect": [
+    { "ruleId": "DD-MAN-003", "status": "passed" },
+    { "ruleId": "DD-MAN-004", "status": "passed" },
+    { "ruleId": "DD-MAN-005", "status": "passed" },
+    { "ruleId": "DD-MAP-001", "status": "passed" }
+  ],
+  "forbid": ["DD-MAN-001", "DD-MAN-002", "DD-MAN-006"]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "Broken Example",
+  "version": "1.0.0",
+  "mapping": [
+    {
+      "alias": "orders",
+      "dataSetId": "dataset-orders",
+      "fields": [
+        { "alias": "amount", "columnName": "Gross Amount" },
+        { "alias": "amount", "columnName": "Net Amount" }
+      ]
+    },
+    {
+      "alias": "orders",
+      "dataSetId": "dataset-backlog",
+      "fields": []
+    },
+    {
+      "alias": "missing-id",
+      "fields": []
+    }
+  ]
+}

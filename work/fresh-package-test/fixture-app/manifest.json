@@ -1,0 +1,6 @@
+{
+  "name": "Packed smoke test",
+  "mapping": [
+    { "alias": "orders", "dataSetId": "offline-fixture", "fields": [] }
+  ]
+}

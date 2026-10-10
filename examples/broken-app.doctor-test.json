@@ -1,0 +1,12 @@
+{
+  "name": "broken custom app",
+  "project": "broken-app",
+  "expect": [
+    { "ruleId": "DD-MAN-004", "status": "failed" },
+    { "ruleId": "DD-MAN-005", "status": "failed" },
+    { "ruleId": "DD-MAN-006", "status": "failed" },
+    { "ruleId": "DD-MAP-001", "status": "failed" },
+    { "ruleId": "DD-MAP-002", "status": "unverified" },
+    { "ruleId": "DD-APPDB-001", "status": "unverified" }
+  ]
+}
