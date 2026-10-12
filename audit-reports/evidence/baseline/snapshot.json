@@ -1,0 +1,7 @@
+{
+  "date": "2026-10-12",
+  "branch": "codex/production-audit-20261012",
+  "commit": "dcd9d816766f4020d11b4e8adca93354f494fd78",
+  "packageSha256": "690a7a7f67edb84b602847169af2b84e615b8e4fe2181358ee7aa0644e3e5e55",
+  "note": "Working source including earlier uncommitted fixes; created before expanded audit fixes."
+}

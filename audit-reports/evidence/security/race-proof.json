@@ -1,0 +1,6 @@
+{
+  "method": "deterministic instrumentation at open boundary after lstat path validation; synthetic directory rename+junction; not a naturally scheduled exploit",
+  "instrumented": true,
+  "content": "OUTSIDE_SYNTHETIC_CONTENT",
+  "boundaryEscape": true
+}

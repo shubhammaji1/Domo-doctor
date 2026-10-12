@@ -1,0 +1,1 @@
+domo.post("/sql/v1/sales", "select * from table");

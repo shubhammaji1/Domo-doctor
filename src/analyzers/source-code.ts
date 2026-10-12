@@ -1,6 +1,7 @@
 import path from "node:path";
 import ts from "typescript";
 import type { Diagnostic, ParsedSource, ScanContext } from "../core/types.js";
+import { isRecord } from "./manifest.js";
 
 const DATA_PATH = /^\/?data\/v1\/([^/?#]+)/i;
 
@@ -14,6 +15,7 @@ export function analyzeDatasetReferences(context: ScanContext): Diagnostic[] {
     ];
   const aliases = new Set(
     (Array.isArray(context.manifest.mapping) ? context.manifest.mapping : [])
+      .filter(isRecord)
       .map((mapping) => mapping.alias)
       .filter(
         (alias): alias is string =>
@@ -22,15 +24,34 @@ export function analyzeDatasetReferences(context: ScanContext): Diagnostic[] {
   );
   const result: Diagnostic[] = [];
   for (const parsed of context.sourceFiles) {
+    const uncertainReceiver = hasUnresolvedDomoBinding(parsed.sourceFile);
     visit(parsed, (node, request) => {
       const match = DATA_PATH.exec(request);
       if (!match) return;
       const alias = match[1];
-      if (!alias || aliases.has(alias)) return;
+      if (!alias || (!uncertainReceiver && aliases.has(alias))) return;
       const { line, character } =
         parsed.sourceFile.getLineAndCharacterOfPosition(
           node.getStart(parsed.sourceFile),
         );
+      if (uncertainReceiver) {
+        result.push({
+          ruleId: "DD-MAP-001",
+          severity: "warning",
+          status: "unverified",
+          message:
+            "A local domo binding prevents reliable dataset request classification.",
+          file: parsed.path,
+          line: line + 1,
+          column: character + 1,
+          explanation:
+            "This file declares a domo binding whose Domo client identity was not established. The limited binding check does not resolve scopes or runtime values.",
+          suggestion:
+            "Verify the receiver is the Domo client and check the request against the intended manifest.",
+          confidence: "low",
+        });
+        return;
+      }
       result.push({
         ruleId: "DD-MAP-001",
         severity: "warning",
@@ -53,12 +74,12 @@ export function analyzeDatasetReferences(context: ScanContext): Diagnostic[] {
         ruleId: "DD-MAP-001",
         severity: "warning" as const,
         status: "unverified" as const,
-        message: "A source file exceeded the static analysis size limit.",
+        message: "A source file could not be fully analyzed.",
         file,
         explanation:
           "This file was not parsed, so dataset references in it were not checked.",
         suggestion:
-          "Reduce the generated file size or split it into smaller source modules.",
+          "Check file size, syntax, and supported source formats before relying on this result.",
         confidence: "low" as const,
       })),
     );
@@ -83,18 +104,21 @@ export function analyzeAppDb(context: ScanContext): Diagnostic[] {
   const hits: ParsedSource[] = context.sourceFiles.filter((parsed) => {
     let found = false;
     const text = parsed.sourceFile.text;
-    if (text.includes("@domoinc/toolkit") || /\bappdb\b/i.test(text))
+    if (
+      text.includes("@domoinc/toolkit") ||
+      /\bappdb\b|\/domo\/datastores\//i.test(text)
+    )
       found = true;
     return found;
   });
-  if (hits.length === 0)
+  if (hits.length === 0 && context.sourceFilesSkipped.length === 0)
     return [
       skipped(
         "DD-APPDB-001",
         "No recognizable AppDB or @domoinc/toolkit usage was found.",
       ),
     ];
-  return hits.map((parsed) => ({
+  const result: Diagnostic[] = hits.map((parsed) => ({
     ruleId: "DD-APPDB-001",
     severity: "warning",
     status: "unverified",
@@ -102,18 +126,32 @@ export function analyzeAppDb(context: ScanContext): Diagnostic[] {
       "AppDB-related source detected; collection configuration was not verified.",
     file: parsed.path,
     explanation:
-      "The documented manifest reference does not define a collection declaration that can be cross-checked offline. Static text matching cannot establish collection existence, permissions, authentication, or runtime request correctness.",
+      "This release does not validate collection declarations. Static text matching cannot establish collection existence, permissions, authentication, or runtime request correctness.",
     suggestion:
       "Verify collection names, permissions, and request behavior in a Domo environment. This scan does not send AppDB requests or modify data.",
     documentationUrl: "https://developer.domo.com/docs/tools/dev-studio-cli",
     confidence: "low",
   }));
+  for (const file of context.sourceFilesSkipped) {
+    result.push({
+      ruleId: "DD-APPDB-001",
+      severity: "warning",
+      status: "unverified",
+      message:
+        "AppDB usage could not be checked in an incompletely analyzed source file.",
+      file,
+      explanation:
+        "This file was not parsed, so the absence of AppDB references cannot be established.",
+      confidence: "low",
+    });
+  }
+  return result;
 }
 
 export function sourceReferencesAdvancedProxy(context: ScanContext): boolean {
   for (const parsed of context.sourceFiles) {
     let found = false;
-    const visitNode = (node: ts.Node): void => {
+    forEachNode(parsed.sourceFile, (node) => {
       if (
         ts.isImportDeclaration(node) &&
         ts.isStringLiteral(node.moduleSpecifier) &&
@@ -127,9 +165,7 @@ export function sourceReferencesAdvancedProxy(context: ScanContext): boolean {
         )
       )
         found = true;
-      if (!found) ts.forEachChild(node, visitNode);
-    };
-    visitNode(parsed.sourceFile);
+    });
     if (found) return true;
   }
   return false;
@@ -143,7 +179,7 @@ function visit(
   parsed: ParsedSource,
   onLiteral: (node: ts.Node, value: string) => void,
 ): void {
-  const walk = (node: ts.Node): void => {
+  forEachNode(parsed.sourceFile, (node) => {
     if (
       ts.isCallExpression(node) &&
       isDomoMethod(node.expression, "get") &&
@@ -156,9 +192,64 @@ function visit(
       )
         onLiteral(arg, arg.text);
     }
-    ts.forEachChild(node, walk);
-  };
-  walk(parsed.sourceFile);
+  });
+}
+
+function forEachNode(root: ts.Node, callback: (node: ts.Node) => void): void {
+  const pending = [root];
+  while (pending.length > 0) {
+    const node = pending.pop()!;
+    callback(node);
+    ts.forEachChild(node, (child) => {
+      pending.push(child);
+    });
+  }
+}
+
+function hasUnresolvedDomoBinding(source: ts.SourceFile): boolean {
+  let unresolved = false;
+  forEachNode(source, (node) => {
+    if (
+      (ts.isVariableDeclaration(node) ||
+        ts.isParameter(node) ||
+        ts.isBindingElement(node) ||
+        ts.isFunctionDeclaration(node) ||
+        ts.isClassDeclaration(node)) &&
+      node.name &&
+      ts.isIdentifier(node.name) &&
+      node.name.text === "domo"
+    ) {
+      const initializer = ts.isVariableDeclaration(node)
+        ? node.initializer
+        : undefined;
+      const knownGlobal =
+        initializer &&
+        ts.isPropertyAccessExpression(initializer) &&
+        ts.isIdentifier(initializer.expression) &&
+        ["window", "globalThis"].includes(initializer.expression.text) &&
+        initializer.name.text === "domo";
+      if (!knownGlobal) unresolved = true;
+    }
+    if (ts.isImportDeclaration(node) && node.importClause) {
+      const clause = node.importClause;
+      const names = clause.namedBindings;
+      const bindsDomo =
+        clause.name?.text === "domo" ||
+        (names && ts.isNamespaceImport(names) && names.name.text === "domo") ||
+        (names &&
+          ts.isNamedImports(names) &&
+          names.elements.some((item) => item.name.text === "domo"));
+      if (
+        bindsDomo &&
+        (!ts.isStringLiteral(node.moduleSpecifier) ||
+          node.moduleSpecifier.text !== "ryuu.js")
+      )
+        unresolved = true;
+    }
+    if (ts.isImportEqualsDeclaration(node) && node.name.text === "domo")
+      unresolved = true;
+  });
+  return unresolved;
 }
 
 function isDomoMethod(

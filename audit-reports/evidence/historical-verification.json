@@ -1,0 +1,12 @@
+{
+  "source": "Intermediate execution results transcribed from tool output; not replacement raw logs",
+  "attempts": [
+    {"check":"initial expanded full-source coverage","testsPassed":64,"statements":89.62,"branches":82.96,"functions":89.43,"lines":90.46,"status":"VERIFIED FAILURE","reason":"90 percent thresholds not met"},
+    {"check":"expanded CLI coverage","statements":94.75,"branches":87.61,"functions":95.77,"lines":95.59,"status":"VERIFIED FAILURE","reason":"branch threshold not met"},
+    {"check":"public API regression","status":"VERIFIED FAILURE","reason":"test scanned the entire evidence-heavy repository; changed to isolated temporary project and reran successfully"},
+    {"check":"audit helper lint","status":"VERIFIED FAILURE","reason":"unused cp and _durationMs; removed unused import and explicitly omitted duration without unused binding"},
+    {"check":"reporter regression typecheck","status":"VERIFIED FAILURE","reason":"test diagnostic objects omitted required explanation; corrected typed fixture"},
+    {"check":"audit report generator","status":"VERIFIED FAILURE","reason":"template literal contained unescaped Markdown backticks; corrected and reran successfully"}
+  ],
+  "final": "See final-commands.json and final-vitest.json; all required local gates passed without reducing coverage thresholds"
+}

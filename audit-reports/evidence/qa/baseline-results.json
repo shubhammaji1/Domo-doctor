@@ -1,0 +1,551 @@
+{
+  "environment": {
+    "node": "v22.22.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "results": [
+    {
+      "name": "--help",
+      "expected": "exit 0 and nonempty stdout",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "--help"
+        ],
+        "status": 0,
+        "stdout": "Usage: domo-doctor [options] [command]\n\nOffline-first diagnostics for Domo custom app projects.\n\nOptions:\n  -V, --version                         output the version number\n  -h, --help                            display help for command\n\nCommands:\n  scan [options] [directory]            Scan a Domo custom app project.\n  check [options] <target> [directory]  Run a focused diagnostic check.\n  test [fixtureDirectory]               Run offline diagnostic expectations from\n                                        *.doctor-test.json fixtures.\n  init [directory]                      Create a starter Domo Doctor\n                                        configuration without overwriting files.\n  rules                                 List diagnostic rules.\n  explain <ruleId>                      Explain a diagnostic rule.\n  help [command]                        display help for command\n",
+        "stderr": "",
+        "elapsedMs": 1841.6839
+      }
+    },
+    {
+      "name": "--version",
+      "expected": "exit 0 and nonempty stdout",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "--version"
+        ],
+        "status": 0,
+        "stdout": "0.1.1\n",
+        "stderr": "",
+        "elapsedMs": 1772.8162
+      }
+    },
+    {
+      "name": "rules list",
+      "expected": "exit 0 and nonempty stdout",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "rules",
+          "list"
+        ],
+        "status": 0,
+        "stdout": "Domo Doctor rules\n\nDD-MAN-001  [manifest]  Manifest file exists.\nDD-MAN-002  [manifest]  Manifest is valid JSON.\nDD-MAN-003  [manifest]  Documented manifest properties have valid shapes.\nDD-MAN-004  [mappings]  Dataset aliases are unique.\nDD-MAN-005  [mappings]  Field aliases are unique within each dataset mapping.\nDD-MAN-006  [mappings]  Dataset and field mapping definitions are well formed.\nDD-MAN-007  [proxy]  Advanced request proxy configuration is checked conditionally.\nDD-MAP-001  [mappings]  Literal dataset requests use aliases declared in the manifest.\nDD-MAP-002  [mappings]  Dynamic Domo GET paths are reported as unverified.\nDD-APPDB-001  [appdb]  AppDB usage is identified without claiming live validation.\nDD-PROXY-001  [proxy]  Domo CLI executable availability is checked without reading credentials.\n",
+        "stderr": "",
+        "elapsedMs": 2680.4632
+      }
+    },
+    {
+      "name": "explain DD-MAN-005",
+      "expected": "exit 0 and nonempty stdout",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "explain",
+          "DD-MAN-005"
+        ],
+        "status": 0,
+        "stdout": "DD-MAN-005\nField aliases are unique within each dataset mapping.\n\nField aliases name returned fields within one dataset mapping. Repeated names can make field access ambiguous.\n\nDocumentation: https://developer.domo.com/docs/tools/manifest\n",
+        "stderr": "",
+        "elapsedMs": 3060.7008000000005
+      }
+    },
+    {
+      "name": "scan --help",
+      "expected": "exit 0 and nonempty stdout",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "scan",
+          "--help"
+        ],
+        "status": 0,
+        "stdout": "Usage: domo-doctor scan [options] [directory]\n\nScan a Domo custom app project.\n\nOptions:\n  -c, --config <path>    path to domo-doctor.config.json\n  -f, --format <format>  report format (choices: \"terminal\", \"json\", \"sarif\")\n  -o, --output <file>    write report to a file\n  --severity <level>     failure threshold for exit code (choices: \"error\",\n                         \"warning\", \"info\")\n  --no-color             disable terminal colors\n  -v, --verbose          include additional scan details\n  -h, --help             display help for command\n",
+        "stderr": "",
+        "elapsedMs": 2255.322899999999
+      }
+    },
+    {
+      "name": "check --help",
+      "expected": "exit 0 and nonempty stdout",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "check",
+          "--help"
+        ],
+        "status": 0,
+        "stdout": "Usage: domo-doctor check [options] <target> [directory]\n\nRun a focused diagnostic check.\n\nOptions:\n  -c, --config <path>    path to domo-doctor.config.json\n  -f, --format <format>  report format (choices: \"terminal\", \"json\", \"sarif\")\n  -o, --output <file>    write report to a file\n  --severity <level>     failure threshold for exit code (choices: \"error\",\n                         \"warning\", \"info\")\n  --no-color             disable terminal colors\n  -v, --verbose          include additional scan details\n  -h, --help             display help for command\n",
+        "stderr": "",
+        "elapsedMs": 1803.6044000000002
+      }
+    },
+    {
+      "name": "test --help",
+      "expected": "exit 0 and nonempty stdout",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "test",
+          "--help"
+        ],
+        "status": 0,
+        "stdout": "Usage: domo-doctor test [options] [fixtureDirectory]\n\nRun offline diagnostic expectations from *.doctor-test.json fixtures.\n\nOptions:\n  -h, --help  display help for command\n",
+        "stderr": "",
+        "elapsedMs": 1569.9907000000003
+      }
+    },
+    {
+      "name": "init --help",
+      "expected": "exit 0 and nonempty stdout",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "init",
+          "--help"
+        ],
+        "status": 0,
+        "stdout": "Usage: domo-doctor init [options] [directory]\n\nCreate a starter Domo Doctor configuration without overwriting files.\n\nOptions:\n  -h, --help  display help for command\n",
+        "stderr": "",
+        "elapsedMs": 1678.1496000000006
+      }
+    },
+    {
+      "name": "explain DD-UNKNOWN",
+      "expected": "exit 2 with useful stderr and no stack trace",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "explain",
+          "DD-UNKNOWN"
+        ],
+        "status": 2,
+        "stdout": "",
+        "stderr": "Unknown rule \"DD-UNKNOWN\". Run \"domo-doctor rules list\" to see available rules.\n",
+        "elapsedMs": 1418.5188000000016
+      }
+    },
+    {
+      "name": "check unknown",
+      "expected": "exit 2 with useful stderr and no stack trace",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "check",
+          "unknown",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据"
+        ],
+        "status": 2,
+        "stdout": "",
+        "stderr": "Unknown check target \"unknown\". Choose manifest, mappings, appdb, or proxy.\n",
+        "elapsedMs": 1474.4704999999994
+      }
+    },
+    {
+      "name": "scan C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+      "expected": "exit 2 with useful stderr and no stack trace",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "scan",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--format",
+          "bad"
+        ],
+        "status": 2,
+        "stdout": "",
+        "stderr": "error: option '-f, --format <format>' argument 'bad' is invalid. Allowed choices are terminal, json, sarif.\n",
+        "elapsedMs": 1371.6057999999975
+      }
+    },
+    {
+      "name": "scan C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+      "expected": "exit 2 with useful stderr and no stack trace",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "scan",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--severity",
+          "bad"
+        ],
+        "status": 2,
+        "stdout": "",
+        "stderr": "error: option '--severity <level>' argument 'bad' is invalid. Allowed choices are error, warning, info.\n",
+        "elapsedMs": 1128.0833999999995
+      }
+    },
+    {
+      "name": "scan C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+      "expected": "exit 2 with useful stderr and no stack trace",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "scan",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--config",
+          "missing.json"
+        ],
+        "status": 2,
+        "stdout": "",
+        "stderr": "ENOENT: no such file or directory, lstat 'D:\\GWC\\Projects\\POCs\\Domo-doctor\\missing.json'\n",
+        "elapsedMs": 1278.627800000002
+      }
+    },
+    {
+      "name": "not-a-command",
+      "expected": "exit 2 with useful stderr and no stack trace",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "not-a-command"
+        ],
+        "status": 2,
+        "stdout": "",
+        "stderr": "error: unknown command 'not-a-command'\n",
+        "elapsedMs": 1066.8668999999973
+      }
+    },
+    {
+      "name": "test C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+      "expected": "exit 2 with useful stderr and no stack trace",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "test",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据"
+        ],
+        "status": 2,
+        "stdout": "",
+        "stderr": "No *.doctor-test.json fixtures found in C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据.\n",
+        "elapsedMs": 1691.8438999999998
+      }
+    },
+    {
+      "name": "Unicode project terminal",
+      "expected": "successful scan with no synthetic environment secret",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "scan",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--format",
+          "terminal",
+          "--verbose",
+          "--no-color"
+        ],
+        "status": 0,
+        "stdout": "DOMO DOCTOR\nDiagnose. Test. Fix. Ship.\n\nScanning: .\n\n– DD-APPDB-001 No recognizable AppDB or @domoinc/toolkit usage was found.\n  Why: No recognizable AppDB or @domoinc/toolkit usage was found.\n✓ DD-MAN-001 Manifest file exists.\n  Why: No problems were detected by this check.\n  Documentation: https://developer.domo.com/docs/tools/manifest\n✓ DD-MAN-002 Manifest is valid JSON.\n  Why: No problems were detected by this check.\n  Documentation: https://developer.domo.com/docs/tools/manifest\n✓ DD-MAN-003 Documented manifest properties have valid shapes.\n  Why: No problems were detected by this check.\n  Documentation: https://developer.domo.com/docs/tools/manifest\n✓ DD-MAN-004 Dataset aliases are unique.\n  Why: No problems were detected by this check.\n  Documentation: https://developer.domo.com/docs/tools/manifest\n✓ DD-MAN-005 Field aliases are unique within each dataset mapping.\n  Why: No problems were detected by this check.\n  Documentation: https://developer.domo.com/docs/tools/manifest\n✓ DD-MAN-006 Dataset and field mapping definitions are well formed.\n  Why: No problems were detected by this check.\n  Documentation: https://developer.domo.com/docs/tools/manifest\n✓ DD-MAN-007 No static advanced-proxy requirement was detected.\n  Why: No DQL, writeback, OAuth, or AppDB request markers were found. Publication readiness and proxy authentication were not verified.\n  Documentation: https://developer.domo.com/docs/tools/dev-studio-cli\n✓ DD-MAP-001 No unresolved literal dataset aliases were found in recognized Domo data requests.\n  Why: No unresolved literal dataset aliases were found in recognized Domo data requests.\n– DD-MAP-002 No dynamic domo.get paths were found.\n  Why: No dynamic domo.get paths were found.\n✓ DD-PROXY-001 Domo CLI executable was found on PATH.\n  Why: Executable availability was checked from PATH only. Authentication, credentials, network access, and proxy behavior were not checked.\n\nDiagnostics:\n0 errors | 0 warnings | 0 info | 9 passed | 2 skipped | 0 unverified\n\nStatus: Scan completed; deployment readiness was not verified.\nRules executed: 11 | Duration: 77 ms | Started: 2026-10-12T06:11:50.309Z\n",
+        "stderr": "",
+        "elapsedMs": 1391.3498
+      }
+    },
+    {
+      "name": "Unicode project json",
+      "expected": "successful scan with no synthetic environment secret",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "scan",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--format",
+          "json",
+          "--verbose",
+          "--no-color"
+        ],
+        "status": 0,
+        "stdout": "{\n  \"schemaVersion\": \"1.0.0\",\n  \"tool\": {\n    \"name\": \"domo-doctor\",\n    \"version\": \"0.1.1\"\n  },\n  \"scan\": {\n    \"status\": \"completed\",\n    \"project\": \".\",\n    \"startedAt\": \"2026-10-12T06:11:51.770Z\",\n    \"durationMs\": 126\n  },\n  \"summary\": {\n    \"errors\": 0,\n    \"warnings\": 0,\n    \"infos\": 0,\n    \"passed\": 9,\n    \"skipped\": 2,\n    \"unverified\": 0,\n    \"suppressed\": 0\n  },\n  \"rules\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"description\": \"Manifest file exists.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"description\": \"Manifest is valid JSON.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"description\": \"Documented manifest properties have valid shapes.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"description\": \"Dataset aliases are unique.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"description\": \"Field aliases are unique within each dataset mapping.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"description\": \"Dataset and field mapping definitions are well formed.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-007\",\n      \"description\": \"Advanced request proxy configuration is checked conditionally.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"description\": \"Literal dataset requests use aliases declared in the manifest.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"description\": \"Dynamic Domo GET paths are reported as unverified.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-APPDB-001\",\n      \"description\": \"AppDB usage is identified without claiming live validation.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-PROXY-001\",\n      \"description\": \"Domo CLI executable availability is checked without reading credentials.\",\n      \"status\": \"passed\",\n      \"durationMs\": 20\n    }\n  ],\n  \"diagnostics\": [\n    {\n      \"ruleId\": \"DD-APPDB-001\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\",\n      \"explanation\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest file exists.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest is valid JSON.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Documented manifest properties have valid shapes.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset aliases are unique.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Field aliases are unique within each dataset mapping.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset and field mapping definitions are well formed.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-007\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"No static advanced-proxy requirement was detected.\",\n      \"explanation\": \"No DQL, writeback, OAuth, or AppDB request markers were found. Publication readiness and proxy authentication were not verified.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/dev-studio-cli\",\n      \"confidence\": \"medium\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"No unresolved literal dataset aliases were found in recognized Domo data requests.\",\n      \"explanation\": \"No unresolved literal dataset aliases were found in recognized Domo data requests.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No dynamic domo.get paths were found.\",\n      \"explanation\": \"No dynamic domo.get paths were found.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-PROXY-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Domo CLI executable was found on PATH.\",\n      \"explanation\": \"Executable availability was checked from PATH only. Authentication, credentials, network access, and proxy behavior were not checked.\",\n      \"confidence\": \"high\"\n    }\n  ]\n}\n",
+        "stderr": "",
+        "elapsedMs": 1530.0470999999998
+      }
+    },
+    {
+      "name": "Unicode project sarif",
+      "expected": "successful scan with no synthetic environment secret",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "scan",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--format",
+          "sarif",
+          "--verbose",
+          "--no-color"
+        ],
+        "status": 0,
+        "stdout": "{\n  \"version\": \"2.1.0\",\n  \"$schema\": \"https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json\",\n  \"runs\": [\n    {\n      \"tool\": {\n        \"driver\": {\n          \"name\": \"domo-doctor\",\n          \"version\": \"0.1.1\",\n          \"rules\": [\n            {\n              \"id\": \"DD-APPDB-001\",\n              \"shortDescription\": {\n                \"text\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\"\n              }\n            },\n            {\n              \"id\": \"DD-MAN-001\",\n              \"shortDescription\": {\n                \"text\": \"Manifest file exists.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"No problems were detected by this check.\"\n              },\n              \"helpUri\": \"https://developer.domo.com/docs/tools/manifest\"\n            },\n            {\n              \"id\": \"DD-MAN-002\",\n              \"shortDescription\": {\n                \"text\": \"Manifest is valid JSON.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"No problems were detected by this check.\"\n              },\n              \"helpUri\": \"https://developer.domo.com/docs/tools/manifest\"\n            },\n            {\n              \"id\": \"DD-MAN-003\",\n              \"shortDescription\": {\n                \"text\": \"Documented manifest properties have valid shapes.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"No problems were detected by this check.\"\n              },\n              \"helpUri\": \"https://developer.domo.com/docs/tools/manifest\"\n            },\n            {\n              \"id\": \"DD-MAN-004\",\n              \"shortDescription\": {\n                \"text\": \"Dataset aliases are unique.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"No problems were detected by this check.\"\n              },\n              \"helpUri\": \"https://developer.domo.com/docs/tools/manifest\"\n            },\n            {\n              \"id\": \"DD-MAN-005\",\n              \"shortDescription\": {\n                \"text\": \"Field aliases are unique within each dataset mapping.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"No problems were detected by this check.\"\n              },\n              \"helpUri\": \"https://developer.domo.com/docs/tools/manifest\"\n            },\n            {\n              \"id\": \"DD-MAN-006\",\n              \"shortDescription\": {\n                \"text\": \"Dataset and field mapping definitions are well formed.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"No problems were detected by this check.\"\n              },\n              \"helpUri\": \"https://developer.domo.com/docs/tools/manifest\"\n            },\n            {\n              \"id\": \"DD-MAN-007\",\n              \"shortDescription\": {\n                \"text\": \"No static advanced-proxy requirement was detected.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"No DQL, writeback, OAuth, or AppDB request markers were found. Publication readiness and proxy authentication were not verified.\"\n              },\n              \"helpUri\": \"https://developer.domo.com/docs/tools/dev-studio-cli\"\n            },\n            {\n              \"id\": \"DD-MAP-001\",\n              \"shortDescription\": {\n                \"text\": \"No unresolved literal dataset aliases were found in recognized Domo data requests.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"No unresolved literal dataset aliases were found in recognized Domo data requests.\"\n              }\n            },\n            {\n              \"id\": \"DD-MAP-002\",\n              \"shortDescription\": {\n                \"text\": \"No dynamic domo.get paths were found.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"No dynamic domo.get paths were found.\"\n              }\n            },\n            {\n              \"id\": \"DD-PROXY-001\",\n              \"shortDescription\": {\n                \"text\": \"Domo CLI executable was found on PATH.\"\n              },\n              \"fullDescription\": {\n                \"text\": \"Executable availability was checked from PATH only. Authentication, credentials, network access, and proxy behavior were not checked.\"\n              }\n            }\n          ]\n        }\n      },\n      \"results\": [],\n      \"properties\": {\n        \"scanStatus\": \"completed\",\n        \"durationMs\": 172,\n        \"summary\": {\n          \"errors\": 0,\n          \"warnings\": 0,\n          \"infos\": 0,\n          \"passed\": 9,\n          \"skipped\": 2,\n          \"unverified\": 0,\n          \"suppressed\": 0\n        }\n      }\n    }\n  ]\n}\n",
+        "stderr": "",
+        "elapsedMs": 1793.6872000000003
+      }
+    },
+    {
+      "name": "check manifest",
+      "expected": "exit 0; selected categories only",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "check",
+          "manifest",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--format",
+          "json"
+        ],
+        "status": 0,
+        "stdout": "{\n  \"schemaVersion\": \"1.0.0\",\n  \"tool\": {\n    \"name\": \"domo-doctor\",\n    \"version\": \"0.1.1\"\n  },\n  \"scan\": {\n    \"status\": \"completed\",\n    \"project\": \".\",\n    \"startedAt\": \"2026-10-12T06:11:55.278Z\",\n    \"durationMs\": 77\n  },\n  \"summary\": {\n    \"errors\": 0,\n    \"warnings\": 0,\n    \"infos\": 0,\n    \"passed\": 7,\n    \"skipped\": 1,\n    \"unverified\": 0,\n    \"suppressed\": 0\n  },\n  \"rules\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"description\": \"Manifest file exists.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"description\": \"Manifest is valid JSON.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"description\": \"Documented manifest properties have valid shapes.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"description\": \"Dataset aliases are unique.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"description\": \"Field aliases are unique within each dataset mapping.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"description\": \"Dataset and field mapping definitions are well formed.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"description\": \"Literal dataset requests use aliases declared in the manifest.\",\n      \"status\": \"passed\",\n      \"durationMs\": 2\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"description\": \"Dynamic Domo GET paths are reported as unverified.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 1\n    }\n  ],\n  \"diagnostics\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest file exists.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest is valid JSON.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Documented manifest properties have valid shapes.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset aliases are unique.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Field aliases are unique within each dataset mapping.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset and field mapping definitions are well formed.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"No unresolved literal dataset aliases were found in recognized Domo data requests.\",\n      \"explanation\": \"No unresolved literal dataset aliases were found in recognized Domo data requests.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No dynamic domo.get paths were found.\",\n      \"explanation\": \"No dynamic domo.get paths were found.\",\n      \"confidence\": \"high\"\n    }\n  ]\n}\n",
+        "stderr": "",
+        "elapsedMs": 1653.3595999999998
+      }
+    },
+    {
+      "name": "check mappings",
+      "expected": "exit 0; selected categories only",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "check",
+          "mappings",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--format",
+          "json"
+        ],
+        "status": 0,
+        "stdout": "{\n  \"schemaVersion\": \"1.0.0\",\n  \"tool\": {\n    \"name\": \"domo-doctor\",\n    \"version\": \"0.1.1\"\n  },\n  \"scan\": {\n    \"status\": \"completed\",\n    \"project\": \".\",\n    \"startedAt\": \"2026-10-12T06:11:57.049Z\",\n    \"durationMs\": 149\n  },\n  \"summary\": {\n    \"errors\": 0,\n    \"warnings\": 0,\n    \"infos\": 0,\n    \"passed\": 7,\n    \"skipped\": 1,\n    \"unverified\": 0,\n    \"suppressed\": 0\n  },\n  \"rules\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"description\": \"Manifest file exists.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"description\": \"Manifest is valid JSON.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"description\": \"Documented manifest properties have valid shapes.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"description\": \"Dataset aliases are unique.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"description\": \"Field aliases are unique within each dataset mapping.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"description\": \"Dataset and field mapping definitions are well formed.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"description\": \"Literal dataset requests use aliases declared in the manifest.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"description\": \"Dynamic Domo GET paths are reported as unverified.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 1\n    }\n  ],\n  \"diagnostics\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest file exists.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest is valid JSON.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Documented manifest properties have valid shapes.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset aliases are unique.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Field aliases are unique within each dataset mapping.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset and field mapping definitions are well formed.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"No unresolved literal dataset aliases were found in recognized Domo data requests.\",\n      \"explanation\": \"No unresolved literal dataset aliases were found in recognized Domo data requests.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No dynamic domo.get paths were found.\",\n      \"explanation\": \"No dynamic domo.get paths were found.\",\n      \"confidence\": \"high\"\n    }\n  ]\n}\n",
+        "stderr": "",
+        "elapsedMs": 1869.044799999996
+      }
+    },
+    {
+      "name": "check appdb",
+      "expected": "exit 0; selected categories only",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "check",
+          "appdb",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--format",
+          "json"
+        ],
+        "status": 0,
+        "stdout": "{\n  \"schemaVersion\": \"1.0.0\",\n  \"tool\": {\n    \"name\": \"domo-doctor\",\n    \"version\": \"0.1.1\"\n  },\n  \"scan\": {\n    \"status\": \"completed\",\n    \"project\": \".\",\n    \"startedAt\": \"2026-10-12T06:11:59.605Z\",\n    \"durationMs\": 218\n  },\n  \"summary\": {\n    \"errors\": 0,\n    \"warnings\": 0,\n    \"infos\": 0,\n    \"passed\": 3,\n    \"skipped\": 1,\n    \"unverified\": 0,\n    \"suppressed\": 0\n  },\n  \"rules\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"description\": \"Manifest file exists.\",\n      \"status\": \"passed\",\n      \"durationMs\": 3\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"description\": \"Manifest is valid JSON.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"description\": \"Documented manifest properties have valid shapes.\",\n      \"status\": \"passed\",\n      \"durationMs\": 2\n    },\n    {\n      \"ruleId\": \"DD-APPDB-001\",\n      \"description\": \"AppDB usage is identified without claiming live validation.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 1\n    }\n  ],\n  \"diagnostics\": [\n    {\n      \"ruleId\": \"DD-APPDB-001\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\",\n      \"explanation\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest file exists.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest is valid JSON.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Documented manifest properties have valid shapes.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    }\n  ]\n}\n",
+        "stderr": "",
+        "elapsedMs": 2646.305500000002
+      }
+    },
+    {
+      "name": "check proxy",
+      "expected": "exit 0; selected categories only",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "check",
+          "proxy",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--format",
+          "json"
+        ],
+        "status": 0,
+        "stdout": "{\n  \"schemaVersion\": \"1.0.0\",\n  \"tool\": {\n    \"name\": \"domo-doctor\",\n    \"version\": \"0.1.1\"\n  },\n  \"scan\": {\n    \"status\": \"completed\",\n    \"project\": \".\",\n    \"startedAt\": \"2026-10-12T06:12:02.159Z\",\n    \"durationMs\": 130\n  },\n  \"summary\": {\n    \"errors\": 0,\n    \"warnings\": 0,\n    \"infos\": 0,\n    \"passed\": 5,\n    \"skipped\": 0,\n    \"unverified\": 0,\n    \"suppressed\": 0\n  },\n  \"rules\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"description\": \"Manifest file exists.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"description\": \"Manifest is valid JSON.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"description\": \"Documented manifest properties have valid shapes.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-007\",\n      \"description\": \"Advanced request proxy configuration is checked conditionally.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-PROXY-001\",\n      \"description\": \"Domo CLI executable availability is checked without reading credentials.\",\n      \"status\": \"passed\",\n      \"durationMs\": 37\n    }\n  ],\n  \"diagnostics\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest file exists.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest is valid JSON.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Documented manifest properties have valid shapes.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-007\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"No static advanced-proxy requirement was detected.\",\n      \"explanation\": \"No DQL, writeback, OAuth, or AppDB request markers were found. Publication readiness and proxy authentication were not verified.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/dev-studio-cli\",\n      \"confidence\": \"medium\"\n    },\n    {\n      \"ruleId\": \"DD-PROXY-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Domo CLI executable was found on PATH.\",\n      \"explanation\": \"Executable availability was checked from PATH only. Authentication, credentials, network access, and proxy behavior were not checked.\",\n      \"confidence\": \"high\"\n    }\n  ]\n}\n",
+        "stderr": "",
+        "elapsedMs": 2468.3606999999975
+      }
+    },
+    {
+      "name": "repeatability and scan immutability",
+      "expected": "three reports agree apart from timing; every project file hash unchanged",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "repetitions": 3,
+        "hashes": {
+          ".env": "7aa4cc23a42f6a2f1af262efddeba7556b4dfc55be3b834595f162ca88b3ed95",
+          "app.ts": "e5ad02129fe5f3490505a4d4d06237b3c3f56da35908ba8840f3802ede186ad9",
+          "manifest.json": "7789c2a35c9414fe1fd63493ca7044b835fe9f1667998045d78211a7d88403da"
+        }
+      }
+    },
+    {
+      "name": "severity threshold",
+      "expected": "unmapped alias warning exits 0 by default and 1 for --severity warning",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "normal": {
+          "command": [
+            "C:\\nvm4w\\nodejs\\node.exe",
+            "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+            "scan",
+            "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+            "--format",
+            "json"
+          ],
+          "status": 0,
+          "stdout": "{\n  \"schemaVersion\": \"1.0.0\",\n  \"tool\": {\n    \"name\": \"domo-doctor\",\n    \"version\": \"0.1.1\"\n  },\n  \"scan\": {\n    \"status\": \"completed\",\n    \"project\": \".\",\n    \"startedAt\": \"2026-10-12T06:12:11.401Z\",\n    \"durationMs\": 159\n  },\n  \"summary\": {\n    \"errors\": 0,\n    \"warnings\": 1,\n    \"infos\": 0,\n    \"passed\": 8,\n    \"skipped\": 2,\n    \"unverified\": 0,\n    \"suppressed\": 0\n  },\n  \"rules\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"description\": \"Manifest file exists.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"description\": \"Manifest is valid JSON.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"description\": \"Documented manifest properties have valid shapes.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"description\": \"Dataset aliases are unique.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"description\": \"Field aliases are unique within each dataset mapping.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"description\": \"Dataset and field mapping definitions are well formed.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-007\",\n      \"description\": \"Advanced request proxy configuration is checked conditionally.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"description\": \"Literal dataset requests use aliases declared in the manifest.\",\n      \"status\": \"failed\",\n      \"durationMs\": 3\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"description\": \"Dynamic Domo GET paths are reported as unverified.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 2\n    },\n    {\n      \"ruleId\": \"DD-APPDB-001\",\n      \"description\": \"AppDB usage is identified without claiming live validation.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-PROXY-001\",\n      \"description\": \"Domo CLI executable availability is checked without reading credentials.\",\n      \"status\": \"passed\",\n      \"durationMs\": 39\n    }\n  ],\n  \"diagnostics\": [\n    {\n      \"ruleId\": \"DD-APPDB-001\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\",\n      \"explanation\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest file exists.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest is valid JSON.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Documented manifest properties have valid shapes.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset aliases are unique.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Field aliases are unique within each dataset mapping.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset and field mapping definitions are well formed.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-007\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"No static advanced-proxy requirement was detected.\",\n      \"explanation\": \"No DQL, writeback, OAuth, or AppDB request markers were found. Publication readiness and proxy authentication were not verified.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/dev-studio-cli\",\n      \"confidence\": \"medium\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No dynamic domo.get paths were found.\",\n      \"explanation\": \"No dynamic domo.get paths were found.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-PROXY-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Domo CLI executable was found on PATH.\",\n      \"explanation\": \"Executable availability was checked from PATH only. Authentication, credentials, network access, and proxy behavior were not checked.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"severity\": \"warning\",\n      \"status\": \"failed\",\n      \"message\": \"Data request references unmapped dataset alias \\\"missing\\\".\",\n      \"file\": \"app.ts\",\n      \"line\": 1,\n      \"column\": 10,\n      \"explanation\": \"The static request path names \\\"missing\\\", but no mapping with that exact alias is present in the manifest.\",\n      \"suggestion\": \"Add the dataset mapping or update the request to use an existing mapping alias.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    }\n  ]\n}\n",
+          "stderr": "",
+          "elapsedMs": 2079.8018999999986
+        },
+        "strict": {
+          "command": [
+            "C:\\nvm4w\\nodejs\\node.exe",
+            "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+            "scan",
+            "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+            "--severity",
+            "warning",
+            "--format",
+            "json"
+          ],
+          "status": 1,
+          "stdout": "{\n  \"schemaVersion\": \"1.0.0\",\n  \"tool\": {\n    \"name\": \"domo-doctor\",\n    \"version\": \"0.1.1\"\n  },\n  \"scan\": {\n    \"status\": \"completed\",\n    \"project\": \".\",\n    \"startedAt\": \"2026-10-12T06:12:13.753Z\",\n    \"durationMs\": 242\n  },\n  \"summary\": {\n    \"errors\": 0,\n    \"warnings\": 1,\n    \"infos\": 0,\n    \"passed\": 8,\n    \"skipped\": 2,\n    \"unverified\": 0,\n    \"suppressed\": 0\n  },\n  \"rules\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"description\": \"Manifest file exists.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"description\": \"Manifest is valid JSON.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"description\": \"Documented manifest properties have valid shapes.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"description\": \"Dataset aliases are unique.\",\n      \"status\": \"passed\",\n      \"durationMs\": 8\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"description\": \"Field aliases are unique within each dataset mapping.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"description\": \"Dataset and field mapping definitions are well formed.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-007\",\n      \"description\": \"Advanced request proxy configuration is checked conditionally.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"description\": \"Literal dataset requests use aliases declared in the manifest.\",\n      \"status\": \"failed\",\n      \"durationMs\": 3\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"description\": \"Dynamic Domo GET paths are reported as unverified.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-APPDB-001\",\n      \"description\": \"AppDB usage is identified without claiming live validation.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-PROXY-001\",\n      \"description\": \"Domo CLI executable availability is checked without reading credentials.\",\n      \"status\": \"passed\",\n      \"durationMs\": 27\n    }\n  ],\n  \"diagnostics\": [\n    {\n      \"ruleId\": \"DD-APPDB-001\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\",\n      \"explanation\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest file exists.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest is valid JSON.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Documented manifest properties have valid shapes.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset aliases are unique.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Field aliases are unique within each dataset mapping.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset and field mapping definitions are well formed.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-007\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"No static advanced-proxy requirement was detected.\",\n      \"explanation\": \"No DQL, writeback, OAuth, or AppDB request markers were found. Publication readiness and proxy authentication were not verified.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/dev-studio-cli\",\n      \"confidence\": \"medium\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No dynamic domo.get paths were found.\",\n      \"explanation\": \"No dynamic domo.get paths were found.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-PROXY-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Domo CLI executable was found on PATH.\",\n      \"explanation\": \"Executable availability was checked from PATH only. Authentication, credentials, network access, and proxy behavior were not checked.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"severity\": \"warning\",\n      \"status\": \"failed\",\n      \"message\": \"Data request references unmapped dataset alias \\\"missing\\\".\",\n      \"file\": \"app.ts\",\n      \"line\": 1,\n      \"column\": 10,\n      \"explanation\": \"The static request path names \\\"missing\\\", but no mapping with that exact alias is present in the manifest.\",\n      \"suggestion\": \"Add the dataset mapping or update the request to use an existing mapping alias.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    }\n  ]\n}\n",
+          "stderr": "",
+          "elapsedMs": 2410.1238999999987
+        }
+      }
+    },
+    {
+      "name": "init and no overwrite",
+      "expected": "first init succeeds; second exits 2; contents unchanged",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "first": {
+          "command": [
+            "C:\\nvm4w\\nodejs\\node.exe",
+            "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+            "init",
+            "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据"
+          ],
+          "status": 0,
+          "stdout": "Created C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据\\domo-doctor.config.json\n",
+          "stderr": "",
+          "elapsedMs": 1963.4210999999996
+        },
+        "second": {
+          "command": [
+            "C:\\nvm4w\\nodejs\\node.exe",
+            "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+            "init",
+            "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据"
+          ],
+          "status": 2,
+          "stdout": "",
+          "stderr": "Configuration already exists: C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据\\domo-doctor.config.json\n",
+          "elapsedMs": 2007.742600000005
+        }
+      }
+    },
+    {
+      "name": "explicit report writes",
+      "expected": "valid SARIF is written to requested disposable path",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "scan",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--format",
+          "sarif",
+          "--output",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\doctor.sarif"
+        ],
+        "status": 0,
+        "stdout": "Wrote sarif report to C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\doctor.sarif\n",
+        "stderr": "",
+        "elapsedMs": 2142.235499999995
+      }
+    },
+    {
+      "name": "project code is never executed and scans use no network",
+      "expected": "network call traps remain unused; source side-effect sentinel absent",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "status": 0,
+        "stdout": "{\"attempts\":0}\n"
+      }
+    },
+    {
+      "name": "alternate config",
+      "expected": "explicit config selects JSON and only overrides selected rules",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "command": [
+          "C:\\nvm4w\\nodejs\\node.exe",
+          "D:\\GWC\\Projects\\POCs\\Domo-doctor\\dist\\cli\\index.js",
+          "scan",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据",
+          "--config",
+          "C:\\Users\\SHUBHA~1\\AppData\\Local\\Temp\\domo-doctor-audit-PPK8RZ\\Domo demo café 数据\\alternate.json"
+        ],
+        "status": 0,
+        "stdout": "{\n  \"schemaVersion\": \"1.0.0\",\n  \"tool\": {\n    \"name\": \"domo-doctor\",\n    \"version\": \"0.1.1\"\n  },\n  \"scan\": {\n    \"status\": \"completed\",\n    \"project\": \".\",\n    \"startedAt\": \"2026-10-12T06:12:24.542Z\",\n    \"durationMs\": 106\n  },\n  \"summary\": {\n    \"errors\": 0,\n    \"warnings\": 0,\n    \"infos\": 0,\n    \"passed\": 8,\n    \"skipped\": 3,\n    \"unverified\": 0,\n    \"suppressed\": 0\n  },\n  \"rules\": [\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"description\": \"Manifest file exists.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"description\": \"Manifest is valid JSON.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"description\": \"Documented manifest properties have valid shapes.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"description\": \"Dataset aliases are unique.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"description\": \"Field aliases are unique within each dataset mapping.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"description\": \"Dataset and field mapping definitions are well formed.\",\n      \"status\": \"passed\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-MAN-007\",\n      \"description\": \"Advanced request proxy configuration is checked conditionally.\",\n      \"status\": \"passed\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"description\": \"Literal dataset requests use aliases declared in the manifest.\",\n      \"status\": \"passed\",\n      \"durationMs\": 2\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"description\": \"Dynamic Domo GET paths are reported as unverified.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 1\n    },\n    {\n      \"ruleId\": \"DD-APPDB-001\",\n      \"description\": \"AppDB usage is identified without claiming live validation.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 0\n    },\n    {\n      \"ruleId\": \"DD-PROXY-001\",\n      \"description\": \"Domo CLI executable availability is checked without reading credentials.\",\n      \"status\": \"skipped\",\n      \"durationMs\": 0\n    }\n  ],\n  \"diagnostics\": [\n    {\n      \"ruleId\": \"DD-APPDB-001\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\",\n      \"explanation\": \"No recognizable AppDB or @domoinc/toolkit usage was found.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest file exists.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-002\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Manifest is valid JSON.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-003\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Documented manifest properties have valid shapes.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-004\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset aliases are unique.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-005\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Field aliases are unique within each dataset mapping.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-006\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"Dataset and field mapping definitions are well formed.\",\n      \"explanation\": \"No problems were detected by this check.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/manifest\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAN-007\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"No static advanced-proxy requirement was detected.\",\n      \"explanation\": \"No DQL, writeback, OAuth, or AppDB request markers were found. Publication readiness and proxy authentication were not verified.\",\n      \"documentationUrl\": \"https://developer.domo.com/docs/tools/dev-studio-cli\",\n      \"confidence\": \"medium\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-001\",\n      \"severity\": \"info\",\n      \"status\": \"passed\",\n      \"message\": \"No unresolved literal dataset aliases were found in recognized Domo data requests.\",\n      \"explanation\": \"No unresolved literal dataset aliases were found in recognized Domo data requests.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-MAP-002\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"No dynamic domo.get paths were found.\",\n      \"explanation\": \"No dynamic domo.get paths were found.\",\n      \"confidence\": \"high\"\n    },\n    {\n      \"ruleId\": \"DD-PROXY-001\",\n      \"severity\": \"info\",\n      \"status\": \"skipped\",\n      \"message\": \"Rule is disabled in configuration.\",\n      \"explanation\": \"Domo CLI executable availability is checked without reading credentials.\",\n      \"confidence\": \"high\"\n    }\n  ]\n}\n",
+        "stderr": "",
+        "elapsedMs": 2133.7495999999956
+      }
+    },
+    {
+      "name": "simple deterministic schema fuzz",
+      "expected": "100 synthetic malformed JSON shapes yield reports or controlled errors within 30 seconds",
+      "result": "VERIFIED PASS",
+      "actual": {
+        "reports": 100,
+        "errors": 0,
+        "polluted": false
+      }
+    }
+  ]
+}

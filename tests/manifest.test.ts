@@ -110,6 +110,27 @@ describe("manifest parser and validation", () => {
     expect(result.every((item) => item.status === "failed")).toBe(true);
   });
 
+  it("rejects invalid size and ignore shapes while allowing omitted dimensions", () => {
+    expect(checkManifestStructure({ size: {} }, "manifest.json")).toEqual([]);
+    expect(
+      checkManifestStructure({ size: "large" } as never, "manifest.json").map(
+        (item) => item.propertyPath,
+      ),
+    ).toEqual(["size"]);
+    expect(
+      checkManifestStructure(
+        { ignore: "src/**" } as never,
+        "manifest.json",
+      ).map((item) => item.propertyPath),
+    ).toEqual(["ignore"]);
+    expect(
+      checkManifestStructure(
+        { size: { width: Number.POSITIVE_INFINITY, height: -1 } },
+        "manifest.json",
+      ).map((item) => item.propertyPath),
+    ).toEqual(["size.width", "size.height"]);
+  });
+
   it("detects repeated dataset aliases and repeated field aliases only within one mapping", () => {
     const result = checkMappings(
       {

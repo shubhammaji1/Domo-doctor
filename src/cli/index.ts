@@ -15,6 +15,8 @@ import { formatJson } from "../reporters/json.js";
 import { createSarif } from "../reporters/sarif.js";
 import { formatTerminal } from "../reporters/terminal.js";
 import { VERSION } from "../version.js";
+import { safeDiagnosticText } from "../core/privacy.js";
+import { assertSafePath } from "../core/filesystem.js";
 
 function createProgram(): Command {
   const program = new Command();
@@ -115,9 +117,10 @@ function createProgram(): Command {
       const target = path.join(root, "domo-doctor.config.json");
       const contents = `${JSON.stringify({ root: ".", reporter: "terminal", failOn: "error", ignore: ["node_modules/**", "dist/**", "build/**"] }, null, 2)}\n`;
       try {
+        await assertSafePath(path.parse(target).root, target);
         await writeFile(target, contents, { encoding: "utf8", flag: "wx" });
         process.stdout.write(
-          `Created ${path.relative(process.cwd(), target) || "domo-doctor.config.json"}\n`,
+          `Created ${safeDiagnosticText(path.relative(process.cwd(), target) || "domo-doctor.config.json")}\n`,
         );
       } catch (error) {
         if (isExists(error))
@@ -256,7 +259,7 @@ function createProgram(): Command {
     "DD-MAP-002":
       "A computed domo.get path is not treated as broken, because static analysis cannot resolve its runtime value.",
     "DD-APPDB-001":
-      "Domo's published manifest reference does not provide an offline collection declaration to cross-check. Findings stay unverified.",
+      "This release does not validate collection declarations. Collection existence and permissions remain unverified.",
     "DD-PROXY-001":
       "The check only looks for the Domo CLI executable on PATH. It never executes the CLI or inspects its credentials.",
   };
@@ -303,9 +306,10 @@ function createProgram(): Command {
             })}\n`;
     if (input.options.output) {
       const outputPath = path.resolve(process.cwd(), input.options.output);
-      await writeFile(outputPath, rendered, { encoding: "utf8" });
+      await assertSafePath(path.parse(outputPath).root, outputPath);
+      await writeFile(outputPath, rendered, { encoding: "utf8", flag: "wx" });
       process.stdout.write(
-        `Wrote ${format} report to ${path.relative(process.cwd(), outputPath)}\n`,
+        `Wrote ${format} report to ${safeDiagnosticText(path.relative(process.cwd(), outputPath))}\n`,
       );
     } else {
       process.stdout.write(rendered);
@@ -342,7 +346,7 @@ function createProgram(): Command {
   }
 
   program.configureOutput({
-    writeErr: (text) => process.stderr.write(text),
+    writeErr: (text) => process.stderr.write(safeDiagnosticText(text)),
     outputError: (text, write) => write(text),
   });
   program.exitOverride();
@@ -361,7 +365,7 @@ export async function runCli(argv: string[] = process.argv): Promise<number> {
     }
     const message =
       error instanceof Error ? error.message : "Unexpected command failure.";
-    process.stderr.write(`${message}\n`);
+    process.stderr.write(`${safeDiagnosticText(message)}\n`);
     return 2;
   } finally {
     process.exitCode = 0;

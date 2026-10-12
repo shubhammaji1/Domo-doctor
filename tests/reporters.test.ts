@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { formatJson } from "../src/reporters/json.js";
 import { createSarif } from "../src/reporters/sarif.js";
-import { formatTerminal } from "../src/reporters/terminal.js";
-import type { ScanReport } from "../src/core/types.js";
+import {
+  diagnosticLocation,
+  formatTerminal,
+} from "../src/reporters/terminal.js";
+import type { Diagnostic, ScanReport } from "../src/core/types.js";
 
 const report: ScanReport = {
   schemaVersion: "1.0.0",
@@ -55,6 +58,61 @@ const report: ScanReport = {
 };
 
 describe("reporters", () => {
+  it("retains severity, suppression justification and optional locations in SARIF", () => {
+    const diagnostics: Diagnostic[] = [
+      {
+        ruleId: "x",
+        severity: "warning" as const,
+        status: "failed" as const,
+        message: "warning",
+        file: "space name.js",
+        line: 3,
+        suppressed: true,
+        suppressionReason: "Reviewed",
+        confidence: "high" as const,
+        documentationUrl: "https://example.com/rule",
+      },
+      {
+        ruleId: "x",
+        severity: "info" as const,
+        status: "failed" as const,
+        message: "info",
+      },
+      {
+        ruleId: "y",
+        severity: "info" as const,
+        status: "passed" as const,
+        message: "passed",
+        file: "a.js",
+      },
+      {
+        ruleId: "z",
+        severity: "info" as const,
+        status: "skipped" as const,
+        message: "skipped",
+      },
+    ].map((item) => ({ ...item, explanation: "" }));
+    const variant = { ...report, diagnostics };
+    const results = createSarif(variant).runs[0]?.results;
+    expect(results?.map((item) => item.level)).toEqual(["warning", "note"]);
+    expect(results?.[0]?.suppressions?.[0]?.justification).toBe("Reviewed");
+    expect(results?.[1]?.locations).toBeUndefined();
+    expect(results?.[0]?.locations?.[0]?.physicalLocation?.region).toEqual({
+      startLine: 3,
+    });
+    const text = formatTerminal(variant, { color: true, verbose: true });
+    expect(text).toContain("Suppression reason: Reviewed");
+    expect(text).toContain("Rules executed:");
+    expect(diagnosticLocation(diagnostics[0]!)).toBe("space name.js:3");
+    expect(diagnosticLocation(diagnostics[1]!)).toBeUndefined();
+    expect(diagnosticLocation(diagnostics[2]!)).toBe("a.js");
+    expect(diagnosticLocation({ ...diagnostics[0]!, column: 4 })).toBe(
+      "space name.js:3:4",
+    );
+    expect(
+      diagnosticLocation({ ...diagnostics[0]!, propertyPath: "mapping[0]" }),
+    ).toBe("space name.js (mapping[0])");
+  });
   it("writes stable JSON with status counts and diagnostics", () => {
     const parsed = JSON.parse(formatJson(report)) as ScanReport;
     expect(parsed.schemaVersion).toBe("1.0.0");

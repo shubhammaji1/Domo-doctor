@@ -1,0 +1,41 @@
+[
+  {
+    "id": "domo-doctor@0.1.0",
+    "name": "domo-doctor",
+    "version": "0.1.0",
+    "size": 6171,
+    "unpackedSize": 15797,
+    "shasum": "1305093e5e89a0d247595dea32fbd614d13d3804",
+    "integrity": "sha512-86x1OioKPFgtJzmnsW3uxyJPwKm/s5/Zwu/COQ2+PokBxEwnsRKOfe84V53y1jMMj0r+okDtBM2tw82SOGK3Hg==",
+    "filename": "domo-doctor-0.1.0.tgz",
+    "files": [
+      {
+        "path": "CONTRIBUTING.md",
+        "size": 862,
+        "mode": 420
+      },
+      {
+        "path": "LICENSE",
+        "size": 839,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 12109,
+        "mode": 420
+      },
+      {
+        "path": "SECURITY.md",
+        "size": 328,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 1659,
+        "mode": 420
+      }
+    ],
+    "entryCount": 5,
+    "bundled": []
+  }
+]

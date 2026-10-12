@@ -1,0 +1,5 @@
+{
+  "blocked": true,
+  "instrumented": true,
+  "error": "Project paths must not contain symbolic links or junctions."
+}

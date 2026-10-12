@@ -1,0 +1,1 @@
+import client from "ryuu.js"; client.get("/data/v1/missing");

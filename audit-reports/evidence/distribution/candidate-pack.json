@@ -1,0 +1,321 @@
+[
+  {
+    "id": "domo-doctor@0.1.1",
+    "name": "domo-doctor",
+    "version": "0.1.1",
+    "size": 42609,
+    "unpackedSize": 183021,
+    "shasum": "dc9d9b9df128f366510bfdcbbbee83b20214e17f",
+    "integrity": "sha512-Zfr5H0VyEBor44VcOFDmcAfXJPMTnv50O2/mAZMEbvhuHbQ4vUshRAXRZDqnq0yGFlvE+Ma3W4+YVZ3B+ocvtw==",
+    "filename": "domo-doctor-0.1.1.tgz",
+    "files": [
+      {
+        "path": "CONTRIBUTING.md",
+        "size": 843,
+        "mode": 420
+      },
+      {
+        "path": "LICENSE",
+        "size": 839,
+        "mode": 420
+      },
+      {
+        "path": "README.md",
+        "size": 12976,
+        "mode": 420
+      },
+      {
+        "path": "SECURITY.md",
+        "size": 322,
+        "mode": 420
+      },
+      {
+        "path": "dist/analyzers/manifest.d.ts",
+        "size": 1087,
+        "mode": 420
+      },
+      {
+        "path": "dist/analyzers/manifest.d.ts.map",
+        "size": 1081,
+        "mode": 420
+      },
+      {
+        "path": "dist/analyzers/manifest.js",
+        "size": 12726,
+        "mode": 420
+      },
+      {
+        "path": "dist/analyzers/manifest.js.map",
+        "size": 9230,
+        "mode": 420
+      },
+      {
+        "path": "dist/analyzers/source-code.d.ts",
+        "size": 413,
+        "mode": 420
+      },
+      {
+        "path": "dist/analyzers/source-code.d.ts.map",
+        "size": 416,
+        "mode": 420
+      },
+      {
+        "path": "dist/analyzers/source-code.js",
+        "size": 6038,
+        "mode": 420
+      },
+      {
+        "path": "dist/analyzers/source-code.js.map",
+        "size": 4846,
+        "mode": 420
+      },
+      {
+        "path": "dist/cli/index.d.ts",
+        "size": 121,
+        "mode": 420
+      },
+      {
+        "path": "dist/cli/index.d.ts.map",
+        "size": 187,
+        "mode": 420
+      },
+      {
+        "path": "dist/cli/index.js",
+        "size": 12849,
+        "mode": 420
+      },
+      {
+        "path": "dist/cli/index.js.map",
+        "size": 9784,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/config.d.ts",
+        "size": 446,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/config.d.ts.map",
+        "size": 521,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/config.js",
+        "size": 4141,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/config.js.map",
+        "size": 4458,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/filesystem.d.ts",
+        "size": 532,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/filesystem.d.ts.map",
+        "size": 598,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/filesystem.js",
+        "size": 5044,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/filesystem.js.map",
+        "size": 5303,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/fixture-tests.d.ts",
+        "size": 620,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/fixture-tests.d.ts.map",
+        "size": 659,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/fixture-tests.js",
+        "size": 4825,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/fixture-tests.js.map",
+        "size": 5251,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/rule-engine.d.ts",
+        "size": 546,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/rule-engine.d.ts.map",
+        "size": 565,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/rule-engine.js",
+        "size": 5550,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/rule-engine.js.map",
+        "size": 5232,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/scanner.d.ts",
+        "size": 335,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/scanner.d.ts.map",
+        "size": 417,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/scanner.js",
+        "size": 22360,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/scanner.js.map",
+        "size": 15983,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/types.d.ts",
+        "size": 2889,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/types.d.ts.map",
+        "size": 3274,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/types.js",
+        "size": 44,
+        "mode": 420
+      },
+      {
+        "path": "dist/core/types.js.map",
+        "size": 110,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts",
+        "size": 792,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.d.ts.map",
+        "size": 795,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js",
+        "size": 599,
+        "mode": 420
+      },
+      {
+        "path": "dist/index.js.map",
+        "size": 745,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/json.d.ts",
+        "size": 150,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/json.d.ts.map",
+        "size": 215,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/json.js",
+        "size": 122,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/json.js.map",
+        "size": 230,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/sarif.d.ts",
+        "size": 216,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/sarif.d.ts.map",
+        "size": 301,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/sarif.js",
+        "size": 3065,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/sarif.js.map",
+        "size": 2952,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/terminal.d.ts",
+        "size": 311,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/terminal.d.ts.map",
+        "size": 381,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/terminal.js",
+        "size": 2983,
+        "mode": 420
+      },
+      {
+        "path": "dist/reporters/terminal.js.map",
+        "size": 3165,
+        "mode": 420
+      },
+      {
+        "path": "dist/version.d.ts",
+        "size": 77,
+        "mode": 420
+      },
+      {
+        "path": "dist/version.d.ts.map",
+        "size": 137,
+        "mode": 420
+      },
+      {
+        "path": "dist/version.js",
+        "size": 67,
+        "mode": 420
+      },
+      {
+        "path": "dist/version.js.map",
+        "size": 145,
+        "mode": 420
+      },
+      {
+        "path": "package.json",
+        "size": 2112,
+        "mode": 420
+      }
+    ],
+    "entryCount": 61,
+    "bundled": []
+  }
+]

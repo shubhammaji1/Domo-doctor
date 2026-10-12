@@ -1,0 +1,1 @@
+domo.get("/data/v1/sales?limit=1");

@@ -1,0 +1,12 @@
+{
+  "checkout": [
+    "d23441a48e516b6c34aea4fa41551a30e30af803\trefs/tags/v6"
+  ],
+  "setupNode": [
+    "249970729cb0ef3589644e2896645e5dc5ba9c38\trefs/tags/v6"
+  ],
+  "gitleaks": [
+    "e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e\trefs/tags/v3"
+  ],
+  "capturedAt": "2026-10-12T09:32:50.0591734Z"
+}
