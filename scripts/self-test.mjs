@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, realpath, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -14,7 +14,7 @@ const projectRoot = path.resolve(
   "..",
 );
 const tempRoot = await mkdtemp(
-  path.join(os.tmpdir(), "domo-doctor-self-test-"),
+  path.join(await realpath(os.tmpdir()), "domo-doctor-self-test-"),
 );
 let assertions = 0;
 

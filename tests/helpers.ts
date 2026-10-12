@@ -1,4 +1,4 @@
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, realpath, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import type { ScanConfig, ScanContext } from "../src/core/types.js";
@@ -35,10 +35,12 @@ export function makeContext(
   };
 }
 
-export async function temporaryDirectory(): Promise<{
+export async function temporaryDirectory(baseDirectory = os.tmpdir()): Promise<{
   root: string;
   cleanup: () => Promise<void>;
 }> {
-  const root = await mkdtemp(path.join(os.tmpdir(), "domo-doctor-"));
+  const root = await mkdtemp(
+    path.join(await realpath(baseDirectory), "domo-doctor-"),
+  );
   return { root, cleanup: () => rm(root, { recursive: true, force: true }) };
 }
