@@ -2,6 +2,8 @@
 
 ## 0.1.1 — unreleased
 
+- Resolve the CLI launch path before checking its entry point so npm's Unix bin symlinks start the command correctly. Keep all CI matrix jobs running when one fails to retain compatibility evidence.
+
 - Build distribution files before packing; verify installation, CLI execution and ESM exports from the packed artifact.
 - Replace the vulnerable glob dependency chain with bounded picomatch matching.
 - Constrain configured project roots and fixture paths; reject symbolic links and junctions within checked paths, bound reads and recheck opened file identity.

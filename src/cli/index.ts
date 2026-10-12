@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command, CommanderError, Option } from "commander";
 import { writeFile } from "node:fs/promises";
+import { realpathSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadConfig } from "../core/config.js";
@@ -374,7 +375,7 @@ export async function runCli(argv: string[] = process.argv): Promise<number> {
 
 if (
   process.argv[1] &&
-  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+  realpathSync(path.resolve(process.argv[1])) === fileURLToPath(import.meta.url)
 ) {
   process.exitCode = await runCli();
 }
