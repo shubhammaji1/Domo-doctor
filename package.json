@@ -1,6 +1,6 @@
 {
   "name": "domo-doctor",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Offline-first diagnostics for Domo custom app projects",
   "keywords": [
     "domo",
@@ -49,22 +49,23 @@
   "dependencies": {
     "commander": "^14.0.2",
     "jsonc-parser": "^3.3.1",
+    "parse5": "^7.3.0",
     "picocolors": "^1.1.1",
+    "picomatch": "^4.0.7",
     "typescript": "^5.9.3",
-    "zod": "^4.1.12",
-    "picomatch": "^4.0.7"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/node": "^22.19.1",
+    "@types/picomatch": "^4.0.3",
     "@types/sarif": "^2.1.7",
     "@vitest/coverage-v8": "^4.1.11",
     "eslint": "^9.39.1",
     "globals": "^16.5.0",
     "prettier": "^3.6.2",
     "typescript-eslint": "^8.50.0",
-    "vitest": "^4.1.11",
-    "@types/picomatch": "^4.0.3"
+    "vitest": "^4.1.11"
   },
   "repository": {
     "type": "git",

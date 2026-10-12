@@ -228,7 +228,7 @@ function createProgram(): Command {
     {
       id: "DD-APPDB-001",
       description:
-        "AppDB usage is identified without claiming live validation.",
+        "AppDB collection declarations and static names are checked; live access remains unverified.",
       category: "appdb",
       documentationUrl: "https://developer.domo.com/docs/tools/dev-studio-cli",
     },
@@ -260,7 +260,7 @@ function createProgram(): Command {
     "DD-MAP-002":
       "A computed domo.get path is not treated as broken, because static analysis cannot resolve its runtime value.",
     "DD-APPDB-001":
-      "This release does not validate collection declarations. Collection existence and permissions remain unverified.",
+      "Collection mapping shapes and unique collection/column names are checked locally. Literal collection requests and immutable local string tables are compared with declarations. Dynamic names, custom wrappers, deployed existence and permissions require runtime verification.",
     "DD-PROXY-001":
       "The check only looks for the Domo CLI executable on PATH. It never executes the CLI or inspects its credentials.",
   };

@@ -85,12 +85,31 @@ try {
   await mkdir(project);
   await writeFile(
     path.join(project, "manifest.json"),
-    '{"name":"Smoke test","mapping":[]}',
+    '{"name":"Smoke test","mapping":[],"collectionsMapping":[{"name":"Smoke"}]}',
+  );
+  await writeFile(
+    path.join(project, "index.html"),
+    '<script>domo.appdb.list("Smoke")</script>',
   );
   const report = JSON.parse(
     run(process.execPath, [cli, "scan", project, "--format", "json"], consumer),
   );
   assert.equal(report.summary.errors, 0);
+  assert.ok(
+    report.diagnostics.some(
+      (item) => item.ruleId === "DD-APPDB-001" && item.status === "passed",
+    ),
+  );
+  assert.ok(
+    report.diagnostics.some(
+      (item) => item.ruleId === "DD-APPDB-001" && item.status === "unverified",
+    ),
+  );
+  assert.ok(
+    !report.diagnostics.some(
+      (item) => item.file === "index.html" && item.status === "unverified",
+    ),
+  );
   const { createDoctor } = await import(
     pathToFileURL(path.join(installed, "dist", "index.js")).href
   );
