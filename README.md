@@ -73,7 +73,7 @@ Skipped and unverified checks do not silently count as passed and do not fail th
 
 ## Supported projects
 
-Domo custom app designs support offline manifest checks and static analysis of JavaScript, TypeScript, JSX, and TSX files. HTML inline scripts are not parsed and produce an unverified coverage notice. Vue/Svelte component bodies and custom request wrappers are outside the current source analyzer. Direct `domo.get` calls are recognized; uncertain local bindings are conservatively unverified across the file. Dynamic paths, unsupported patterns, malformed syntax, and excessive source nesting cannot establish a clean application. The tool does not run project code or provide browser end-to-end testing.
+Domo custom app designs support offline manifest checks and static analysis of JavaScript, TypeScript, JSX, TSX, and inline JavaScript in HTML. Inline diagnostics retain HTML line positions. Local external scripts must be included in the scan; remote, missing, or base-URL-dependent scripts produce an unverified coverage notice. Vue/Svelte component bodies and custom request wrappers are outside the current source analyzer. Direct `domo.get` calls are recognized; uncertain local bindings are conservatively unverified across the file. Dynamic paths, unsupported patterns, malformed syntax, and excessive source nesting cannot establish a clean application. The tool does not run project code or provide browser end-to-end testing.
 
 ## Commands
 
@@ -132,19 +132,19 @@ Rule values are `error`, `warning`, `info`, or `off`. Suppressions require a rea
 
 ## Rule catalog
 
-| ID             | Severity              | Check                                                                                 |
-| -------------- | --------------------- | ------------------------------------------------------------------------------------- |
-| `DD-MAN-001`   | error                 | Manifest file exists.                                                                 |
-| `DD-MAN-002`   | error                 | Manifest is valid JSON; parser location is included where available.                  |
-| `DD-MAN-003`   | error                 | Documented manifest properties have valid shapes; unknown properties are allowed.     |
-| `DD-MAN-004`   | error                 | Dataset aliases are unique.                                                           |
-| `DD-MAN-005`   | error                 | Field aliases are unique within each dataset mapping.                                 |
-| `DD-MAN-006`   | error                 | Mapping entries have documented non-empty values and valid field shapes.              |
-| `DD-MAN-007`   | warning or unverified | Advanced request markers are checked against conditional proxy configuration.         |
-| `DD-MAP-001`   | warning               | A literal `data/v1` request names an alias absent from the manifest.                  |
-| `DD-MAP-002`   | warning or unverified | A computed `domo.get` path cannot be statically matched.                              |
-| `DD-APPDB-001` | warning or unverified | AppDB references are detected; live collection and permission checks are not claimed. |
-| `DD-PROXY-001` | warning               | `domo` executable is not discoverable on `PATH`; authentication is not checked.       |
+| ID             | Severity                     | Check                                                                                                       |
+| -------------- | ---------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `DD-MAN-001`   | error                        | Manifest file exists.                                                                                       |
+| `DD-MAN-002`   | error                        | Manifest is valid JSON; parser location is included where available.                                        |
+| `DD-MAN-003`   | error                        | Documented manifest properties have valid shapes; unknown properties are allowed.                           |
+| `DD-MAN-004`   | error                        | Dataset aliases are unique.                                                                                 |
+| `DD-MAN-005`   | error                        | Field aliases are unique within each dataset mapping.                                                       |
+| `DD-MAN-006`   | error                        | Mapping entries have documented non-empty values and valid field shapes.                                    |
+| `DD-MAN-007`   | warning or unverified        | Advanced request markers are checked against conditional proxy configuration.                               |
+| `DD-MAP-001`   | warning                      | A literal `data/v1` request names an alias absent from the manifest.                                        |
+| `DD-MAP-002`   | warning or unverified        | A computed `domo.get` path cannot be statically matched.                                                    |
+| `DD-APPDB-001` | error, warning or unverified | Collection declarations, unique names and static request names are checked; live access remains unverified. |
+| `DD-PROXY-001` | warning                      | `domo` executable is not discoverable on `PATH`; authentication is not checked.                             |
 
 ## Example
 
@@ -200,7 +200,9 @@ No Domo credential is needed for this offline scan. Pin action versions to your 
 
 The standard scan makes no network requests or telemetry requests. It reads the selected manifest and project source files, parses source as syntax trees, and never evaluates application code. It does not modify project files. It does not inspect, decode, print, or export Domo CLI credentials. Report paths are project-relative; common credential patterns are redacted and terminal control characters are escaped. Redaction is pattern based: review reports before sharing them. Explicit `--output` and `init` writes refuse existing files and symbolic links or junctions in the output path. Use a new report filename for each run. Avoid scanning a directory that another process is modifying.
 
-The MVP does not authenticate to Domo, query datasets, validate AppDB permissions or collection existence, execute DQL, detect schema drift, or test a browser session. `DD-PROXY-001` only checks executable availability; it does not establish login state. Dynamic source paths and advanced integrations may require live verification. No overall application health percentage is calculated.
+The tool does not authenticate to Domo, query datasets, validate AppDB permissions or deployed collection existence, execute DQL, detect schema drift, or test a browser session. `DD-PROXY-001` only checks executable availability; it does not establish login state. Dynamic source paths and advanced integrations may require live verification. No overall application health percentage is calculated.
+
+AppDB checks accept `collectionsMapping` arrays with unique nonempty names, optional string IDs and boolean `syncEnabled`, and optional schemas containing columns with unique names and nonempty string types. Unknown properties and future type names are accepted. Recognized document methods (`list`, `get`, `create`, `update`, `remove`, `query`, `partialUpdate`, and bulk operations) and literal collection HTTP paths are compared with local names. Simple top-level `const` string tables are resolved only when they are neither mutated, escaped nor shadowed. Missing names on unresolved receivers remain unverified. Collections provisioned outside the manifest, dynamic arguments, aliases and wrapper functions require manual verification. A valid declaration confirms local structure, not the deployed schema or successful CRUD operations.
 
 Input limits prevent accidental resource exhaustion: configuration, manifest, and fixture JSON files are limited to 1 MiB each; source files above 1 MiB are reported as unverified. A scan accepts up to 32 MiB of source, 50,000 directory entries, and 64 directory levels. Ignore patterns are limited to 128 entries including defaults, 1,024 characters each, and eight nesting levels. Exceeding a whole-scan limit returns a fatal error rather than a successful partial report.
 

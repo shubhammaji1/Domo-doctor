@@ -141,7 +141,7 @@ describe("adversarial privacy and output regression", () => {
     expect(result.status).toBe(2);
   });
 
-  it("marks HTML, broken syntax and excessive source nesting unverified", async () => {
+  it("checks HTML scripts while disclosing broken syntax and excessive nesting", async () => {
     const root = await project();
     await writeFile(
       path.join(root, "index.html"),
@@ -153,7 +153,15 @@ describe("adversarial privacy and output regression", () => {
       "const value=" + "(".repeat(3000) + "1" + ")".repeat(3000),
     );
     const report = await scanProject({ root });
-    for (const file of ["index.html", "bad.js", "deep.js"])
+    expect(
+      report.diagnostics.some(
+        (d) =>
+          d.file === "index.html" &&
+          d.ruleId === "DD-MAP-001" &&
+          d.status === "failed",
+      ),
+    ).toBe(true);
+    for (const file of ["bad.js", "deep.js"])
       expect(
         report.diagnostics.some(
           (d) => d.file === file && d.status === "unverified",

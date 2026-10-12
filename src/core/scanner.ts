@@ -31,6 +31,7 @@ import {
   sourceReferencesAdvancedProxy,
 } from "../analyzers/source-code.js";
 import { VERSION } from "../version.js";
+import { htmlScripts } from "../analyzers/html.js";
 import { safeDiagnosticText } from "./privacy.js";
 
 const MAX_SOURCE_FILE_BYTES = 1_048_576;
@@ -69,11 +70,12 @@ export async function scanProject(
     : undefined;
 
   const files = await listProjectFiles(config.root, config.ignore);
-  const sourcePaths = files.filter(isSourceFile);
-  const sourceFiles: ScanContext["sourceFiles"][number][] = [];
-  const sourceFilesSkipped: string[] = files.filter((file) =>
-    /\.html?$/i.test(file),
+  const sourcePaths = files.filter(
+    (file) => isSourceFile(file) || /\.html?$/i.test(file),
   );
+  const availableSources = new Set(sourcePaths.map(toPosix));
+  const sourceFiles: ScanContext["sourceFiles"][number][] = [];
+  const sourceFilesSkipped: string[] = [];
   let sourceBytes = 0;
   for (const sourcePath of sourcePaths) {
     const absolute = path.join(config.root, sourcePath);
@@ -83,75 +85,83 @@ export async function scanProject(
       sourceFilesSkipped.push(toPosix(sourcePath));
       continue;
     }
-    const text = await readProjectFile(
+    const originalText = await readProjectFile(
       config.root,
       absolute,
       MAX_SOURCE_FILE_BYTES,
     );
-    sourceBytes += Buffer.byteLength(text);
+    sourceBytes += Buffer.byteLength(originalText);
     if (sourceBytes > 33_554_432)
       throw new Error("Project source exceeds the 32 MiB scan limit.");
     const extension = path.extname(sourcePath).toLowerCase();
-    const scriptKind =
-      extension === ".tsx"
-        ? ts.ScriptKind.TSX
-        : extension === ".jsx"
-          ? ts.ScriptKind.JSX
-          : extension === ".js" || extension === ".mjs" || extension === ".cjs"
-            ? ts.ScriptKind.JS
-            : ts.ScriptKind.TS;
-    let sourceFile: ts.SourceFile;
-    try {
-      const scanner = ts.createScanner(
-        ts.ScriptTarget.Latest,
-        true,
-        ts.LanguageVariant.Standard,
-        text,
-      );
-      let depth = 0;
-      let token: ts.SyntaxKind;
-      while ((token = scanner.scan()) !== ts.SyntaxKind.EndOfFileToken) {
+    const html = /\.html?$/.test(extension)
+      ? htmlScripts(originalText, sourcePath, availableSources)
+      : undefined;
+    if (html?.incomplete) sourceFilesSkipped.push(toPosix(sourcePath));
+    for (const text of html?.scripts ?? [originalText]) {
+      const scriptKind =
+        extension === ".tsx"
+          ? ts.ScriptKind.TSX
+          : extension === ".jsx"
+            ? ts.ScriptKind.JSX
+            : extension === ".js" ||
+                extension === ".mjs" ||
+                extension === ".cjs"
+              ? ts.ScriptKind.JS
+              : ts.ScriptKind.TS;
+      let sourceFile: ts.SourceFile;
+      try {
+        const scanner = ts.createScanner(
+          ts.ScriptTarget.Latest,
+          true,
+          ts.LanguageVariant.Standard,
+          text,
+        );
+        let depth = 0;
+        let token: ts.SyntaxKind;
+        while ((token = scanner.scan()) !== ts.SyntaxKind.EndOfFileToken) {
+          if (
+            [
+              ts.SyntaxKind.OpenParenToken,
+              ts.SyntaxKind.OpenBracketToken,
+              ts.SyntaxKind.OpenBraceToken,
+            ].includes(token) &&
+            ++depth > 128
+          )
+            throw new Error("Source nesting limit exceeded.");
+          if (
+            [
+              ts.SyntaxKind.CloseParenToken,
+              ts.SyntaxKind.CloseBracketToken,
+              ts.SyntaxKind.CloseBraceToken,
+            ].includes(token)
+          )
+            depth = Math.max(0, depth - 1);
+        }
+        sourceFile = ts.createSourceFile(
+          sourcePath,
+          text,
+          ts.ScriptTarget.Latest,
+          true,
+          scriptKind,
+        );
         if (
-          [
-            ts.SyntaxKind.OpenParenToken,
-            ts.SyntaxKind.OpenBracketToken,
-            ts.SyntaxKind.OpenBraceToken,
-          ].includes(token) &&
-          ++depth > 128
+          (
+            sourceFile as ts.SourceFile & {
+              parseDiagnostics?: readonly ts.Diagnostic[];
+            }
+          ).parseDiagnostics?.length
         )
-          throw new Error("Source nesting limit exceeded.");
-        if (
-          [
-            ts.SyntaxKind.CloseParenToken,
-            ts.SyntaxKind.CloseBracketToken,
-            ts.SyntaxKind.CloseBraceToken,
-          ].includes(token)
-        )
-          depth = Math.max(0, depth - 1);
+          throw new Error("Source syntax could not be parsed completely.");
+      } catch {
+        sourceFilesSkipped.push(toPosix(sourcePath));
+        continue;
       }
-      sourceFile = ts.createSourceFile(
-        sourcePath,
-        text,
-        ts.ScriptTarget.Latest,
-        true,
-        scriptKind,
-      );
-      if (
-        (
-          sourceFile as ts.SourceFile & {
-            parseDiagnostics?: readonly ts.Diagnostic[];
-          }
-        ).parseDiagnostics?.length
-      )
-        throw new Error("Source syntax could not be parsed completely.");
-    } catch {
-      sourceFilesSkipped.push(toPosix(sourcePath));
-      continue;
+      sourceFiles.push({
+        path: toPosix(sourcePath),
+        sourceFile,
+      });
     }
-    sourceFiles.push({
-      path: toPosix(sourcePath),
-      sourceFile,
-    });
   }
   const manifestResult = parseManifest({
     manifestPath: relativeToRoot(config, config.manifest),
@@ -457,7 +467,7 @@ function createRules(
     {
       id: "DD-APPDB-001",
       description:
-        "AppDB usage is identified without claiming live validation.",
+        "AppDB collection declarations and static names are checked; live access remains unverified.",
       category: "appdb",
       documentationUrl: "https://developer.domo.com/docs/tools/dev-studio-cli",
       run: (context) => analyzeAppDb(context),
@@ -535,7 +545,7 @@ function dynamicRequestResults(context: ScanContext): Diagnostic[] {
         message: "Source file could not be fully analyzed.",
         file,
         explanation:
-          "HTML inline scripts, oversized or deeply nested files, and files with parse errors are not checked by this release.",
+          "Some source could not be checked because it is malformed, exceeds scan limits, or depends on an external script.",
         suggestion:
           "Use a supported JavaScript or TypeScript file, fix syntax errors, or split oversized and deeply nested source; verify remaining requests at runtime.",
         confidence: "low" as const,
