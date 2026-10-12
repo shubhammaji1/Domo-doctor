@@ -1,7 +1,9 @@
-import { lstat, readFile } from "node:fs/promises";
+import { lstat } from "node:fs/promises";
 import path from "node:path";
 import { z } from "zod";
 import type { ScanConfig, Severity } from "./types.js";
+import { assertSafePath, isInside, readProjectFile } from "./filesystem.js";
+import { assertJsonNesting } from "./input-limits.js";
 
 const severitySchema = z.enum(["error", "warning", "info"]);
 const configSchema = z
@@ -30,13 +32,13 @@ const configSchema = z
   .strict();
 
 export const DEFAULT_IGNORES = [
-  "node_modules/**",
-  "dist/**",
-  "build/**",
-  "coverage/**",
-  ".git/**",
-  ".next/**",
-  "vendor/**",
+  "**/node_modules/**",
+  "**/dist/**",
+  "**/build/**",
+  "**/coverage/**",
+  "**/.git/**",
+  "**/.next/**",
+  "**/vendor/**",
   "**/.env",
   "**/.env.*",
   "**/*credentials*",
@@ -65,30 +67,36 @@ export async function loadConfig(options: {
   const configPath = options.configArg
     ? path.resolve(cwd, options.configArg)
     : path.join(rootArgPath, "domo-doctor.config.json");
+  await assertSafePath(rootArgPath, rootArgPath);
   let parsed: z.infer<typeof configSchema> = {};
   let foundConfig: string | undefined;
   try {
+    await assertSafePath(
+      options.configArg ? path.parse(configPath).root : rootArgPath,
+      configPath,
+    );
     const stats = await lstat(configPath);
     if (stats.isSymbolicLink() || !stats.isFile())
       throw new Error(
         "Configuration path must be a regular file, not a symbolic link.",
       );
-    const text = await readFile(configPath, "utf8");
+    const text = await readProjectFile(
+      options.configArg ? path.parse(configPath).root : rootArgPath,
+      configPath,
+    );
     let raw: unknown;
+    assertJsonNesting(text);
     try {
       raw = JSON.parse(text) as unknown;
-    } catch (error) {
+    } catch {
       throw new Error(
-        `Invalid JSON in config ${path.relative(cwd, configPath)}: ${formatError(error)}`,
+        "Invalid JSON in configuration. Check JSON syntax; input contents are omitted.",
       );
     }
     const result = configSchema.safeParse(raw);
     if (!result.success) {
-      const details = result.error.issues
-        .map((issue) => `${issue.path.join(".") || "<root>"}: ${issue.message}`)
-        .join("; ");
       throw new Error(
-        `Invalid configuration in ${path.relative(cwd, configPath)}: ${details}`,
+        "Invalid configuration. Check supported properties and value types.",
       );
     }
     parsed = result.data;
@@ -101,7 +109,15 @@ export async function loadConfig(options: {
     }
   }
   const baseDir = foundConfig ? path.dirname(foundConfig) : cwd;
-  const root = path.resolve(baseDir, parsed.root ?? options.rootArg ?? ".");
+  const root =
+    parsed.root === undefined
+      ? rootArgPath
+      : path.resolve(baseDir, parsed.root);
+  if (!isInside(rootArgPath, root))
+    throw new Error(
+      "Configured root must remain inside the selected project root.",
+    );
+  await assertSafePath(rootArgPath, root);
   const manifest = path.resolve(root, parsed.manifest ?? "manifest.json");
   return {
     config: {
@@ -134,8 +150,4 @@ function isNotFound(error: unknown): boolean {
     "code" in error &&
     error.code === "ENOENT"
   );
-}
-
-function formatError(error: unknown): string {
-  return error instanceof Error ? error.message : String(error);
 }

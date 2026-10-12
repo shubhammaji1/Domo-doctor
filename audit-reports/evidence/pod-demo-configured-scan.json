@@ -1,0 +1,256 @@
+{
+  "schemaVersion": "1.0.0",
+  "tool": {
+    "name": "domo-doctor",
+    "version": "0.1.1"
+  },
+  "scan": {
+    "status": "completed",
+    "project": ".",
+    "startedAt": "2026-10-12T09:27:52.132Z",
+    "durationMs": 509
+  },
+  "summary": {
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "passed": 4,
+    "skipped": 3,
+    "unverified": 10,
+    "suppressed": 0
+  },
+  "rules": [
+    {
+      "ruleId": "DD-MAN-001",
+      "description": "Manifest file exists.",
+      "status": "passed",
+      "durationMs": 1
+    },
+    {
+      "ruleId": "DD-MAN-002",
+      "description": "Manifest is valid JSON.",
+      "status": "passed",
+      "durationMs": 0
+    },
+    {
+      "ruleId": "DD-MAN-003",
+      "description": "Documented manifest properties have valid shapes.",
+      "status": "passed",
+      "durationMs": 0
+    },
+    {
+      "ruleId": "DD-MAN-004",
+      "description": "Dataset aliases are unique.",
+      "status": "skipped",
+      "durationMs": 0
+    },
+    {
+      "ruleId": "DD-MAN-005",
+      "description": "Field aliases are unique within each dataset mapping.",
+      "status": "skipped",
+      "durationMs": 0
+    },
+    {
+      "ruleId": "DD-MAN-006",
+      "description": "Dataset and field mapping definitions are well formed.",
+      "status": "skipped",
+      "durationMs": 0
+    },
+    {
+      "ruleId": "DD-MAN-007",
+      "description": "Advanced request proxy configuration is checked conditionally.",
+      "status": "unverified",
+      "durationMs": 16
+    },
+    {
+      "ruleId": "DD-MAP-001",
+      "description": "Literal dataset requests use aliases declared in the manifest.",
+      "status": "unverified",
+      "durationMs": 41
+    },
+    {
+      "ruleId": "DD-MAP-002",
+      "description": "Dynamic Domo GET paths are reported as unverified.",
+      "status": "unverified",
+      "durationMs": 18
+    },
+    {
+      "ruleId": "DD-APPDB-001",
+      "description": "AppDB usage is identified without claiming live validation.",
+      "status": "unverified",
+      "durationMs": 2
+    },
+    {
+      "ruleId": "DD-PROXY-001",
+      "description": "Domo CLI executable availability is checked without reading credentials.",
+      "status": "passed",
+      "durationMs": 21
+    }
+  ],
+  "diagnostics": [
+    {
+      "ruleId": "DD-MAN-001",
+      "severity": "info",
+      "status": "passed",
+      "message": "Manifest file exists.",
+      "explanation": "No problems were detected by this check.",
+      "documentationUrl": "https://developer.domo.com/docs/tools/manifest",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "DD-MAN-002",
+      "severity": "info",
+      "status": "passed",
+      "message": "Manifest is valid JSON.",
+      "explanation": "No problems were detected by this check.",
+      "documentationUrl": "https://developer.domo.com/docs/tools/manifest",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "DD-MAN-003",
+      "severity": "info",
+      "status": "passed",
+      "message": "Documented manifest properties have valid shapes.",
+      "explanation": "No problems were detected by this check.",
+      "documentationUrl": "https://developer.domo.com/docs/tools/manifest",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "DD-MAN-004",
+      "severity": "info",
+      "status": "skipped",
+      "message": "No dataset mappings are configured.",
+      "explanation": "No dataset mappings are configured.",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "DD-MAN-005",
+      "severity": "info",
+      "status": "skipped",
+      "message": "No dataset mappings are configured.",
+      "explanation": "No dataset mappings are configured.",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "DD-MAN-006",
+      "severity": "info",
+      "status": "skipped",
+      "message": "No mapping property is configured.",
+      "explanation": "No mapping property is configured.",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "DD-MAN-007",
+      "severity": "info",
+      "status": "unverified",
+      "message": "proxyId is present, but its validity was not checked.",
+      "explanation": "A local static scan cannot confirm that this proxyId is valid for the app, current card, or Domo instance.",
+      "suggestion": "Verify advanced proxy behavior with the Domo CLI in the intended Domo environment.",
+      "documentationUrl": "https://developer.domo.com/docs/tools/dev-studio-cli",
+      "confidence": "low"
+    },
+    {
+      "ruleId": "DD-PROXY-001",
+      "severity": "info",
+      "status": "passed",
+      "message": "Domo CLI executable was found on PATH.",
+      "explanation": "Executable availability was checked from PATH only. Authentication, credentials, network access, and proxy behavior were not checked.",
+      "confidence": "high"
+    },
+    {
+      "ruleId": "DD-APPDB-001",
+      "severity": "warning",
+      "status": "unverified",
+      "message": "AppDB usage could not be checked in an incompletely analyzed source file.",
+      "file": "index.html",
+      "explanation": "This file was not parsed, so the absence of AppDB references cannot be established.",
+      "confidence": "low"
+    },
+    {
+      "ruleId": "DD-MAP-001",
+      "severity": "warning",
+      "status": "unverified",
+      "message": "A source file could not be fully analyzed.",
+      "file": "index.html",
+      "explanation": "This file was not parsed, so dataset references in it were not checked.",
+      "suggestion": "Check file size, syntax, and supported source formats before relying on this result.",
+      "confidence": "low"
+    },
+    {
+      "ruleId": "DD-MAP-002",
+      "severity": "warning",
+      "status": "unverified",
+      "message": "Source file could not be fully analyzed.",
+      "file": "index.html",
+      "explanation": "HTML inline scripts, oversized or deeply nested files, and files with parse errors are not checked by this release.",
+      "suggestion": "Use a supported JavaScript or TypeScript file, fix syntax errors, or split oversized and deeply nested source; verify remaining requests at runtime.",
+      "confidence": "low"
+    },
+    {
+      "ruleId": "DD-APPDB-001",
+      "severity": "warning",
+      "status": "unverified",
+      "message": "AppDB-related source detected; collection configuration was not verified.",
+      "file": "src/components/DailyUpdateForm.jsx",
+      "explanation": "This release does not validate collection declarations. Static text matching cannot establish collection existence, permissions, authentication, or runtime request correctness.",
+      "suggestion": "Verify collection names, permissions, and request behavior in a Domo environment. This scan does not send AppDB requests or modify data.",
+      "documentationUrl": "https://developer.domo.com/docs/tools/dev-studio-cli",
+      "confidence": "low"
+    },
+    {
+      "ruleId": "DD-APPDB-001",
+      "severity": "warning",
+      "status": "unverified",
+      "message": "AppDB-related source detected; collection configuration was not verified.",
+      "file": "src/components/NewTaskDialog.jsx",
+      "explanation": "This release does not validate collection declarations. Static text matching cannot establish collection existence, permissions, authentication, or runtime request correctness.",
+      "suggestion": "Verify collection names, permissions, and request behavior in a Domo environment. This scan does not send AppDB requests or modify data.",
+      "documentationUrl": "https://developer.domo.com/docs/tools/dev-studio-cli",
+      "confidence": "low"
+    },
+    {
+      "ruleId": "DD-APPDB-001",
+      "severity": "warning",
+      "status": "unverified",
+      "message": "AppDB-related source detected; collection configuration was not verified.",
+      "file": "src/hooks/useWorkspace.js",
+      "explanation": "This release does not validate collection declarations. Static text matching cannot establish collection existence, permissions, authentication, or runtime request correctness.",
+      "suggestion": "Verify collection names, permissions, and request behavior in a Domo environment. This scan does not send AppDB requests or modify data.",
+      "documentationUrl": "https://developer.domo.com/docs/tools/dev-studio-cli",
+      "confidence": "low"
+    },
+    {
+      "ruleId": "DD-APPDB-001",
+      "severity": "warning",
+      "status": "unverified",
+      "message": "AppDB-related source detected; collection configuration was not verified.",
+      "file": "src/podStore.js",
+      "explanation": "This release does not validate collection declarations. Static text matching cannot establish collection existence, permissions, authentication, or runtime request correctness.",
+      "suggestion": "Verify collection names, permissions, and request behavior in a Domo environment. This scan does not send AppDB requests or modify data.",
+      "documentationUrl": "https://developer.domo.com/docs/tools/dev-studio-cli",
+      "confidence": "low"
+    },
+    {
+      "ruleId": "DD-APPDB-001",
+      "severity": "warning",
+      "status": "unverified",
+      "message": "AppDB-related source detected; collection configuration was not verified.",
+      "file": "tests/member-edit.test.mjs",
+      "explanation": "This release does not validate collection declarations. Static text matching cannot establish collection existence, permissions, authentication, or runtime request correctness.",
+      "suggestion": "Verify collection names, permissions, and request behavior in a Domo environment. This scan does not send AppDB requests or modify data.",
+      "documentationUrl": "https://developer.domo.com/docs/tools/dev-studio-cli",
+      "confidence": "low"
+    },
+    {
+      "ruleId": "DD-APPDB-001",
+      "severity": "warning",
+      "status": "unverified",
+      "message": "AppDB-related source detected; collection configuration was not verified.",
+      "file": "tests/workflows.test.mjs",
+      "explanation": "This release does not validate collection declarations. Static text matching cannot establish collection existence, permissions, authentication, or runtime request correctness.",
+      "suggestion": "Verify collection names, permissions, and request behavior in a Domo environment. This scan does not send AppDB requests or modify data.",
+      "documentationUrl": "https://developer.domo.com/docs/tools/dev-studio-cli",
+      "confidence": "low"
+    }
+  ]
+}

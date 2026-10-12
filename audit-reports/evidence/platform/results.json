@@ -1,0 +1,1464 @@
+[
+  {
+    "name": "healthy",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "missing",
+    "summary": {
+      "errors": 0,
+      "warnings": 1,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Data request references unmapped dataset alias \"missing\"."
+      }
+    ]
+  },
+  {
+    "name": "null-map",
+    "summary": {
+      "errors": 2,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 7,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Diagnostic rule failed unexpectedly."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "failed",
+        "message": "Dataset mapping entry must be an object."
+      }
+    ]
+  },
+  {
+    "name": "mixed-null-map",
+    "summary": {
+      "errors": 2,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 7,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Diagnostic rule failed unexpectedly."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "failed",
+        "message": "Dataset mapping entry must be an object."
+      }
+    ]
+  },
+  {
+    "name": "primitive-map",
+    "summary": {
+      "errors": 3,
+      "warnings": 1,
+      "infos": 0,
+      "passed": 7,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Data request references unmapped dataset alias \"missing\"."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "failed",
+        "message": "Dataset mapping entry must be an object."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "failed",
+        "message": "Dataset mapping entry must be an object."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "failed",
+        "message": "Dataset mapping entry must be an object."
+      }
+    ]
+  },
+  {
+    "name": "prototype-names",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "bracket-literal",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "window-domo",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "import-renamed",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "wrapped",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "shadowed",
+    "summary": {
+      "errors": 0,
+      "warnings": 1,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Data request references unmapped dataset alias \"missing\"."
+      }
+    ]
+  },
+  {
+    "name": "unrelated-object",
+    "summary": {
+      "errors": 0,
+      "warnings": 1,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Data request references unmapped dataset alias \"missing\"."
+      }
+    ]
+  },
+  {
+    "name": "dynamic",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 1,
+      "unverified": 1,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "unverified",
+        "message": "Dynamic Domo GET path could not be checked against dataset mappings."
+      }
+    ]
+  },
+  {
+    "name": "const-variable",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 1,
+      "unverified": 1,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "unverified",
+        "message": "Dynamic Domo GET path could not be checked against dataset mappings."
+      }
+    ]
+  },
+  {
+    "name": "parenthesized",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 1,
+      "unverified": 1,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "unverified",
+        "message": "Dynamic Domo GET path could not be checked against dataset mappings."
+      }
+    ]
+  },
+  {
+    "name": "optional",
+    "summary": {
+      "errors": 0,
+      "warnings": 1,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Data request references unmapped dataset alias \"missing\"."
+      }
+    ]
+  },
+  {
+    "name": "encoded-alias",
+    "summary": {
+      "errors": 0,
+      "warnings": 1,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Data request references unmapped dataset alias \"%73ales\"."
+      }
+    ]
+  },
+  {
+    "name": "alias-case",
+    "summary": {
+      "errors": 0,
+      "warnings": 1,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Data request references unmapped dataset alias \"Sales\"."
+      }
+    ]
+  },
+  {
+    "name": "endpoint-case",
+    "summary": {
+      "errors": 0,
+      "warnings": 1,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Data request references unmapped dataset alias \"missing\"."
+      }
+    ]
+  },
+  {
+    "name": "template-literal",
+    "summary": {
+      "errors": 0,
+      "warnings": 1,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Data request references unmapped dataset alias \"missing\"."
+      }
+    ]
+  },
+  {
+    "name": "query",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "v2",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "html-inline",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "malformed-source",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "direct-appdb",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 2,
+      "unverified": 1,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "unverified",
+        "message": "Advanced Domo request detected without a manifest proxyId."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "direct-sql",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "direct-files",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "comment-appdb",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 1,
+      "unverified": 1,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-APPDB-001",
+        "status": "unverified",
+        "message": "AppDB-related source detected; collection configuration was not verified."
+      }
+    ]
+  },
+  {
+    "name": "empty",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 6,
+      "skipped": 5,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "skipped",
+        "message": "No mapping property is configured."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "version-invalid",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 9,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      }
+    ]
+  },
+  {
+    "name": "invalid-mapping-type",
+    "summary": {
+      "errors": 1,
+      "warnings": 1,
+      "infos": 0,
+      "passed": 5,
+      "skipped": 4,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "failed",
+        "message": "Data request references unmapped dataset alias \"sales\"."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "failed",
+        "message": "Invalid manifest property at mapping: must be an array when provided."
+      }
+    ]
+  },
+  {
+    "name": "null-fields",
+    "summary": {
+      "errors": 1,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 2,
+      "unverified": 0,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "passed",
+        "message": "No unresolved literal dataset aliases were found in recognized Domo data requests."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "skipped",
+        "message": "No dynamic domo.get paths were found."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "failed",
+        "message": "Field mapping entry must be an object."
+      }
+    ]
+  },
+  {
+    "name": "source-size",
+    "summary": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 0,
+      "passed": 8,
+      "skipped": 1,
+      "unverified": 2,
+      "suppressed": 0
+    },
+    "diagnostics": [
+      {
+        "rule": "DD-APPDB-001",
+        "status": "skipped",
+        "message": "No recognizable AppDB or @domoinc/toolkit usage was found."
+      },
+      {
+        "rule": "DD-MAN-003",
+        "status": "passed",
+        "message": "Documented manifest properties have valid shapes."
+      },
+      {
+        "rule": "DD-MAN-006",
+        "status": "passed",
+        "message": "Dataset and field mapping definitions are well formed."
+      },
+      {
+        "rule": "DD-MAN-007",
+        "status": "passed",
+        "message": "No static advanced-proxy requirement was detected."
+      },
+      {
+        "rule": "DD-MAP-001",
+        "status": "unverified",
+        "message": "A source file exceeded the static analysis size limit."
+      },
+      {
+        "rule": "DD-MAP-002",
+        "status": "unverified",
+        "message": "Dynamic request analysis skipped a source file above the size limit."
+      }
+    ]
+  }
+]

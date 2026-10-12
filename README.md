@@ -12,7 +12,7 @@ This project is independently developed and is not affiliated with, endorsed by,
 - Detects duplicate dataset aliases, duplicate field aliases within a dataset mapping, and malformed mapping entries.
 - Uses the TypeScript Compiler API to compare literal `domo.get("/data/v1/<alias>")` paths with manifest mappings for JavaScript, JSX, TypeScript, and TSX.
 - Marks dynamic `domo.get` paths unverified instead of assuming they are broken.
-- Recognizes likely AppDB usage but keeps collection, permissions, and runtime checks unverified. Domo's published manifest reference does not describe an offline collection declaration to cross-check.
+- Recognizes likely AppDB usage but keeps collection, permissions, and runtime checks unverified. Collection declaration validation is not implemented in this release.
 - Checks whether the `domo` executable is discoverable on `PATH` without executing it or reading Domo CLI credentials.
 - Emits terminal, JSON, and SARIF 2.1.0 reports with separate passed, skipped, and unverified counts.
 
@@ -73,7 +73,7 @@ Skipped and unverified checks do not silently count as passed and do not fail th
 
 ## Supported projects
 
-Domo custom app designs built with HTML, JavaScript, TypeScript, React, or similar front-end tooling are supported for offline manifest and static source checks. Source analysis recognizes direct `domo.get` calls. Other request wrappers, runtime-only behavior, and non-literal API paths may not be classifiable. The tool does not run project code or provide browser end-to-end testing.
+Domo custom app designs support offline manifest checks and static analysis of JavaScript, TypeScript, JSX, and TSX files. HTML inline scripts are not parsed and produce an unverified coverage notice. Vue/Svelte component bodies and custom request wrappers are outside the current source analyzer. Direct `domo.get` calls are recognized; uncertain local bindings are conservatively unverified across the file. Dynamic paths, unsupported patterns, malformed syntax, and excessive source nesting cannot establish a clean application. The tool does not run project code or provide browser end-to-end testing.
 
 ## Commands
 
@@ -128,7 +128,7 @@ Run `domo-doctor init` or create `domo-doctor.config.json`:
 }
 ```
 
-Rule values are `error`, `warning`, `info`, or `off`. Suppressions require a reason and can apply to one rule across the project or one exact project-relative file. Suppressed findings remain visible in reports but do not trigger the exit threshold. Ignore patterns and suppression file scopes cannot traverse outside the project root. The default ignore list skips dependency/build folders, VCS metadata, environment files, and common credential or key files.
+Rule values are `error`, `warning`, `info`, or `off`. Suppressions require a reason and can apply to one rule across the project or one exact project-relative file. Suppressed findings remain visible in reports but do not trigger the exit threshold. The configured root must stay inside the directory selected on the command line or through the library. Manifest and configuration paths cannot contain symbolic links or directory junctions. Ignore patterns and suppression file scopes cannot traverse outside the project root. The default ignore list skips dependency/build folders, VCS metadata, environment files, and common credential or key files.
 
 ## Rule catalog
 
@@ -157,7 +157,7 @@ npx domo-doctor scan examples/broken-app
 
 The broken sample intentionally repeats a dataset alias and field alias, has an incomplete mapping, references an undeclared dataset in source, and includes a dynamic request. The tool points to the manifest property or source line and explains which conclusion is confirmed and which remains unverified. Rename one of the aliases, complete the mapping, and make the request match the intended alias; then re-run the scan.
 
-Fixture files use a project-relative `project` directory plus expected rule IDs and statuses. Projects must remain inside the fixture directory, and the runner never executes their source:
+Fixture files use a project-relative `project` directory plus expected rule IDs and statuses. Projects must remain inside the fixture directory, including after configuration is loaded, and the runner never executes their source. Each fixture must contain at least one entry in `expect` or `forbid`:
 
 ```json
 {
@@ -198,9 +198,13 @@ No Domo credential is needed for this offline scan. Pin action versions to your 
 
 ## Offline checks, privacy, and limits
 
-The standard scan makes no network requests or telemetry requests. It reads the selected manifest and project source files, parses source as syntax trees, and never evaluates application code. It does not modify project files. It does not inspect, decode, print, or export Domo CLI credentials. Report paths are project-relative and diagnostic strings are redacted for common credential patterns.
+The standard scan makes no network requests or telemetry requests. It reads the selected manifest and project source files, parses source as syntax trees, and never evaluates application code. It does not modify project files. It does not inspect, decode, print, or export Domo CLI credentials. Report paths are project-relative; common credential patterns are redacted and terminal control characters are escaped. Redaction is pattern based: review reports before sharing them. Explicit `--output` and `init` writes refuse existing files and symbolic links or junctions in the output path. Use a new report filename for each run. Avoid scanning a directory that another process is modifying.
 
 The MVP does not authenticate to Domo, query datasets, validate AppDB permissions or collection existence, execute DQL, detect schema drift, or test a browser session. `DD-PROXY-001` only checks executable availability; it does not establish login state. Dynamic source paths and advanced integrations may require live verification. No overall application health percentage is calculated.
+
+Input limits prevent accidental resource exhaustion: configuration, manifest, and fixture JSON files are limited to 1 MiB each; source files above 1 MiB are reported as unverified. A scan accepts up to 32 MiB of source, 50,000 directory entries, and 64 directory levels. Ignore patterns are limited to 128 entries including defaults, 1,024 characters each, and eight nesting levels. Exceeding a whole-scan limit returns a fatal error rather than a successful partial report.
+
+JSON and parsed source structural nesting are limited to 128 levels. Excessive JSON nesting fails with a controlled error; source that cannot be parsed within the limits is reported as unverified. The library is ESM-only; use named ESM imports or dynamic `import()` from CommonJS.
 
 ## Development
 
@@ -212,10 +216,10 @@ npm test
 npm run test:vitest
 npm run format:check
 npm run build
-npm pack --dry-run
+npm run pack:check
 ```
 
-`npm test` runs the built package's offline self-test suite, including CLI status behavior. `npm run test:vitest` runs the detailed Vitest suite and `npm run test:coverage` measures rule-engine and manifest coverage. Tests use local fixtures and temporary directories; they require no Domo account. See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow and [SECURITY.md](SECURITY.md) for security reporting.
+`npm test` runs the built package's offline self-test suite, including CLI status behavior. `npm run test:vitest` runs the detailed Vitest suite and `npm run test:coverage` instruments all runtime source with 90% statement, branch, function, and line thresholds. Tests use local fixtures and temporary directories; they require no Domo account. `npm run pack:check` builds and packs the package, installs that tarball into a temporary consumer project, and verifies the installed CLI, library exports, and version. This release check needs npm registry access to install dependencies. The `prepack` hook also builds automatically for `npm pack` and `npm publish`. See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow and [SECURITY.md](SECURITY.md) for security reporting.
 
 ## Roadmap
 

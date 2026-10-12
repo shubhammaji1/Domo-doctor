@@ -1,0 +1,652 @@
+{
+  "label": "baseline",
+  "capturedAt": "2026-10-12T06:17:19.573Z",
+  "environment": {
+    "node": "v22.22.0",
+    "platform": "win32",
+    "arch": "x64",
+    "osRelease": "10.0.26200",
+    "cpuModel": "Intel(R) Core(TM) i5-10210U CPU @ 1.60GHz",
+    "logicalCpuCount": 8,
+    "totalMemoryBytes": 16953729024,
+    "availableMemoryAtEndBytes": 2036191232
+  },
+  "settings": {
+    "repetitions": 3,
+    "childTimeoutMs": 30000,
+    "maxOldSpaceMiB": 512
+  },
+  "limitations": [
+    "Parent wall includes child Node startup, imports, scan, and instrumentation.",
+    "maxRSS is the child process peak resident set size in KiB, not heap allocation; memoryUsage heap values are end snapshots.",
+    "512 MiB flag limits V8 old space, not total process RSS.",
+    "Workloads use healthy static dataset references and synthetic source, not arbitrary production workloads.",
+    "Filesystem and OS caches were not cleared; this is not a guaranteed cold-cache measurement.",
+    "Other audit activity and background processes may contend for CPU, storage, and memory.",
+    "Report stability hashes omit startedAt and all durationMs fields but retain diagnostic order and content."
+  ],
+  "buildBeforeSha256": "6fc16c978aaa3564317ccc684990153476f0e72d5386b5d8ee078fc3ac39b14b",
+  "buildAfterSha256": "6fc16c978aaa3564317ccc684990153476f0e72d5386b5d8ee078fc3ac39b14b",
+  "buildUnchangedDuringRuns": true,
+  "workloads": [
+    {
+      "name": "small",
+      "files": 10,
+      "linesPerFile": 50,
+      "root": "D:\\GWC\\Projects\\POCs\\Domo-doctor\\audit-reports\\evidence\\performance\\fixtures\\small",
+      "sourceBytes": 25900,
+      "inputSha256": "503cb3c211eb2c69824eae2311a99f340f8f455be94ed79721e3920382497840"
+    },
+    {
+      "name": "medium",
+      "files": 100,
+      "linesPerFile": 100,
+      "root": "D:\\GWC\\Projects\\POCs\\Domo-doctor\\audit-reports\\evidence\\performance\\fixtures\\medium",
+      "sourceBytes": 519000,
+      "inputSha256": "a6bfc7e3f4491ab5d6b05e3255788933ad04f235eb6591104e4f00bd3f6c7e3b"
+    },
+    {
+      "name": "large",
+      "files": 1000,
+      "linesPerFile": 50,
+      "root": "D:\\GWC\\Projects\\POCs\\Domo-doctor\\audit-reports\\evidence\\performance\\fixtures\\large",
+      "sourceBytes": 2590000,
+      "inputSha256": "8069eefbb5408053db3fd1322aa1707b728f7abbe34cff83e89281cbc0f23d01"
+    }
+  ],
+  "runs": [
+    {
+      "workload": "help",
+      "repetition": 1,
+      "wallMs": 5362.4252,
+      "exitCode": 0,
+      "signal": null,
+      "cpuUsageMicroseconds": {
+        "user": 1640000,
+        "system": 859000
+      },
+      "resourceUsage": {
+        "userCPUTime": 1640000,
+        "systemCPUTime": 859000,
+        "maxRSS": 84320,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 49788,
+        "swappedOut": 0,
+        "fsRead": 1328,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 83562496,
+        "heapTotal": 55173120,
+        "heapUsed": 35516872,
+        "external": 2255240,
+        "arrayBuffers": 24827
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "help",
+      "repetition": 2,
+      "wallMs": 4307.5743,
+      "exitCode": 0,
+      "signal": null,
+      "cpuUsageMicroseconds": {
+        "user": 1859000,
+        "system": 453000
+      },
+      "resourceUsage": {
+        "userCPUTime": 1859000,
+        "systemCPUTime": 453000,
+        "maxRSS": 84472,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 48192,
+        "swappedOut": 0,
+        "fsRead": 1328,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 83632128,
+        "heapTotal": 55173120,
+        "heapUsed": 35516800,
+        "external": 2255240,
+        "arrayBuffers": 24827
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "help",
+      "repetition": 3,
+      "wallMs": 3466.949099999998,
+      "exitCode": 0,
+      "signal": null,
+      "cpuUsageMicroseconds": {
+        "user": 1953000,
+        "system": 500000
+      },
+      "resourceUsage": {
+        "userCPUTime": 1953000,
+        "systemCPUTime": 500000,
+        "maxRSS": 84496,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 50061,
+        "swappedOut": 0,
+        "fsRead": 1329,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 83886080,
+        "heapTotal": 55173120,
+        "heapUsed": 35516976,
+        "external": 2255240,
+        "arrayBuffers": 24827
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "small",
+      "repetition": 1,
+      "wallMs": 5969.457899999998,
+      "exitCode": 0,
+      "signal": null,
+      "scanMs": 1336.1242000000002,
+      "reportedScanMs": 1329,
+      "scanCpuUsageMicroseconds": {
+        "user": 406000,
+        "system": 156000
+      },
+      "summary": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "passed": 9,
+        "skipped": 2,
+        "unverified": 0,
+        "suppressed": 0
+      },
+      "stableReportSha256": "6179970f6f45a5899ddf99320d573beb21351bdd243ed2c13b9c0c63678cd437",
+      "cpuUsageMicroseconds": {
+        "user": 2484000,
+        "system": 671000
+      },
+      "resourceUsage": {
+        "userCPUTime": 2484000,
+        "systemCPUTime": 671000,
+        "maxRSS": 95024,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 56404,
+        "swappedOut": 0,
+        "fsRead": 1308,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 96776192,
+        "heapTotal": 55697408,
+        "heapUsed": 41355648,
+        "external": 13806900,
+        "arrayBuffers": 11576574
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "small",
+      "repetition": 2,
+      "wallMs": 4256.108400000001,
+      "exitCode": 0,
+      "signal": null,
+      "scanMs": 1065.6608,
+      "reportedScanMs": 1061,
+      "scanCpuUsageMicroseconds": {
+        "user": 453000,
+        "system": 203000
+      },
+      "summary": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "passed": 9,
+        "skipped": 2,
+        "unverified": 0,
+        "suppressed": 0
+      },
+      "stableReportSha256": "6179970f6f45a5899ddf99320d573beb21351bdd243ed2c13b9c0c63678cd437",
+      "cpuUsageMicroseconds": {
+        "user": 2546000,
+        "system": 718000
+      },
+      "resourceUsage": {
+        "userCPUTime": 2546000,
+        "systemCPUTime": 718000,
+        "maxRSS": 95420,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 56217,
+        "swappedOut": 0,
+        "fsRead": 1308,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 97533952,
+        "heapTotal": 55435264,
+        "heapUsed": 41556232,
+        "external": 13806900,
+        "arrayBuffers": 11576574
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "small",
+      "repetition": 3,
+      "wallMs": 4576.9375999999975,
+      "exitCode": 0,
+      "signal": null,
+      "scanMs": 1232.7189999999996,
+      "reportedScanMs": 1218,
+      "scanCpuUsageMicroseconds": {
+        "user": 375000,
+        "system": 63000
+      },
+      "summary": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "passed": 9,
+        "skipped": 2,
+        "unverified": 0,
+        "suppressed": 0
+      },
+      "stableReportSha256": "6179970f6f45a5899ddf99320d573beb21351bdd243ed2c13b9c0c63678cd437",
+      "cpuUsageMicroseconds": {
+        "user": 2437000,
+        "system": 406000
+      },
+      "resourceUsage": {
+        "userCPUTime": 2437000,
+        "systemCPUTime": 406000,
+        "maxRSS": 95124,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 55587,
+        "swappedOut": 0,
+        "fsRead": 1308,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 97419264,
+        "heapTotal": 55173120,
+        "heapUsed": 41328816,
+        "external": 13806900,
+        "arrayBuffers": 11576574
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "medium",
+      "repetition": 1,
+      "wallMs": 6512.155199999994,
+      "exitCode": 0,
+      "signal": null,
+      "scanMs": 3838.7482,
+      "reportedScanMs": 3835,
+      "scanCpuUsageMicroseconds": {
+        "user": 1922000,
+        "system": 734000
+      },
+      "summary": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "passed": 9,
+        "skipped": 2,
+        "unverified": 0,
+        "suppressed": 0
+      },
+      "stableReportSha256": "6179970f6f45a5899ddf99320d573beb21351bdd243ed2c13b9c0c63678cd437",
+      "cpuUsageMicroseconds": {
+        "user": 3687000,
+        "system": 1062000
+      },
+      "resourceUsage": {
+        "userCPUTime": 3687000,
+        "systemCPUTime": 1062000,
+        "maxRSS": 134828,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 97666,
+        "swappedOut": 0,
+        "fsRead": 1489,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 129748992,
+        "heapTotal": 93708288,
+        "heapUsed": 64927424,
+        "external": 10654769,
+        "arrayBuffers": 8424443
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "medium",
+      "repetition": 2,
+      "wallMs": 3361.1266000000032,
+      "exitCode": 0,
+      "signal": null,
+      "scanMs": 1335.9070000000002,
+      "reportedScanMs": 1332,
+      "scanCpuUsageMicroseconds": {
+        "user": 1672000,
+        "system": 656000
+      },
+      "summary": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "passed": 9,
+        "skipped": 2,
+        "unverified": 0,
+        "suppressed": 0
+      },
+      "stableReportSha256": "6179970f6f45a5899ddf99320d573beb21351bdd243ed2c13b9c0c63678cd437",
+      "cpuUsageMicroseconds": {
+        "user": 3062000,
+        "system": 1250000
+      },
+      "resourceUsage": {
+        "userCPUTime": 3062000,
+        "systemCPUTime": 1250000,
+        "maxRSS": 137788,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 96808,
+        "swappedOut": 0,
+        "fsRead": 1488,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 121110528,
+        "heapTotal": 91348992,
+        "heapUsed": 59325768,
+        "external": 25354447,
+        "arrayBuffers": 3174558
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "medium",
+      "repetition": 3,
+      "wallMs": 4939.484299999996,
+      "exitCode": 0,
+      "signal": null,
+      "scanMs": 2891.674,
+      "reportedScanMs": 2887,
+      "scanCpuUsageMicroseconds": {
+        "user": 1812000,
+        "system": 563000
+      },
+      "summary": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "passed": 9,
+        "skipped": 2,
+        "unverified": 0,
+        "suppressed": 0
+      },
+      "stableReportSha256": "6179970f6f45a5899ddf99320d573beb21351bdd243ed2c13b9c0c63678cd437",
+      "cpuUsageMicroseconds": {
+        "user": 3390000,
+        "system": 1109000
+      },
+      "resourceUsage": {
+        "userCPUTime": 3390000,
+        "systemCPUTime": 1109000,
+        "maxRSS": 136096,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 99211,
+        "swappedOut": 0,
+        "fsRead": 1488,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 134336512,
+        "heapTotal": 91611136,
+        "heapUsed": 68617744,
+        "external": 23254493,
+        "arrayBuffers": 21024167
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "large",
+      "repetition": 1,
+      "wallMs": 11682.588299999996,
+      "exitCode": 0,
+      "signal": null,
+      "scanMs": 9683.3731,
+      "reportedScanMs": 9679,
+      "scanCpuUsageMicroseconds": {
+        "user": 6609000,
+        "system": 2140000
+      },
+      "summary": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "passed": 9,
+        "skipped": 2,
+        "unverified": 0,
+        "suppressed": 0
+      },
+      "stableReportSha256": "6179970f6f45a5899ddf99320d573beb21351bdd243ed2c13b9c0c63678cd437",
+      "cpuUsageMicroseconds": {
+        "user": 8187000,
+        "system": 2546000
+      },
+      "resourceUsage": {
+        "userCPUTime": 8187000,
+        "systemCPUTime": 2546000,
+        "maxRSS": 256816,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 359383,
+        "swappedOut": 0,
+        "fsRead": 3288,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 237887488,
+        "heapTotal": 186306560,
+        "heapUsed": 152340232,
+        "external": 34800245,
+        "arrayBuffers": 12623751
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "large",
+      "repetition": 2,
+      "wallMs": 10931.402200000004,
+      "exitCode": 0,
+      "signal": null,
+      "scanMs": 9109.576099999998,
+      "reportedScanMs": 9107,
+      "scanCpuUsageMicroseconds": {
+        "user": 7062000,
+        "system": 2157000
+      },
+      "summary": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "passed": 9,
+        "skipped": 2,
+        "unverified": 0,
+        "suppressed": 0
+      },
+      "stableReportSha256": "6179970f6f45a5899ddf99320d573beb21351bdd243ed2c13b9c0c63678cd437",
+      "cpuUsageMicroseconds": {
+        "user": 8687000,
+        "system": 2500000
+      },
+      "resourceUsage": {
+        "userCPUTime": 8687000,
+        "systemCPUTime": 2500000,
+        "maxRSS": 253140,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 360043,
+        "swappedOut": 0,
+        "fsRead": 3288,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 239357952,
+        "heapTotal": 186044416,
+        "heapUsed": 151681560,
+        "external": 33750268,
+        "arrayBuffers": 13673728
+      },
+      "stderr": ""
+    },
+    {
+      "workload": "large",
+      "repetition": 3,
+      "wallMs": 6852.9881999999925,
+      "exitCode": 0,
+      "signal": null,
+      "scanMs": 5504.348,
+      "reportedScanMs": 5499,
+      "scanCpuUsageMicroseconds": {
+        "user": 5844000,
+        "system": 1360000
+      },
+      "summary": {
+        "errors": 0,
+        "warnings": 0,
+        "infos": 0,
+        "passed": 9,
+        "skipped": 2,
+        "unverified": 0,
+        "suppressed": 0
+      },
+      "stableReportSha256": "6179970f6f45a5899ddf99320d573beb21351bdd243ed2c13b9c0c63678cd437",
+      "cpuUsageMicroseconds": {
+        "user": 7015000,
+        "system": 1625000
+      },
+      "resourceUsage": {
+        "userCPUTime": 7015000,
+        "systemCPUTime": 1625000,
+        "maxRSS": 255700,
+        "sharedMemorySize": 0,
+        "unsharedDataSize": 0,
+        "unsharedStackSize": 0,
+        "minorPageFault": 0,
+        "majorPageFault": 358846,
+        "swappedOut": 0,
+        "fsRead": 3288,
+        "fsWrite": 1,
+        "ipcSent": 0,
+        "ipcReceived": 0,
+        "signalsCount": 0,
+        "voluntaryContextSwitches": 0,
+        "involuntaryContextSwitches": 0
+      },
+      "memoryUsageBytes": {
+        "rss": 232738816,
+        "heapTotal": 186830848,
+        "heapUsed": 151461232,
+        "external": 43200661,
+        "arrayBuffers": 11573574
+      },
+      "stderr": ""
+    }
+  ],
+  "stableReports": {
+    "small": true,
+    "medium": true,
+    "large": true
+  }
+}

@@ -10,6 +10,7 @@ import {
   printParseErrorCode,
   type ParseError,
 } from "jsonc-parser";
+import { assertJsonNesting } from "../core/input-limits.js";
 
 export const DOMO_MANIFEST_DOCS =
   "https://developer.domo.com/docs/tools/manifest";
@@ -24,6 +25,7 @@ export function parseManifest(
   context: Pick<ScanContext, "manifestPath" | "manifestText">,
 ): ManifestParseResult {
   if (context.manifestText === undefined) return {};
+  assertJsonNesting(context.manifestText);
   try {
     const parsed: unknown = JSON.parse(context.manifestText);
     if (!isRecord(parsed)) return { invalidRoot: true };

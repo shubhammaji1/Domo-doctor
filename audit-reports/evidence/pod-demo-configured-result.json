@@ -1,0 +1,5 @@
+{
+  "command": "node dist/cli/index.js scan D:\\GWC\\Projects\\POCs\\pod_demo --config audit-reports/evidence/pod-demo.config.json --format json",
+  "exitCode": 0,
+  "gitStatusUnchanged": true
+}

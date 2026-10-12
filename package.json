@@ -1,6 +1,6 @@
 {
   "name": "domo-doctor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Offline-first diagnostics for Domo custom app projects",
   "keywords": [
     "domo",
@@ -42,15 +42,17 @@
     "test:vitest": "npm run build && vitest run",
     "test:coverage": "npm run build && vitest run --coverage",
     "format": "prettier --write .",
-    "pack:check": "npm pack --dry-run"
+    "pack:check": "node scripts/package-smoke.mjs",
+    "prepack": "npm run build",
+    "prepublishOnly": "npm run typecheck && npm run lint && npm test && npm run test:coverage && npm run format:check && npm run pack:check && npm audit --omit=dev --audit-level=high"
   },
   "dependencies": {
     "commander": "^14.0.2",
-    "fast-glob": "^3.3.3",
     "jsonc-parser": "^3.3.1",
     "picocolors": "^1.1.1",
     "typescript": "^5.9.3",
-    "zod": "^4.1.12"
+    "zod": "^4.1.12",
+    "picomatch": "^4.0.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
@@ -61,6 +63,15 @@
     "globals": "^16.5.0",
     "prettier": "^3.6.2",
     "typescript-eslint": "^8.50.0",
-    "vitest": "^4.1.11"
-  }
+    "vitest": "^4.1.11",
+    "@types/picomatch": "^4.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shubhammaji1/Domo-doctor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shubhammaji1/Domo-doctor/issues"
+  },
+  "homepage": "https://github.com/shubhammaji1/Domo-doctor#readme"
 }

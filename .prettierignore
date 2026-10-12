@@ -1,0 +1,6 @@
+node_modules/
+dist/
+coverage/
+work/
+package-lock.json
+audit-reports/evidence/

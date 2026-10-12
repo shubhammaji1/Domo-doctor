@@ -56,7 +56,7 @@ describe("offline fixture test runner", () => {
         }),
       );
       const report = await runFixtureTests(fixture.root);
-      expect(report.failed).toBe(1);
+      expect(report.passed).toBe(1);
     } finally {
       await fixture.cleanup();
     }

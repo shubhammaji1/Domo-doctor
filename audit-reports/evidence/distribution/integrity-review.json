@@ -1,0 +1,12 @@
+{
+  "publishedIntegrityMatches": true,
+  "publishedShasumMatches": true,
+  "candidateFileCount": 61,
+  "candidateExecutable": {
+    "path": "dist/cli/index.js",
+    "size": 12849,
+    "mode": 420
+  },
+  "candidateUnexpected": [],
+  "publishedProvenance": null
+}

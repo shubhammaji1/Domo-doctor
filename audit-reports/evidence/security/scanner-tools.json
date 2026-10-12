@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "gitleaks",
+    "Available": false,
+    "Source": null
+  },
+  {
+    "Name": "semgrep",
+    "Available": false,
+    "Source": null
+  },
+  {
+    "Name": "osv-scanner",
+    "Available": false,
+    "Source": null
+  }
+]

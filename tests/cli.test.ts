@@ -1,9 +1,9 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { readFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { describe, expect, it } from "vitest";
 import { temporaryDirectory } from "./helpers.js";
-import { runCli } from "../dist/cli/index.js";
+import { runCli } from "../src/cli/index.js";
 
 const repositoryRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -36,7 +36,86 @@ async function invoke(args: string[], cwd = repositoryRoot) {
   }
 }
 
-describe("compiled CLI", () => {
+describe("CLI", () => {
+  it("supports discovery commands and controlled usage failures", async () => {
+    for (const args of [
+      ["--help"],
+      ["--version"],
+      ["rules", "list"],
+      ["explain", "DD-MAN-001"],
+      ["explain", "DD-PROXY-001"],
+    ]) {
+      const result = await invoke(args);
+      expect(result.status).toBe(0);
+      expect(result.stdout.length).toBeGreaterThan(0);
+    }
+    for (const args of [
+      ["explain", "unknown"],
+      ["check", "unknown"],
+      ["invalid"],
+      ["scan", "--severity", "bad"],
+    ])
+      expect((await invoke(args)).status).toBe(2);
+  });
+
+  it("runs every focused category and respects config defaults and CLI overrides", async () => {
+    for (const target of ["manifest", "mappings", "appdb", "proxy"]) {
+      const result = await invoke([
+        "check",
+        target,
+        "examples/healthy-app",
+        "--format",
+        "json",
+      ]);
+      expect(result.status).toBe(0);
+      expect(JSON.parse(result.stdout).diagnostics.length).toBeGreaterThan(0);
+    }
+    const fixture = await temporaryDirectory();
+    try {
+      await writeFile(path.join(fixture.root, "manifest.json"), "{}");
+      expect((await invoke(["init"], fixture.root)).status).toBe(0);
+      expect((await invoke(["init"], fixture.root)).status).toBe(2);
+      await writeFile(
+        path.join(fixture.root, "domo-doctor.config.json"),
+        JSON.stringify({ reporter: "sarif", failOn: "warning" }),
+      );
+      expect(
+        JSON.parse((await invoke(["scan"], fixture.root)).stdout).version,
+      ).toBe("2.1.0");
+      expect(
+        JSON.parse(
+          (
+            await invoke(
+              ["scan", "--format", "json", "--severity", "error"],
+              fixture.root,
+            )
+          ).stdout,
+        ).schemaVersion,
+      ).toBe("1.0.0");
+      expect(
+        (await invoke(["init", "missing-directory"], fixture.root)).status,
+      ).toBe(2);
+    } finally {
+      await fixture.cleanup();
+    }
+  });
+
+  it("returns failure for unmet fixture expectations", async () => {
+    const fixture = await temporaryDirectory();
+    try {
+      await writeFile(path.join(fixture.root, "manifest.json"), "{}");
+      await writeFile(
+        path.join(fixture.root, "bad.doctor-test.json"),
+        JSON.stringify({
+          project: ".",
+          expect: [{ ruleId: "DD-MAN-001", status: "failed" }],
+        }),
+      );
+      expect((await invoke(["test", fixture.root])).status).toBe(1);
+    } finally {
+      await fixture.cleanup();
+    }
+  });
   it("scans a healthy app with exit code 0 and identifies rule IDs", async () => {
     const result = await invoke(["scan", "examples/healthy-app", "--no-color"]);
     expect(result.status).toBe(0);

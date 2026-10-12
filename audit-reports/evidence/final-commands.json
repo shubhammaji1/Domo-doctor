@@ -1,0 +1,43 @@
+[
+  {
+    "command": "npm run typecheck",
+    "exitCode": 0,
+    "elapsedSeconds": 3.5193242,
+    "log": "audit-reports/evidence/final-typecheck.log"
+  },
+  {
+    "command": "npm run lint",
+    "exitCode": 0,
+    "elapsedSeconds": 3.4070539,
+    "log": "audit-reports/evidence/final-lint.log"
+  },
+  {
+    "command": "npm run test",
+    "exitCode": 0,
+    "elapsedSeconds": 6.9571956,
+    "log": "audit-reports/evidence/final-test.log"
+  },
+  {
+    "command": "npm run test:coverage",
+    "exitCode": 0,
+    "elapsedSeconds": 21.9203204,
+    "log": "audit-reports/evidence/final-test-coverage.log"
+  },
+  {
+    "command": "npm run format:check",
+    "exitCode": 0,
+    "elapsedSeconds": 4.3032379,
+    "log": "audit-reports/evidence/final-format-check.log"
+  },
+  {
+    "command": "npm run pack:check",
+    "exitCode": 0,
+    "elapsedSeconds": 24.6524041,
+    "log": "audit-reports/evidence/final-pack-check.log"
+  },
+  {
+    "command": "npm audit --omit=dev --json",
+    "exitCode": 0,
+    "log": "audit-reports/evidence/final-npm-audit.json"
+  }
+]

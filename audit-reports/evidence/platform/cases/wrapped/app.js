@@ -1,0 +1,1 @@
+const get = domo.get.bind(domo); get("/data/v1/missing");

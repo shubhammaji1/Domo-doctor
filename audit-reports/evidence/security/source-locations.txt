@@ -1,0 +1,11 @@
+src\core\filesystem.ts:53:  const handle = await open(file, "r");
+src\reporters\terminal.ts:29:    const message = item.suppressed
+src\cli\index.ts:309:      await writeFile(outputPath, rendered, { encoding: "utf8", flag: "wx" });
+src\cli\index.ts:365:    const message =
+src\analyzers\manifest.ts:33:    parseJson(context.manifestText, jsonErrors, {
+src\core\scanner.ts:103:      sourceFile: ts.createSourceFile(
+src\core\scanner.ts:132:  const unknownRuleIds = Object.keys(config.rules).filter(
+src\core\scanner.ts:138:  if (unknownRuleIds.length || unknownSuppressionIds.length) {
+src\core\scanner.ts:140:      `Unknown diagnostic rule ID${unknownRuleIds.length + unknownSuppressionIds.length === 1 ? "" : "s"}: ${[...new Set([...unknownRuleIds, ...unknownSuppressionIds])].join(", ")}`,
+src\core\scanner.ts:160:    diagnostics: result.diagnostics.map((item) => sanitizeDiagnostic(item)),
+src\core\scanner.ts:596:function sanitizeDiagnostic(diagnostic: Diagnostic): Diagnostic {

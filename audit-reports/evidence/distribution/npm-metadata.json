@@ -1,0 +1,106 @@
+{
+  "_id": "domo-doctor@0.1.0",
+  "_rev": "2-fd93f0cf25841bec4411842a2c3308c1",
+  "name": "domo-doctor",
+  "dist-tags": {
+    "latest": "0.1.0"
+  },
+  "versions": [
+    "0.0.0-stage",
+    "0.1.0"
+  ],
+  "time": {
+    "created": "2026-10-12T05:24:09.226Z",
+    "modified": "2026-10-12T05:24:44.316Z",
+    "0.0.0-stage": "2026-10-12T05:24:09.226Z",
+    "0.1.0": "2026-10-12T05:24:44.132Z"
+  },
+  "description": "Offline-first diagnostics for Domo custom app projects",
+  "maintainers": [
+    "shubhammaji1 <shubham.office.0001@gmail.com>"
+  ],
+  "readmeFilename": "README.md",
+  "keywords": [
+    "domo",
+    "domo-custom-app",
+    "diagnostics",
+    "static-analysis",
+    "cli",
+    "developer-tools"
+  ],
+  "license": "MIT",
+  "_contentLength": 16353,
+  "bin": {
+    "domo-doctor": "dist/cli/index.js"
+  },
+  "dist": {
+    "shasum": "1305093e5e89a0d247595dea32fbd614d13d3804",
+    "tarball": "https://registry.npmjs.org/domo-doctor/-/domo-doctor-0.1.0.tgz",
+    "fileCount": 5,
+    "integrity": "sha512-86x1OioKPFgtJzmnsW3uxyJPwKm/s5/Zwu/COQ2+PokBxEwnsRKOfe84V53y1jMMj0r+okDtBM2tw82SOGK3Hg==",
+    "signatures": [
+      {
+        "sig": "MEQCIGSC3yPu7PYEI/5fpT8vwVfnwkBqQpnfzDk4JYyaCGtwAiBItb+xSP4Hh4T/WdhRafBF5ZNjtY8sjE8g3wNI2f3q4A==",
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U"
+      },
+      {
+        "keyid": "SHA256:DhQ8wR5APBvFHLF/+Tc+AYvPOdTpcIDqOhxsBHRwC7U",
+        "sig": "MEUCIDxCfrMEAHLoZ88fWkrQkTJqTMmrWqHs6aiy0iUp/geoAiEAjkK+b3rkC+rKEFqlCHvu6K/O12NxwXuWkCby169Zbdk="
+      }
+    ],
+    "unpackedSize": 15797
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=20"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "gitHead": "dcd9d816766f4020d11b4e8adca93354f494fd78",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "npm run build && node scripts/self-test.mjs",
+    "build": "tsc -p tsconfig.build.json && node scripts/add-shebang.mjs",
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "pack:check": "npm pack --dry-run",
+    "test:vitest": "npm run build && vitest run",
+    "format:check": "prettier --check .",
+    "test:coverage": "npm run build && vitest run --coverage"
+  },
+  "version": "0.1.0",
+  "_npmUser": "shubhammaji1 <shubham.office.0001@gmail.com>",
+  "_npmVersion": "10.9.4",
+  "directories": {},
+  "_nodeVersion": "22.22.0",
+  "dependencies": {
+    "zod": "^4.1.12",
+    "commander": "^14.0.2",
+    "fast-glob": "^3.3.3",
+    "picocolors": "^1.1.1",
+    "typescript": "^5.9.3",
+    "jsonc-parser": "^3.3.1"
+  },
+  "_hasShrinkwrap": false,
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "vitest": "^4.1.11",
+    "globals": "^16.5.0",
+    "prettier": "^3.6.2",
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^22.19.1",
+    "@types/sarif": "^2.1.7",
+    "typescript-eslint": "^8.50.0",
+    "@vitest/coverage-v8": "^4.1.11"
+  },
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages-npm-production",
+    "tmp": "tmp/domo-doctor_0.1.0_1791782684041_0.2454884716863739"
+  }
+}

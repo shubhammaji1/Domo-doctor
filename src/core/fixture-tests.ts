@@ -1,9 +1,16 @@
 import path from "node:path";
-import { lstat, readFile } from "node:fs/promises";
-import fg from "fast-glob";
+import { lstat } from "node:fs/promises";
+import {
+  assertSafePath,
+  isInside,
+  listProjectFiles,
+  readProjectFile,
+} from "./filesystem.js";
 import { z } from "zod";
 import { scanProject } from "./scanner.js";
 import type { CheckStatus } from "./types.js";
+import { assertJsonNesting } from "./input-limits.js";
+import { safeDiagnosticText } from "./privacy.js";
 
 const fixtureSchema = z
   .object({
@@ -23,7 +30,11 @@ const fixtureSchema = z
       .default([]),
     forbid: z.array(z.string().min(1)).default([]),
   })
-  .strict();
+  .strict()
+  .refine(
+    (value) => value.expect.length + value.forbid.length > 0,
+    "At least one expectation or forbidden rule is required.",
+  );
 
 export interface FixtureTestCaseResult {
   file: string;
@@ -48,17 +59,12 @@ export async function runFixtureTests(
   const rootStats = await lstat(root);
   if (rootStats.isSymbolicLink() || !rootStats.isDirectory())
     throw new Error("Fixture directory must be a real directory.");
-  const fixtureFiles = await fg("**/*.doctor-test.json", {
-    cwd: root,
-    onlyFiles: true,
-    dot: false,
-    followSymbolicLinks: false,
-    ignore: ["**/node_modules/**", "**/.git/**"],
-  });
-  fixtureFiles.sort((a, b) => a.localeCompare(b));
+  const fixtureFiles = (
+    await listProjectFiles(root, ["**/node_modules/**", "**/.git/**"], false)
+  ).filter((file) => file.endsWith(".doctor-test.json"));
   if (fixtureFiles.length === 0)
     throw new Error(
-      `No *.doctor-test.json fixtures found in ${fixtureDirectory}.`,
+      `No *.doctor-test.json fixtures found in ${safeDiagnosticText(fixtureDirectory)}.`,
     );
   const cases: FixtureTestCaseResult[] = [];
   for (const fixturePath of fixtureFiles) {
@@ -70,16 +76,32 @@ export async function runFixtureTests(
       );
     let raw: unknown;
     try {
-      raw = JSON.parse(await readFile(file, "utf8")) as unknown;
+      const text = await readProjectFile(root, file);
+      assertJsonNesting(text);
+      raw = JSON.parse(text) as unknown;
     } catch {
       throw new Error(`Fixture ${toPosix(fixturePath)} is not valid JSON.`);
     }
+    const projectValue =
+      typeof raw === "object" && raw !== null && "project" in raw
+        ? raw.project
+        : undefined;
+    if (
+      typeof projectValue === "string" &&
+      !isInside(
+        root,
+        path.resolve(root, path.dirname(fixturePath), projectValue),
+      )
+    ) {
+      throw new Error(
+        "Fixture project must stay inside the fixture directory.",
+      );
+    }
     const parsed = fixtureSchema.safeParse(raw);
     if (!parsed.success) {
-      const details = parsed.error.issues
-        .map((issue) => `${issue.path.join(".") || "<root>"}: ${issue.message}`)
-        .join("; ");
-      throw new Error(`Invalid fixture ${toPosix(fixturePath)}: ${details}`);
+      throw new Error(
+        "Invalid fixture: check supported properties, value types, and at least one expectation.",
+      );
     }
     const project = path.resolve(
       root,
@@ -90,6 +112,7 @@ export async function runFixtureTests(
       throw new Error(
         `Fixture ${toPosix(fixturePath)} project must stay inside ${fixtureDirectory}.`,
       );
+    await assertSafePath(root, project);
     const report = await scanProject({ root: project, cwd: project });
     const failures: string[] = [];
     for (const expectation of parsed.data.expect) {
@@ -101,7 +124,9 @@ export async function runFixtureTests(
       );
       if (!matching)
         failures.push(
-          `Expected ${expectation.ruleId}${expectation.status ? ` with status ${expectation.status}` : ""}.`,
+          safeDiagnosticText(
+            `Expected ${expectation.ruleId}${expectation.status ? ` with status ${expectation.status}` : ""}.`,
+          ),
         );
     }
     for (const ruleId of parsed.data.forbid) {
@@ -113,13 +138,15 @@ export async function runFixtureTests(
         )
       ) {
         failures.push(
-          `Expected no failed or unverified finding for ${ruleId}.`,
+          safeDiagnosticText(
+            `Expected no failed or unverified finding for ${ruleId}.`,
+          ),
         );
       }
     }
     cases.push({
       file: toPosix(fixturePath),
-      name: parsed.data.name ?? path.basename(fixturePath),
+      name: safeDiagnosticText(parsed.data.name ?? path.basename(fixturePath)),
       passed: failures.length === 0,
       failures,
     });
@@ -151,18 +178,8 @@ export function formatFixtureTestReport(report: FixtureTestReport): string {
   return `${lines.join("\n")}\n`;
 }
 
-function isInside(root: string, candidate: string): boolean {
-  const relative = path.relative(root, candidate);
-  return (
-    relative === "" ||
-    (relative !== ".." &&
-      !relative.startsWith(`..${path.sep}`) &&
-      !path.isAbsolute(relative))
-  );
-}
-
 function toPosix(value: string): string {
-  return value.replaceAll("\\", "/");
+  return safeDiagnosticText(value.replaceAll("\\", "/"));
 }
 
 export type FixtureExpectedStatus = CheckStatus;

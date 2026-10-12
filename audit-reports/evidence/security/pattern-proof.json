@@ -1,0 +1,35 @@
+{
+  "pattern": "+(a|aa)",
+  "regex": "/^(?:\\+\\(a\\|aa\\))$/",
+  "results": [
+    {
+      "n": 16,
+      "status": 0,
+      "signal": null,
+      "durationMs": 1161,
+      "stderr": ""
+    },
+    {
+      "n": 24,
+      "status": 0,
+      "signal": null,
+      "durationMs": 1271,
+      "stderr": ""
+    },
+    {
+      "n": 32,
+      "status": 0,
+      "signal": null,
+      "durationMs": 2460,
+      "stderr": ""
+    },
+    {
+      "n": 40,
+      "status": null,
+      "signal": "SIGTERM",
+      "error": "ETIMEDOUT",
+      "durationMs": 3125,
+      "stderr": ""
+    }
+  ]
+}

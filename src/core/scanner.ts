@@ -1,7 +1,11 @@
 import { accessSync, constants, statSync } from "node:fs";
-import { lstat, readFile } from "node:fs/promises";
+import { lstat } from "node:fs/promises";
 import path from "node:path";
-import fg from "fast-glob";
+import {
+  assertSafePath,
+  listProjectFiles,
+  readProjectFile,
+} from "./filesystem.js";
 import ts from "typescript";
 import { loadConfig } from "./config.js";
 import { runRules } from "./rule-engine.js";
@@ -27,6 +31,7 @@ import {
   sourceReferencesAdvancedProxy,
 } from "../analyzers/source-code.js";
 import { VERSION } from "../version.js";
+import { safeDiagnosticText } from "./privacy.js";
 
 const MAX_SOURCE_FILE_BYTES = 1_048_576;
 
@@ -53,27 +58,23 @@ export async function scanProject(
   const rootStats = await lstat(config.root);
   if (!rootStats.isDirectory() || rootStats.isSymbolicLink())
     throw new Error("The scan root must be a real directory.");
+  await assertSafePath(config.root, config.manifest);
   const manifestStats = await lstatIfExists(config.manifest);
   if (manifestStats?.isSymbolicLink())
     throw new Error("The manifest path must not be a symbolic link.");
   if (manifestStats && !manifestStats.isFile())
     throw new Error("The manifest path must be a regular file.");
   const manifestText = manifestStats
-    ? await readFile(config.manifest, "utf8")
+    ? await readProjectFile(config.root, config.manifest)
     : undefined;
 
-  const files = await fg("**/*", {
-    cwd: config.root,
-    onlyFiles: true,
-    dot: true,
-    followSymbolicLinks: false,
-    unique: true,
-    ignore: config.ignore,
-  });
-  files.sort((left, right) => left.localeCompare(right));
+  const files = await listProjectFiles(config.root, config.ignore);
   const sourcePaths = files.filter(isSourceFile);
   const sourceFiles: ScanContext["sourceFiles"][number][] = [];
-  const sourceFilesSkipped: string[] = [];
+  const sourceFilesSkipped: string[] = files.filter((file) =>
+    /\.html?$/i.test(file),
+  );
+  let sourceBytes = 0;
   for (const sourcePath of sourcePaths) {
     const absolute = path.join(config.root, sourcePath);
     const stats = await lstat(absolute);
@@ -82,7 +83,14 @@ export async function scanProject(
       sourceFilesSkipped.push(toPosix(sourcePath));
       continue;
     }
-    const text = await readFile(absolute, "utf8");
+    const text = await readProjectFile(
+      config.root,
+      absolute,
+      MAX_SOURCE_FILE_BYTES,
+    );
+    sourceBytes += Buffer.byteLength(text);
+    if (sourceBytes > 33_554_432)
+      throw new Error("Project source exceeds the 32 MiB scan limit.");
     const extension = path.extname(sourcePath).toLowerCase();
     const scriptKind =
       extension === ".tsx"
@@ -92,15 +100,57 @@ export async function scanProject(
           : extension === ".js" || extension === ".mjs" || extension === ".cjs"
             ? ts.ScriptKind.JS
             : ts.ScriptKind.TS;
-    sourceFiles.push({
-      path: toPosix(sourcePath),
-      sourceFile: ts.createSourceFile(
+    let sourceFile: ts.SourceFile;
+    try {
+      const scanner = ts.createScanner(
+        ts.ScriptTarget.Latest,
+        true,
+        ts.LanguageVariant.Standard,
+        text,
+      );
+      let depth = 0;
+      let token: ts.SyntaxKind;
+      while ((token = scanner.scan()) !== ts.SyntaxKind.EndOfFileToken) {
+        if (
+          [
+            ts.SyntaxKind.OpenParenToken,
+            ts.SyntaxKind.OpenBracketToken,
+            ts.SyntaxKind.OpenBraceToken,
+          ].includes(token) &&
+          ++depth > 128
+        )
+          throw new Error("Source nesting limit exceeded.");
+        if (
+          [
+            ts.SyntaxKind.CloseParenToken,
+            ts.SyntaxKind.CloseBracketToken,
+            ts.SyntaxKind.CloseBraceToken,
+          ].includes(token)
+        )
+          depth = Math.max(0, depth - 1);
+      }
+      sourceFile = ts.createSourceFile(
         sourcePath,
         text,
         ts.ScriptTarget.Latest,
         true,
         scriptKind,
-      ),
+      );
+      if (
+        (
+          sourceFile as ts.SourceFile & {
+            parseDiagnostics?: readonly ts.Diagnostic[];
+          }
+        ).parseDiagnostics?.length
+      )
+        throw new Error("Source syntax could not be parsed completely.");
+    } catch {
+      sourceFilesSkipped.push(toPosix(sourcePath));
+      continue;
+    }
+    sourceFiles.push({
+      path: toPosix(sourcePath),
+      sourceFile,
     });
   }
   const manifestResult = parseManifest({
@@ -300,6 +350,13 @@ function createRules(
           ];
         if (context.manifest.mapping === undefined)
           return [skipped("DD-MAN-006", "No mapping property is configured.")];
+        if (!Array.isArray(context.manifest.mapping))
+          return [
+            skipped(
+              "DD-MAN-006",
+              "Mapping definitions were not checked because mapping is not an array.",
+            ),
+          ];
         return checkMappings(context.manifest, context.manifestPath).filter(
           (item) => item.ruleId === "DD-MAN-006",
         );
@@ -318,6 +375,21 @@ function createRules(
               "DD-MAN-007",
               "Proxy configuration was not checked because a valid manifest was unavailable.",
             ),
+          ];
+        if (
+          !sourceReferencesAdvancedProxy(context) &&
+          context.sourceFilesSkipped.length
+        )
+          return [
+            {
+              ruleId: "DD-MAN-007",
+              severity: "warning",
+              status: "unverified",
+              message: "Proxy source analysis was incomplete.",
+              explanation:
+                "Some source files were not analyzed; advanced requests in them were not classified.",
+              confidence: "low",
+            },
           ];
         if (!sourceReferencesAdvancedProxy(context))
           return [
@@ -410,7 +482,9 @@ function dynamicRequestResults(context: ScanContext): Diagnostic[] {
     ];
   const dynamic: Diagnostic[] = [];
   for (const parsed of context.sourceFiles) {
-    const walk = (node: ts.Node): void => {
+    const pending: ts.Node[] = [parsed.sourceFile];
+    while (pending.length) {
+      const node = pending.pop()!;
       if (
         ts.isCallExpression(node) &&
         ts.isPropertyAccessExpression(node.expression) &&
@@ -447,9 +521,10 @@ function dynamicRequestResults(context: ScanContext): Diagnostic[] {
           });
         }
       }
-      ts.forEachChild(node, walk);
-    };
-    walk(parsed.sourceFile);
+      ts.forEachChild(node, (child) => {
+        pending.push(child);
+      });
+    }
   }
   if (context.sourceFilesSkipped.length > 0)
     dynamic.push(
@@ -457,12 +532,12 @@ function dynamicRequestResults(context: ScanContext): Diagnostic[] {
         ruleId: "DD-MAP-002",
         severity: "warning" as const,
         status: "unverified" as const,
-        message:
-          "Dynamic request analysis skipped a source file above the size limit.",
+        message: "Source file could not be fully analyzed.",
         file,
-        explanation: "No source analysis was performed for this file.",
+        explanation:
+          "HTML inline scripts, oversized or deeply nested files, and files with parse errors are not checked by this release.",
         suggestion:
-          "Reduce the generated file size or split it into smaller source modules.",
+          "Use a supported JavaScript or TypeScript file, fix syntax errors, or split oversized and deeply nested source; verify remaining requests at runtime.",
         confidence: "low" as const,
       })),
     );
@@ -510,7 +585,7 @@ function checkDomoCliAvailability(): Diagnostic[] {
       status: "failed",
       message: "Domo CLI executable was not found on PATH.",
       explanation:
-        "The Domo Dev Studio CLI was not discoverable from the current PATH. This does not indicate whether the project itself can be deployed.",
+        "The Domo Dev Studio CLI was not discoverable from the current PATH. Authentication was not checked. This does not indicate whether the project itself can be deployed.",
       suggestion:
         "Install or configure the Domo Dev Studio CLI and ensure its executable directory is on PATH.",
       documentationUrl: "https://developer.domo.com/docs/tools/dev-studio-cli",
@@ -588,22 +663,12 @@ function summarize(diagnostics: readonly Diagnostic[]): ScanSummary {
 }
 
 function sanitizeDiagnostic(diagnostic: Diagnostic): Diagnostic {
-  const safe = (value: string): string =>
-    value.replace(
-      /(authorization|cookie|password|passwd|token|secret|api[_-]?key)(\s*[:=]\s*)(?:"[^"]*"|'[^']*'|[^\s,;]+)/gi,
-      "$1$2[redacted]",
-    );
-  return {
-    ...diagnostic,
-    message: safe(diagnostic.message),
-    explanation: safe(diagnostic.explanation),
-    ...(diagnostic.suggestion
-      ? { suggestion: safe(diagnostic.suggestion) }
-      : {}),
-    ...(diagnostic.suppressionReason
-      ? { suppressionReason: safe(diagnostic.suppressionReason) }
-      : {}),
-  };
+  return Object.fromEntries(
+    Object.entries(diagnostic).map(([key, value]) => [
+      key,
+      typeof value === "string" ? safeDiagnosticText(value) : value,
+    ]),
+  ) as unknown as Diagnostic;
 }
 
 function relativeToRoot(config: ScanConfig, absolute: string): string {
