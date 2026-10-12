@@ -1,5 +1,7 @@
 # Release readiness — 12 October 2026
 
+Update: subsequent CI exposed a Unix CLI symlink startup defect, now fixed locally with a regression test. Secret scans passed on the PR commit. See [CI follow-up](CI_FOLLOW_UP.md) for evidence and the required rerun; the historical score below does not override that release gate.
+
 **Public npm 0.1.0: NOT READY. Local unreleased 0.1.1: INSUFFICIENT EVIDENCE for a general production launch.**
 
 An external developer cannot use the published release today: its five-file tarball omits `dist`, so the declared CLI and library entry points fail. Local packaging and confirmed security/correctness defects have been fixed and tested. Those changes are not published. The local candidate works in the tested Windows/Node22 environment, but the promised compatibility matrix and remote secret-scanning gates have not run.

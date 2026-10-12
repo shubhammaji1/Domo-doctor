@@ -1,6 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, symlink, writeFile } from "node:fs/promises";
+import { spawnSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
 import { temporaryDirectory } from "./helpers.js";
 import { runCli } from "../src/cli/index.js";
@@ -37,6 +38,27 @@ async function invoke(args: string[], cwd = repositoryRoot) {
 }
 
 describe("CLI", () => {
+  it("starts through an npm-style symlink and prints its version", async () => {
+    const fixture = await temporaryDirectory();
+    try {
+      const linkedDirectory = path.join(fixture.root, "cli-link");
+      await symlink(
+        path.dirname(cliPath),
+        linkedDirectory,
+        process.platform === "win32" ? "junction" : "dir",
+      );
+      const result = spawnSync(
+        process.execPath,
+        [path.join(linkedDirectory, "index.js"), "--version"],
+        { encoding: "utf8", timeout: 10000 },
+      );
+      expect(result.status).toBe(0);
+      expect(result.stdout.trim()).toBe("0.1.1");
+      expect(result.stderr).toBe("");
+    } finally {
+      await fixture.cleanup();
+    }
+  });
   it("supports discovery commands and controlled usage failures", async () => {
     for (const args of [
       ["--help"],
