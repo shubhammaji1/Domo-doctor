@@ -5,6 +5,7 @@ import {
   mkdir,
   mkdtemp,
   readFile,
+  realpath,
   readdir,
   rm,
   writeFile,
@@ -16,7 +17,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const evidence = path.join(root, "audit-reports", "evidence", "qa");
 await mkdir(evidence, { recursive: true });
-const temporary = await mkdtemp(path.join(os.tmpdir(), "domo-doctor-audit-"));
+const temporaryBase = await realpath(os.tmpdir());
+const temporary = await mkdtemp(path.join(temporaryBase, "domo-doctor-audit-"));
 const cli = path.join(root, "dist", "cli", "index.js");
 const results = [];
 function execute(args, cwd = root) {
@@ -302,7 +304,7 @@ try {
     },
   );
 } finally {
-  assert.equal(path.dirname(temporary), path.resolve(os.tmpdir()));
+  assert.equal(path.dirname(temporary), temporaryBase);
   await rm(temporary, { recursive: true, force: true });
   await writeFile(
     path.join(evidence, "results.json"),

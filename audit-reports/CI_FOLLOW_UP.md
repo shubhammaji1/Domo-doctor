@@ -20,3 +20,13 @@ Local Windows/Node22 validation: 70/70 regression tests passed. Full-source cove
 This updates the earlier audit's evidence: remote secret scans are now observed successful for the original PR commit, and Ubuntu's tests/coverage are verified there. General compatibility and the fixed Unix packed entry point still require the next full matrix run. The earlier audit reports describe the pre-CI assessment and must be read with this follow-up.
 
 Next action: commit and push this local patch to the existing PR branch, then wait for all nine verification jobs and the secret scan to pass. Do not merge or publish based on cancelled checks. No push, merge or npm publication was performed during this repair.
+
+## macOS follow-up at commit e2459fe
+
+The next [PR run](https://github.com/shubhammaji1/Domo-doctor/actions/runs/38234597379) and [push run](https://github.com/shubhammaji1/Domo-doctor/actions/runs/38234591267) completed their full matrices. Windows and Ubuntu passed on Node20/22/24, including packed installation. Both secret scans passed. All three macOS versions failed the same two tests: explicit SARIF output and an explicit library config path. The Unix CLI symlink regression passed on macOS as well.
+
+Logs for macOS [Node20](https://github.com/shubhammaji1/Domo-doctor/actions/runs/38234597379/job/114762059140), [Node22](https://github.com/shubhammaji1/Domo-doctor/actions/runs/38234597379/job/114762059114), and [Node24](https://github.com/shubhammaji1/Domo-doctor/actions/runs/38234597379/job/114762059142) show the same path-validation rejection. macOS exposes temporary directories through the `/var` alias; explicit config/output paths are checked from their filesystem root and intentionally reject symbolic-link ancestors.
+
+The local fix canonicalizes the system temporary base before creating fixtures in `tests/helpers.ts`, self-tests, packed-install checks and the audit-validation script. Cleanup assertions compare against that canonical base. Production path validation remains unchanged. A new regression creates a synthetic temporary-directory alias, requires the helper to return a canonical path, and verifies an explicit config scan succeeds. Existing hostile project symlink/junction rejection tests remain enabled.
+
+Local result after this fix: 71/71 tests passed with all four coverage thresholds above 90%. [Coverage evidence](evidence/macos-temp-coverage.log). Typecheck, lint, self-tests and package smoke checks passed. A new macOS matrix run is still required; a Windows simulation of a temporary alias is not a macOS execution claim. Commit and push the local changes to rerun the existing PR. No push, merge or publication was performed by this repair.

@@ -2,6 +2,8 @@
 
 ## 0.1.1 — unreleased
 
+- Canonicalize system temporary directories in tests and audit/package smoke scripts to support macOS `/var` aliases while retaining strict config and output path checks.
+
 - Resolve the CLI launch path before checking its entry point so npm's Unix bin symlinks start the command correctly. Keep all CI matrix jobs running when one fails to retain compatibility evidence.
 
 - Build distribution files before packing; verify installation, CLI execution and ESM exports from the packed artifact.

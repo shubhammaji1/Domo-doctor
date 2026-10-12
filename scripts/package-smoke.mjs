@@ -1,12 +1,22 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import {
+  mkdir,
+  mkdtemp,
+  readFile,
+  realpath,
+  rm,
+  writeFile,
+} from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const repository = fileURLToPath(new URL("..", import.meta.url));
-const temporary = await mkdtemp(path.join(os.tmpdir(), "domo-doctor-package-"));
+const temporaryBase = await realpath(os.tmpdir());
+const temporary = await mkdtemp(
+  path.join(temporaryBase, "domo-doctor-package-"),
+);
 const npmCli = process.env.npm_execpath;
 assert.ok(npmCli, "Run this check through npm run pack:check.");
 
@@ -101,7 +111,7 @@ try {
     `Package smoke test passed: domo-doctor@${packed.version}, ${packed.files.length} files, CLI and library verified.`,
   );
 } finally {
-  assert.equal(path.dirname(temporary), path.resolve(os.tmpdir()));
+  assert.equal(path.dirname(temporary), temporaryBase);
   assert.ok(path.basename(temporary).startsWith("domo-doctor-package-"));
   await rm(temporary, { recursive: true, force: true });
 }
