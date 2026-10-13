@@ -1,6 +1,6 @@
 import { mkdir, symlink, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { loadConfig } from "../src/core/config.js";
 import { scanProject } from "../src/core/scanner.js";
 import { temporaryDirectory } from "./helpers.js";
@@ -32,7 +32,10 @@ describe("automatic manifest discovery", () => {
         }),
         "app.js": 'domo.get("/data/v1/orders")',
       });
-      const report = await scanProject({ root });
+      const report = await scanProject({
+        root,
+        onlyCategories: ["manifest", "mappings"],
+      });
       expect(report.summary.errors).toBe(0);
       expect(report.summary.warnings).toBe(0);
       expect(
@@ -41,6 +44,41 @@ describe("automatic manifest discovery", () => {
       expect(
         report.diagnostics.find((item) => item.ruleId === "DD-MAP-001")?.status,
       ).toBe("passed");
+    },
+  );
+
+  it.each(["public", "src", "static"])(
+    "discovers %s/manifest.json when the Domo CLI is absent",
+    async (directory) => {
+      const root = await project({ [`${directory}/manifest.json`]: "{}" });
+      vi.stubEnv("PATH", "");
+      try {
+        const report = await scanProject({ root });
+        expect(report.summary.errors).toBe(0);
+        expect(report.summary.warnings).toBe(1);
+        expect(
+          report.diagnostics.filter((item) => item.status === "failed"),
+        ).toEqual([
+          expect.objectContaining({
+            ruleId: "DD-PROXY-001",
+            severity: "warning",
+          }),
+        ]);
+        expect(
+          report.diagnostics.find((item) => item.ruleId === "DD-MAN-001"),
+        ).toMatchObject({
+          status: "passed",
+          file: `${directory}/manifest.json`,
+        });
+        const focused = await scanProject({
+          root,
+          onlyCategories: ["manifest", "mappings"],
+        });
+        expect(focused.summary.errors).toBe(0);
+        expect(focused.summary.warnings).toBe(0);
+      } finally {
+        vi.unstubAllEnvs();
+      }
     },
   );
 
