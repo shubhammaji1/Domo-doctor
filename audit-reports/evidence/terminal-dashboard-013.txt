@@ -1,0 +1,32 @@
+DOMO DOCTOR  v0.1.3
+────────────────────────────────────────────────────────────────────────────────────────
+Project: .
+Offline scan complete
+
+0 errors  ·  0 warnings  ·  0 info
+6 passed  ·  4 skipped  ·  2 unverified
+────────────────────────────────────────────────────────────────────────────────────────
+
+Requires verification
+
+? DD-APPDB-001 AppDB usage detected; live collection access was not verified.
+  Next check: Verify collection names, permissions, and request behavior in a Domo
+  environment. This scan does not send AppDB requests or modify data.
+? DD-MAN-007 proxyId is present, but its validity was not checked.
+  Next check: Verify advanced proxy behavior with the Domo CLI in the intended Domo
+  environment.
+
+Passed checks
+
+✓ DD-APPDB-001 AppDB collection declarations have valid local shapes and unique names.
+✓ DD-MAN-001 Manifest file exists.
+✓ DD-MAN-002 Manifest is valid JSON.
+✓ DD-MAN-003 Documented manifest properties have valid shapes.
+✓ DD-MAP-001 No unresolved literal dataset aliases were found in recognized Domo data
+             requests.
+✓ DD-PROXY-001 Domo CLI executable was found on PATH.
+
+Use --verbose for explanations, documentation, and skipped checks.
+
+────────────────────────────────────────────────────────────────────────────────────────
+Status: Scan completed; deployment readiness was not verified.

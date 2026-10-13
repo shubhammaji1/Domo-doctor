@@ -12,7 +12,7 @@ This project is independently developed and is not affiliated with, endorsed by,
 - Detects duplicate dataset aliases, duplicate field aliases within a dataset mapping, and malformed mapping entries.
 - Uses the TypeScript Compiler API to compare literal `domo.get("/data/v1/<alias>")` paths with manifest mappings for JavaScript, JSX, TypeScript, and TSX.
 - Marks dynamic `domo.get` paths unverified instead of assuming they are broken.
-- Recognizes likely AppDB usage but keeps collection, permissions, and runtime checks unverified. Collection declaration validation is not implemented in this release.
+- Validates local AppDB collection declarations and static names while keeping deployed existence, permissions, and runtime behavior unverified.
 - Checks whether the `domo` executable is discoverable on `PATH` without executing it or reading Domo CLI credentials.
 - Emits terminal, JSON, and SARIF 2.1.0 reports with separate passed, skipped, and unverified counts.
 
@@ -51,7 +51,7 @@ domo-doctor explain DD-MAN-005
 domo-doctor init
 ```
 
-Use `--severity error|warning|info` to choose the failure threshold for the exit code. The default threshold is `error`; it can also be set with `failOn` in configuration. `--verbose` adds passed-check details. `--no-color` disables terminal colors. JSON and SARIF are written without terminal decoration.
+Use `--severity error|warning|info` to choose the failure threshold for the exit code. The default threshold is `error`; it can also be set with `failOn` in configuration. The terminal dashboard shows counts first, followed by findings, verification tasks, and passed checks. Text wraps to the terminal width. `--verbose` adds explanations, documentation, skipped checks, and suppressed findings. `--no-color` disables terminal colors. JSON and SARIF are written without terminal decoration.
 
 The scanner is also available as a library:
 
