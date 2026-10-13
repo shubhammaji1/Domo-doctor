@@ -58,6 +58,94 @@ const report: ScanReport = {
 };
 
 describe("reporters", () => {
+  it("puts failures and pending verification ahead of passed checks", () => {
+    const variant = {
+      ...report,
+      diagnostics: [
+        {
+          ruleId: "DD-MAN-001",
+          severity: "info" as const,
+          status: "passed" as const,
+          message: "Manifest found.",
+          explanation: "Present.",
+        },
+        ...report.diagnostics,
+      ],
+    };
+    const output = formatTerminal(variant, { color: false });
+    expect(output.indexOf("Needs attention")).toBeLessThan(
+      output.indexOf("Requires verification"),
+    );
+    expect(output.indexOf("Requires verification")).toBeLessThan(
+      output.indexOf("Passed checks"),
+    );
+    expect(output.indexOf("1 errors")).toBeLessThan(
+      output.indexOf("Needs attention"),
+    );
+    expect(output).toContain("Action required");
+    expect(output).not.toContain("Why: Runtime value.");
+    expect(formatTerminal(variant, { color: false, verbose: true })).toContain(
+      "Why: Runtime value.",
+    );
+  });
+
+  it.each([32, 64, 88, 120])(
+    "wraps diagnostics and long paths at %i columns",
+    (columns) => {
+      const variant = {
+        ...report,
+        scan: { ...report.scan, project: "project/".repeat(35) },
+        diagnostics: [
+          {
+            ...report.diagnostics[0]!,
+            message: "A long diagnostic message ".repeat(15),
+            file: "source/".repeat(40),
+            documentationUrl: "https://example.com/" + "long-path/".repeat(40),
+          },
+        ],
+      };
+      const output = formatTerminal(variant, {
+        color: false,
+        verbose: true,
+        columns,
+      });
+      expect(output.split("\n").every((line) => line.length <= columns)).toBe(
+        true,
+      );
+      expect(output).toContain("DD-MAN-004");
+    },
+  );
+
+  it("keeps skipped details available in verbose mode and avoids false pass banners", () => {
+    const variant = {
+      ...report,
+      summary: { ...report.summary, errors: 0, skipped: 1 },
+      diagnostics: [
+        {
+          ruleId: "DD-MAN-006",
+          severity: "info" as const,
+          status: "skipped" as const,
+          message: "No mappings.",
+          explanation: "No mapping property.",
+        },
+        report.diagnostics[1]!,
+      ],
+    };
+    const output = formatTerminal(variant, { color: false });
+    expect(output).toContain("Offline scan complete");
+    expect(output).not.toContain("Offline checks passed");
+    expect(output).not.toContain("DD-MAN-006");
+    expect(formatTerminal(variant, { color: false, verbose: true })).toContain(
+      "DD-MAN-006",
+    );
+    expect(
+      formatTerminal(
+        { ...variant, summary: { ...variant.summary, unverified: 0 } },
+        { color: false, columns: Number.NaN },
+      ),
+    ).toContain("Offline checks passed");
+  });
+
   it("retains severity, suppression justification and optional locations in SARIF", () => {
     const diagnostics: Diagnostic[] = [
       {

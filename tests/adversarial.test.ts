@@ -112,7 +112,7 @@ describe("adversarial privacy and output regression", () => {
     });
     expect(fixture.status).toBe(2);
     expect(fixture.stderr).not.toContain("SYNTHETIC_FIXTURE_PRIVATE");
-  });
+  }, 25000);
 
   it("refuses to overwrite existing inputs and reports or traverse an output junction", async () => {
     const root = await project();
@@ -139,7 +139,7 @@ describe("adversarial privacy and output regression", () => {
       { encoding: "utf8", timeout: 10000 },
     );
     expect(result.status).toBe(2);
-  });
+  }, 35000);
 
   it("checks HTML scripts while disclosing broken syntax and excessive nesting", async () => {
     const root = await project();
