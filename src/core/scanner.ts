@@ -235,13 +235,23 @@ function createRules(
                 message: "Manifest file not found.",
                 file: context.manifestPath,
                 explanation:
-                  "Domo documents manifest.json as the metadata file in the base directory of a custom app design.",
+                  "No manifest was found at the selected path. Without an explicit manifest setting, discovery checks the project root, public, src, and static directories; generated dist/build copies are not selected automatically.",
                 suggestion:
-                  "Add a manifest.json file in the project root, or set the manifest path in domo-doctor.config.json.",
+                  "Check the scan root and manifest location. For a custom layout, set manifest in domo-doctor.config.json; an explicit path must exist and is never replaced by automatic discovery.",
                 docs: DOMO_MANIFEST_DOCS,
               }),
             ]
-          : [],
+          : [
+              diagnostic({
+                ruleId: "DD-MAN-001",
+                severity: "info",
+                status: "passed",
+                message: "Manifest file exists.",
+                file: context.manifestPath,
+                explanation:
+                  "This is the manifest selected by explicit configuration or automatic source manifest discovery.",
+              }),
+            ],
     },
     {
       id: "DD-MAN-002",

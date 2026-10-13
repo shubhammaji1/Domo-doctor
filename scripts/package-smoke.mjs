@@ -82,9 +82,9 @@ try {
   ).trim();
   assert.equal(version, packed.version);
   const project = path.join(temporary, "project");
-  await mkdir(project);
+  await mkdir(path.join(project, "public"), { recursive: true });
   await writeFile(
-    path.join(project, "manifest.json"),
+    path.join(project, "public", "manifest.json"),
     '{"name":"Smoke test","mapping":[],"collectionsMapping":[{"name":"Smoke"}]}',
   );
   await writeFile(

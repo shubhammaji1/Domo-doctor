@@ -102,12 +102,15 @@ Options for `scan` and `check`:
 
 ## Configuration
 
-Run `domo-doctor init` or create `domo-doctor.config.json`:
+Configuration is optional. With no `manifest` setting, the scanner uses a root `manifest.json` first, otherwise a single `public/manifest.json`, `src/manifest.json`, or `static/manifest.json`. A normal Vite project with `public/manifest.json` works with just `npx domo-doctor scan`. The selected path is shown in the manifest result.
+
+Generated `dist` and `build` copies are not selected automatically. If multiple source locations contain manifests, the scanner asks you to select one rather than guessing. An explicit `manifest` setting always wins, including when that path is missing or invalid. Use it for custom layouts or multi-app projects.
+
+For other options, run `domo-doctor init` or create `domo-doctor.config.json`:
 
 ```json
 {
   "root": ".",
-  "manifest": "manifest.json",
   "rules": {
     "DD-MAN-004": "error",
     "DD-MAN-005": "error",
