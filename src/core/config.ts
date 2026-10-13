@@ -118,7 +118,10 @@ export async function loadConfig(options: {
       "Configured root must remain inside the selected project root.",
     );
   await assertSafePath(rootArgPath, root);
-  const manifest = path.resolve(root, parsed.manifest ?? "manifest.json");
+  const manifest =
+    parsed.manifest !== undefined
+      ? path.resolve(root, parsed.manifest)
+      : await discoverManifest(root);
   return {
     config: {
       root,
@@ -137,6 +140,38 @@ export async function loadConfig(options: {
     ...(foundConfig ? { configPath: foundConfig } : {}),
     baseDir,
   };
+}
+
+async function discoverManifest(root: string): Promise<string> {
+  const primary = path.join(root, "manifest.json");
+  if (await manifestExists(root, primary)) return primary;
+  const candidates: string[] = [];
+  for (const directory of ["public", "src", "static"]) {
+    const candidate = path.join(root, directory, "manifest.json");
+    if (await manifestExists(root, candidate)) candidates.push(candidate);
+  }
+  if (candidates.length > 1) {
+    throw new Error(
+      "Multiple source manifests were found in public, src, or static. Set manifest in domo-doctor.config.json to select the intended app.",
+    );
+  }
+  return candidates[0] ?? primary;
+}
+
+async function manifestExists(
+  root: string,
+  candidate: string,
+): Promise<boolean> {
+  await assertSafePath(root, candidate);
+  try {
+    const stats = await lstat(candidate);
+    if (!stats.isFile())
+      throw new Error("Manifest path must be a regular file.");
+    return true;
+  } catch (error) {
+    if (isNotFound(error)) return false;
+    throw error;
+  }
 }
 
 export function severityRank(severity: Severity): number {

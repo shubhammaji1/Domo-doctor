@@ -242,7 +242,7 @@ function createProgram(): Command {
 
   const RULE_EXPLANATIONS: Record<string, string> = {
     "DD-MAN-001":
-      "Domo custom app designs use manifest.json in the project base directory. A missing file blocks manifest-based checks.",
+      "The scanner prefers root manifest.json, then discovers a single manifest in public, src, or static. Multiple source candidates require an explicit manifest setting. Generated dist/build copies are excluded from automatic discovery. A missing selected file blocks manifest-based checks.",
     "DD-MAN-002":
       "The manifest must be parseable JSON. The reported line and column come from the parser position when the runtime provides it.",
     "DD-MAN-003":
