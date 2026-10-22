@@ -30,6 +30,54 @@ const validManifest = JSON.stringify(
 );
 
 describe("scanProject", () => {
+  it.skipIf(process.platform !== "linux")(
+    "suppresses only the intended case-distinct file",
+    async () => {
+      const root = await project({
+        "manifest.json": validManifest,
+        "src/App.js": "domo.get('/data/v1/missing')",
+        "src/app.js": "domo.get('/data/v1/another')",
+        "domo-doctor.config.json": JSON.stringify({
+          suppressions: [
+            {
+              ruleId: "DD-MAP-001",
+              file: "src/app.js",
+              reason: "intentional fixture",
+            },
+          ],
+        }),
+      });
+      const report = await scanProject({ root });
+      expect(
+        report.diagnostics.find(
+          (item) => item.ruleId === "DD-MAP-001" && item.file === "src/App.js",
+        )?.suppressed,
+      ).toBeUndefined();
+      expect(
+        report.diagnostics.find(
+          (item) => item.ruleId === "DD-MAP-001" && item.file === "src/app.js",
+        )?.suppressed,
+      ).toBe(true);
+    },
+  );
+  it.each([
+    "domo.get()",
+    "window.domo.get()",
+    "domo['get'](route)",
+    "globalThis.domo?.get?.(route)",
+    "domo[method]('/data/v1/sales')",
+  ])("reports incomplete calls as unverified: %s", async (source) => {
+    const root = await project({
+      "manifest.json": validManifest,
+      "app.js": source,
+    });
+    const report = await scanProject({ root });
+    expect(
+      report.diagnostics.some(
+        (item) => item.ruleId === "DD-MAP-002" && item.status === "unverified",
+      ),
+    ).toBe(true);
+  });
   it("scans a healthy project offline and keeps the project path sanitized", async () => {
     const root = await project({
       "manifest.json": validManifest,

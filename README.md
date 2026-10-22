@@ -73,7 +73,7 @@ Skipped and unverified checks do not silently count as passed and do not fail th
 
 ## Supported projects
 
-Domo custom app designs support offline manifest checks and static analysis of JavaScript, TypeScript, JSX, TSX, and inline JavaScript in HTML. Inline diagnostics retain HTML line positions. Local external scripts must be included in the scan; remote, missing, or base-URL-dependent scripts produce an unverified coverage notice. Vue/Svelte component bodies and custom request wrappers are outside the current source analyzer. Direct `domo.get` calls are recognized; uncertain local bindings are conservatively unverified across the file. Dynamic paths, unsupported patterns, malformed syntax, and excessive source nesting cannot establish a clean application. The tool does not run project code or provide browser end-to-end testing.
+Domo custom app designs support offline manifest checks and static analysis of JavaScript, TypeScript, JSX, TSX, and inline JavaScript in HTML. Inline diagnostics retain HTML line positions. Local external scripts must be included in the scan; remote, missing, or base-URL-dependent scripts produce an unverified coverage notice. Vue/Svelte component bodies and custom request wrappers are outside the current source analyzer. Direct `domo.get`, static bracket access, optional calls, and `window.domo` / `globalThis.domo` calls are recognized. Missing arguments and dynamic methods produce unverified notices; uncertain local bindings are conservatively unverified across the file. Dynamic paths, unsupported patterns, malformed syntax, and excessive source nesting cannot establish a clean application. The tool does not run project code or provide browser end-to-end testing.
 
 ## Commands
 
@@ -131,7 +131,7 @@ For other options, run `domo-doctor init` or create `domo-doctor.config.json`:
 }
 ```
 
-Rule values are `error`, `warning`, `info`, or `off`. Suppressions require a reason and can apply to one rule across the project or one exact project-relative file. Suppressed findings remain visible in reports but do not trigger the exit threshold. The configured root must stay inside the directory selected on the command line or through the library. Manifest and configuration paths cannot contain symbolic links or directory junctions. Ignore patterns and suppression file scopes cannot traverse outside the project root. The default ignore list skips dependency/build folders, VCS metadata, environment files, and common credential or key files.
+Rule values are `error`, `warning`, `info`, or `off`. Suppressions require a reason and can apply to one rule across the project or one exact, case-sensitive project-relative file (path separators are normalized). Suppressed findings remain visible in reports but do not trigger the exit threshold. The configured root must stay inside the directory selected on the command line or through the library. Scan roots (including their ancestors), manifest, configuration, and fixture paths cannot contain symbolic links or directory junctions. Linked entries inside the scanned project are not traversed and produce unverified source-coverage notices unless explicitly ignored. Ignore patterns and suppression file scopes cannot traverse outside the project root. The default ignore list skips dependency/build folders, VCS metadata, environment files, and common credential or key files.
 
 ## Rule catalog
 

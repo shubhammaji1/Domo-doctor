@@ -24,10 +24,10 @@ export async function assertSafePath(
   if (!isInside(root, candidate))
     throw new Error("Path must remain inside the project root.");
   const segments = path
-    .relative(root, candidate)
+    .relative(path.parse(candidate).root, candidate)
     .split(path.sep)
     .filter(Boolean);
-  let current = root;
+  let current = path.parse(candidate).root;
   for (const segment of ["", ...segments]) {
     if (segment) current = path.join(current, segment);
     try {
@@ -104,6 +104,7 @@ export async function listProjectFiles(
   root: string,
   ignores: readonly string[],
   dot = true,
+  onSkippedLink?: (file: string) => void,
 ): Promise<string[]> {
   if (ignores.length > 128)
     throw new Error("Too many ignore patterns (maximum 128).");
@@ -151,12 +152,19 @@ export async function listProjectFiles(
     for (const entry of directory) {
       if (++entriesSeen > 50_000)
         throw new Error("Project exceeds the 50000-entry scan limit.");
-      if (entry.isSymbolicLink() || (!dot && entry.name.startsWith(".")))
-        continue;
+      if (!dot && entry.name.startsWith(".")) continue;
       const absolute = path.join(next.directory, entry.name);
       const relative = path.relative(root, absolute).split(path.sep).join("/");
-      if (ignored(relative) || (entry.isDirectory() && ignored(`${relative}/`)))
+      if (
+        ignored(relative) ||
+        ((entry.isDirectory() || entry.isSymbolicLink()) &&
+          ignored(`${relative}/`))
+      )
         continue;
+      if (entry.isSymbolicLink()) {
+        onSkippedLink?.(relative);
+        continue;
+      }
       if (entry.isDirectory())
         pending.push({ directory: absolute, depth: next.depth + 1 });
       else if (entry.isFile()) files.push(relative);

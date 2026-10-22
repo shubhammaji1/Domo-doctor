@@ -74,10 +74,10 @@ export function analyzeDatasetReferences(context: ScanContext): Diagnostic[] {
         ruleId: "DD-MAP-001",
         severity: "warning" as const,
         status: "unverified" as const,
-        message: "A source file could not be fully analyzed.",
+        message: "A source path could not be fully analyzed.",
         file,
         explanation:
-          "This file was not parsed, so dataset references in it were not checked.",
+          "This source path was not parsed or traversed, so dataset references in it were not checked.",
         suggestion:
           "Check file size, syntax, and supported source formats before relying on this result.",
         confidence: "low" as const,
@@ -105,8 +105,7 @@ export function analyzeAppDb(context: ScanContext): Diagnostic[] {
   const hits: ParsedSource[] = context.sourceFiles.filter((parsed) => {
     let found = false;
     forEachNode(parsed.sourceFile, (node) => {
-      if (ts.isPropertyAccessExpression(node) && node.name.text === "appdb")
-        found = true;
+      if (staticMemberName(node) === "appdb") found = true;
       if (
         ts.isStringLiteralLike(node) &&
         /\bappdb\b|\/domo\/datastores\//i.test(node.text)
@@ -174,13 +173,13 @@ export function analyzeAppDb(context: ScanContext): Diagnostic[] {
     forEachNode(parsed.sourceFile, (node) => {
       if (
         !ts.isCallExpression(node) ||
-        !ts.isPropertyAccessExpression(node.expression)
+        (!ts.isPropertyAccessExpression(node.expression) &&
+          !ts.isElementAccessExpression(node.expression))
       )
         return;
       const receiver = node.expression.expression;
       const appdb =
-        ts.isPropertyAccessExpression(receiver) &&
-        receiver.name.text === "appdb" &&
+        staticMemberName(receiver) === "appdb" &&
         [
           "list",
           "get",
@@ -192,7 +191,7 @@ export function analyzeAppDb(context: ScanContext): Diagnostic[] {
           "bulkCreate",
           "bulkUpsert",
           "bulkDelete",
-        ].includes(node.expression.name.text);
+        ].includes(staticMemberName(node.expression) ?? "");
       const http =
         isDomoMethod(node.expression, "get") ||
         isDomoMethod(node.expression, "post") ||
@@ -215,9 +214,9 @@ export function analyzeAppDb(context: ScanContext): Diagnostic[] {
       const known =
         !uncertain &&
         (http ||
-          (ts.isPropertyAccessExpression(receiver) &&
-            ts.isIdentifier(receiver.expression) &&
-            receiver.expression.text === "domo"));
+          ((ts.isPropertyAccessExpression(receiver) ||
+            ts.isElementAccessExpression(receiver)) &&
+            isDomoReceiver(receiver.expression)));
       const location = parsed.sourceFile.getLineAndCharacterOfPosition(
         arg.getStart(parsed.sourceFile),
       );
@@ -421,8 +420,7 @@ export function sourceReferencesAdvancedProxy(context: ScanContext): boolean {
   for (const parsed of context.sourceFiles) {
     let found = false;
     forEachNode(parsed.sourceFile, (node) => {
-      if (ts.isPropertyAccessExpression(node) && node.name.text === "appdb")
-        found = true;
+      if (staticMemberName(node) === "appdb") found = true;
       if (
         ts.isImportDeclaration(node) &&
         ts.isStringLiteral(node.moduleSpecifier) &&
@@ -481,6 +479,52 @@ function hasUnresolvedDomoBinding(source: ts.SourceFile): boolean {
   let unresolved = false;
   forEachNode(source, (node) => {
     if (
+      ts.isForOfStatement(node) ||
+      ts.isForInStatement(node) ||
+      ts.isDeleteExpression(node)
+    ) {
+      const target = ts.isDeleteExpression(node)
+        ? node.expression
+        : node.initializer;
+      forEachNode(target, (child) => {
+        if (
+          ts.isIdentifier(child) &&
+          ["domo", "window", "globalThis"].includes(child.text)
+        )
+          unresolved = true;
+      });
+    }
+    if (
+      ts.isBinaryExpression(node) &&
+      node.operatorToken.kind >= ts.SyntaxKind.FirstAssignment &&
+      node.operatorToken.kind <= ts.SyntaxKind.LastAssignment
+    ) {
+      forEachNode(node.left, (target) => {
+        if (
+          ts.isIdentifier(target) &&
+          ["domo", "window", "globalThis"].includes(target.text)
+        )
+          unresolved = true;
+      });
+    }
+    if (
+      (ts.isPrefixUnaryExpression(node) || ts.isPostfixUnaryExpression(node)) &&
+      ts.isIdentifier(node.operand) &&
+      node.operand.text === "domo"
+    )
+      unresolved = true;
+    if (
+      (ts.isVariableDeclaration(node) ||
+        ts.isParameter(node) ||
+        ts.isBindingElement(node) ||
+        ts.isFunctionDeclaration(node) ||
+        ts.isClassDeclaration(node)) &&
+      node.name &&
+      ts.isIdentifier(node.name) &&
+      ["window", "globalThis"].includes(node.name.text)
+    )
+      unresolved = true;
+    if (
       (ts.isVariableDeclaration(node) ||
         ts.isParameter(node) ||
         ts.isBindingElement(node) ||
@@ -513,7 +557,9 @@ function hasUnresolvedDomoBinding(source: ts.SourceFile): boolean {
       if (
         bindsDomo &&
         (!ts.isStringLiteral(node.moduleSpecifier) ||
-          node.moduleSpecifier.text !== "ryuu.js")
+          node.moduleSpecifier.text !== "ryuu.js" ||
+          clause.name?.text !== "domo" ||
+          clause.isTypeOnly)
       )
         unresolved = true;
     }
@@ -523,17 +569,41 @@ function hasUnresolvedDomoBinding(source: ts.SourceFile): boolean {
   return unresolved;
 }
 
-function isDomoMethod(
+export function staticMemberName(expression: ts.Node): string | undefined {
+  if (ts.isPropertyAccessExpression(expression)) return expression.name.text;
+  if (
+    ts.isElementAccessExpression(expression) &&
+    expression.argumentExpression &&
+    ts.isStringLiteralLike(expression.argumentExpression)
+  )
+    return expression.argumentExpression.text;
+  return undefined;
+}
+
+export function isDomoMethod(
   expression: ts.LeftHandSideExpression,
   method: string,
+  includeDynamic = false,
 ): boolean {
   if (
-    !ts.isPropertyAccessExpression(expression) ||
-    expression.name.text !== method
+    !ts.isPropertyAccessExpression(expression) &&
+    !ts.isElementAccessExpression(expression)
   )
     return false;
-  const receiver = expression.expression;
-  return ts.isIdentifier(receiver) && receiver.text === "domo";
+  const name = staticMemberName(expression);
+  if (name !== method && !(name === undefined && includeDynamic)) return false;
+  return isDomoReceiver(expression.expression);
+}
+
+function isDomoReceiver(receiver: ts.Expression): boolean {
+  return (
+    (ts.isIdentifier(receiver) && receiver.text === "domo") ||
+    (staticMemberName(receiver) === "domo" &&
+      (ts.isPropertyAccessExpression(receiver) ||
+        ts.isElementAccessExpression(receiver)) &&
+      ts.isIdentifier(receiver.expression) &&
+      ["window", "globalThis"].includes(receiver.expression.text))
+  );
 }
 
 function passed(ruleId: string, message: string): Diagnostic {

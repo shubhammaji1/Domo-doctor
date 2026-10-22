@@ -11,9 +11,11 @@ through the contact details on their public profile; do not post exploit
 details or secrets in a public issue. Include the exact package version,
 operating system, Node version, a minimal synthetic reproduction, and impact.
 
-The published 0.1.0 artifact lacks runtime files. The 0.1.1 security fixes are
-currently an unreleased candidate; see `audit-reports/RELEASE_READINESS.md`
-in the source repository for verification scope and remaining release gates.
+Use the latest published release for security and diagnostic coverage fixes.
+The 0.1.0 artifact lacks runtime files. Release 0.1.4 addresses the independent
+0.1.3 audit findings about call coverage, linked source, ancestor junctions,
+suppression case, and receiver identity. See the packaged CHANGELOG.md for
+release details and the [versioned changelog](https://github.com/shubhammaji1/Domo-doctor/blob/v0.1.4/CHANGELOG.md).
 
 Diagnostic redaction recognizes common credential patterns and is not a
 guarantee that arbitrary confidential text is removed. Review reports before

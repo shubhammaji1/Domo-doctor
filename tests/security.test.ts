@@ -23,6 +23,65 @@ afterEach(async () => {
 });
 
 describe("filesystem and input security", () => {
+  it("reports untraversed linked source without a mapping pass", async () => {
+    const { selected, outside } = await directories();
+    await writeFile(path.join(selected, "manifest.json"), '{"mapping":[]}');
+    await writeFile(
+      path.join(outside, "app.js"),
+      "domo.get('/data/v1/missing')",
+    );
+    await symlink(
+      outside,
+      path.join(selected, "src"),
+      process.platform === "win32" ? "junction" : "dir",
+    );
+    const report = await scanProject({ root: selected });
+    expect(report.diagnostics).toContainEqual(
+      expect.objectContaining({
+        ruleId: "DD-MAP-001",
+        status: "unverified",
+        file: "src",
+      }),
+    );
+    expect(
+      report.diagnostics.some(
+        (item) => item.ruleId === "DD-MAP-001" && item.status === "passed",
+      ),
+    ).toBe(false);
+  });
+  it("does not report explicitly ignored linked entries", async () => {
+    const { selected, outside } = await directories();
+    await writeFile(path.join(selected, "manifest.json"), "{}");
+    await symlink(
+      outside,
+      path.join(selected, "node_modules"),
+      process.platform === "win32" ? "junction" : "dir",
+    );
+    const report = await scanProject({ root: selected });
+    expect(
+      report.diagnostics.some((item) => item.file === "node_modules"),
+    ).toBe(false);
+  });
+  it("rejects a selected root beneath an ancestor junction", async () => {
+    const { selected, outside } = await directories();
+    await mkdir(path.join(outside, "child"));
+    await writeFile(path.join(outside, "child", "manifest.json"), "{}");
+    await symlink(
+      outside,
+      path.join(selected, "alias"),
+      process.platform === "win32" ? "junction" : "dir",
+    );
+    const root = path.join(selected, "alias", "child");
+    await expect(scanProject({ root })).rejects.toThrow(
+      /symbolic links or junctions/,
+    );
+    await expect(listProjectFiles(root, [])).rejects.toThrow(
+      /symbolic links or junctions/,
+    );
+    await expect(runFixtureTests(root)).rejects.toThrow(
+      /symbolic links or junctions/,
+    );
+  });
   it("rejects configured roots outside the selected project and fixture roots", async () => {
     const { selected } = await directories();
     await writeFile(

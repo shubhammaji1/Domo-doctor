@@ -1,0 +1,8 @@
+*
+!.gitignore
+!verify-published.mjs
+!published-results.json
+!pod-demo-report.json
+!github-ci.json
+!github-jobs.json
+!dependency-audit.json

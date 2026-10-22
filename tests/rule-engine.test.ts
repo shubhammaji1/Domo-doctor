@@ -19,6 +19,34 @@ function diag(
 }
 
 describe("rule engine", () => {
+  it("preserves distinct filename case in suppressions", async () => {
+    const rule: RuleDefinition = {
+      id: "DD-TEST-001",
+      description: "test",
+      category: "manifest",
+      run: () => [
+        diag("failed", "error", "src/App.js"),
+        diag("failed", "error", "src/app.js"),
+      ],
+    };
+    const result = await runRules(
+      [rule],
+      makeContext(".", {
+        config: makeConfig(".", {
+          suppressions: [
+            { ruleId: rule.id, file: "src/app.js", reason: "one file" },
+          ],
+        }),
+      }),
+    );
+    expect(
+      result.diagnostics.find((item) => item.file === "src/App.js")?.suppressed,
+    ).toBeUndefined();
+    expect(
+      result.diagnostics.find((item) => item.file === "src/app.js")?.suppressed,
+    ).toBe(true);
+    expect(passesFailureThreshold(result.diagnostics, "error")).toBe(true);
+  });
   it("runs rules deterministically and creates passed results for empty checks", async () => {
     const rules: RuleDefinition[] = [
       {
@@ -67,7 +95,7 @@ describe("rule engine", () => {
     expect(raised.diagnostics[0]?.severity).toBe("warning");
   });
 
-  it("applies file-scoped suppressions case-insensitively and keeps findings visible", async () => {
+  it("applies exact file-scoped suppressions and keeps findings visible", async () => {
     const rule: RuleDefinition = {
       id: "DD-TEST-001",
       description: "test",
@@ -81,7 +109,7 @@ describe("rule engine", () => {
           suppressions: [
             {
               ruleId: "DD-TEST-001",
-              file: "SRC/app.JS",
+              file: "src\\App.js",
               reason: "Runtime route table",
             },
           ],

@@ -163,7 +163,7 @@ function applySuppression(
 }
 
 function normalizePath(value: string): string {
-  return path.normalize(value).replaceAll("\\", "/").toLowerCase();
+  return path.posix.normalize(value.replaceAll("\\", "/"));
 }
 
 class RuleTimeoutError extends Error {}
