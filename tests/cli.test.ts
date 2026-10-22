@@ -5,6 +5,7 @@ import { spawnSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
 import { temporaryDirectory } from "./helpers.js";
 import { runCli } from "../src/cli/index.js";
+import { VERSION } from "../src/version.js";
 
 const repositoryRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -53,7 +54,7 @@ describe("CLI", () => {
         { encoding: "utf8", timeout: 10000 },
       );
       expect(result.status).toBe(0);
-      expect(result.stdout.trim()).toBe("0.1.3");
+      expect(result.stdout.trim()).toBe(VERSION);
       expect(result.stderr).toBe("");
     } finally {
       await fixture.cleanup();

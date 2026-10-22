@@ -1,0 +1,104 @@
+{
+  "version": "0.1.3",
+  "node": "v22.22.0",
+  "platform": "win32",
+  "checks": [
+    {
+      "name": "Published manifest: correct version, no install lifecycle execution",
+      "result": "PASS"
+    },
+    {
+      "name": "Tarball integrity matches npm registry",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI version",
+      "result": "PASS"
+    },
+    {
+      "name": "CLI help",
+      "result": "PASS"
+    },
+    {
+      "name": "Rules and explanations",
+      "result": "PASS"
+    },
+    {
+      "name": "Public manifest discovery and AppDB local declarations",
+      "result": "PASS"
+    },
+    {
+      "name": "Missing manifest returns exit 1",
+      "result": "PASS"
+    },
+    {
+      "name": "Invalid manifest returns exit 1",
+      "result": "PASS"
+    },
+    {
+      "name": "Unknown alias fails warning threshold",
+      "result": "PASS"
+    },
+    {
+      "name": "Dynamic requests remain unverified",
+      "result": "PASS"
+    },
+    {
+      "name": "Undeclared AppDB collection is reported",
+      "result": "PASS"
+    },
+    {
+      "name": "Source code is never executed",
+      "result": "PASS"
+    },
+    {
+      "name": "Focused checks",
+      "result": "PASS"
+    },
+    {
+      "name": "SARIF is parseable 2.1.0",
+      "result": "PASS"
+    },
+    {
+      "name": "Terminal no-color mode",
+      "result": "PASS"
+    },
+    {
+      "name": "Invalid arguments return exit 2",
+      "result": "PASS"
+    },
+    {
+      "name": "Existing example fixtures pass",
+      "result": "PASS"
+    },
+    {
+      "name": "Init creates configuration and refuses overwrite",
+      "result": "PASS"
+    },
+    {
+      "name": "Environment file remains excluded",
+      "result": "PASS"
+    },
+    {
+      "name": "Published ESM library API",
+      "result": "PASS"
+    },
+    {
+      "name": "Published package scans POD_DEMO and leaves source/public files unchanged",
+      "result": "PASS"
+    },
+    {
+      "name": "Published runtime matches local build (17 JavaScript files)",
+      "result": "PASS"
+    }
+  ],
+  "podSummary": {
+    "errors": 0,
+    "warnings": 0,
+    "infos": 0,
+    "passed": 6,
+    "skipped": 4,
+    "unverified": 2,
+    "suppressed": 0
+  }
+}

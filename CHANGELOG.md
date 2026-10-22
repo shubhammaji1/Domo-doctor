@@ -1,6 +1,15 @@
 # Changelog
 
-## 0.1.1 — unreleased
+## 0.1.4 — 14 October 2026
+
+- Recognize static bracket access, optional calls, and global Domo receivers. Report missing paths and computed methods as unverified.
+- Report skipped linked project entries as incomplete source coverage without traversing them.
+- Reject symbolic links and junctions anywhere in the selected root ancestor chain.
+- Match suppression file scopes case-sensitively while normalizing separators.
+- Downgrade reassigned receivers, shadowed globals, and unsupported ryuu imports to unverified.
+- Update the security policy and include this changelog in the published package.
+
+## 0.1.1 — historical changes
 
 - Canonicalize system temporary directories in tests and audit/package smoke scripts to support macOS `/var` aliases while retaining strict config and output path checks.
 

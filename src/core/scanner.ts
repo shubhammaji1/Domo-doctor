@@ -28,6 +28,8 @@ import {
   analyzeAppDb,
   analyzeDatasetReferences,
   isSourceFile,
+  isDomoMethod,
+  staticMemberName,
   sourceReferencesAdvancedProxy,
 } from "../analyzers/source-code.js";
 import { VERSION } from "../version.js";
@@ -69,13 +71,20 @@ export async function scanProject(
     ? await readProjectFile(config.root, config.manifest)
     : undefined;
 
-  const files = await listProjectFiles(config.root, config.ignore);
+  const sourceFilesSkipped: string[] = [];
+  const files = await listProjectFiles(
+    config.root,
+    config.ignore,
+    true,
+    (file) => {
+      sourceFilesSkipped.push(file);
+    },
+  );
   const sourcePaths = files.filter(
     (file) => isSourceFile(file) || /\.html?$/i.test(file),
   );
   const availableSources = new Set(sourcePaths.map(toPosix));
   const sourceFiles: ScanContext["sourceFiles"][number][] = [];
-  const sourceFilesSkipped: string[] = [];
   let sourceBytes = 0;
   for (const sourcePath of sourcePaths) {
     const absolute = path.join(config.root, sourcePath);
@@ -507,33 +516,30 @@ function dynamicRequestResults(context: ScanContext): Diagnostic[] {
       const node = pending.pop()!;
       if (
         ts.isCallExpression(node) &&
-        ts.isPropertyAccessExpression(node.expression) &&
-        ts.isIdentifier(node.expression.expression) &&
-        node.expression.expression.text === "domo" &&
-        node.expression.name.text === "get" &&
-        node.arguments.length > 0
+        isDomoMethod(node.expression, "get", true)
       ) {
         const arg = node.arguments[0];
         if (
-          arg &&
-          !ts.isStringLiteralLike(arg) &&
-          !ts.isNoSubstitutionTemplateLiteral(arg)
+          staticMemberName(node.expression) === undefined ||
+          !arg ||
+          (!ts.isStringLiteralLike(arg) &&
+            !ts.isNoSubstitutionTemplateLiteral(arg))
         ) {
           const { line, character } =
             parsed.sourceFile.getLineAndCharacterOfPosition(
-              arg.getStart(parsed.sourceFile),
+              (arg ?? node).getStart(parsed.sourceFile),
             );
           dynamic.push({
             ruleId: "DD-MAP-002",
             severity: "warning",
             status: "unverified",
             message:
-              "Dynamic Domo GET path could not be checked against dataset mappings.",
+              "Domo GET path is missing, dynamic, or uses an unresolved method.",
             file: parsed.path,
             line: line + 1,
             column: character + 1,
             explanation:
-              "The API path is computed at runtime, so static analysis cannot classify it as a dataset alias request or verify the alias.",
+              "The request has no path argument, or its method or path is computed at runtime, so static analysis cannot classify it as a dataset alias request or verify the alias.",
             suggestion:
               "Verify dynamically constructed data/v1 paths at runtime, or use a literal request path where practical.",
             documentationUrl: DOMO_MANIFEST_DOCS,
@@ -555,7 +561,7 @@ function dynamicRequestResults(context: ScanContext): Diagnostic[] {
         message: "Source file could not be fully analyzed.",
         file,
         explanation:
-          "Some source could not be checked because it is malformed, exceeds scan limits, or depends on an external script.",
+          "Some source could not be checked because it is linked, malformed, exceeds scan limits, or depends on an external script.",
         suggestion:
           "Use a supported JavaScript or TypeScript file, fix syntax errors, or split oversized and deeply nested source; verify remaining requests at runtime.",
         confidence: "low" as const,

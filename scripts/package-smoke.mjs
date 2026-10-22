@@ -42,6 +42,8 @@ try {
     "dist/cli/index.js",
     "dist/index.js",
     "dist/index.d.ts",
+    "SECURITY.md",
+    "CHANGELOG.md",
   ]) {
     assert.ok(
       packed.files.some((file) => file.path === required),
@@ -73,6 +75,13 @@ try {
     consumer,
   );
   const installed = path.join(consumer, "node_modules", "domo-doctor");
+  const policy = await readFile(path.join(installed, "SECURITY.md"), "utf8");
+  assert.ok(!policy.includes("unreleased candidate"));
+  const changelog = await readFile(
+    path.join(installed, "CHANGELOG.md"),
+    "utf8",
+  );
+  assert.ok(changelog.includes(packed.version));
   const cli = path.join(installed, "dist", "cli", "index.js");
   assert.ok((await readFile(cli, "utf8")).startsWith("#!/usr/bin/env node\n"));
   const version = run(

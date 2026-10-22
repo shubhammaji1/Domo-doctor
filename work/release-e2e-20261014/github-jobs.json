@@ -1,0 +1,52 @@
+[
+  {
+    "name": "secrets",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  {
+    "name": "verify (windows-latest, 22)",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  {
+    "name": "verify (ubuntu-latest, 24)",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  {
+    "name": "verify (windows-latest, 24)",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  {
+    "name": "verify (ubuntu-latest, 22)",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  {
+    "name": "verify (ubuntu-latest, 20)",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  {
+    "name": "verify (windows-latest, 20)",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  {
+    "name": "verify (macos-latest, 22)",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  {
+    "name": "verify (macos-latest, 24)",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  {
+    "name": "verify (macos-latest, 20)",
+    "status": "completed",
+    "conclusion": "success"
+  }
+]
